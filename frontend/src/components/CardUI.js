@@ -1,25 +1,15 @@
-
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function CardUI()
 {
+
+    var bp = require('./Path.js');
+    var storage = require('../tokenStorage.js');
+    const jwt = require("jsonwebtoken");
     
     var card = '';
     var search = '';
-
-    const app_name = 'cop-4331-16'
-    function buildPath(route)
-    {
-        if (process.env.NODE_ENV === 'production') 
-        {
-            return 'https://' + app_name +  '.herokuapp.com/' + route;
-        }
-        else
-        {        
-            return 'http://localhost:5000/' + route;
-        }
-    }
-    
 
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
@@ -30,23 +20,32 @@ function CardUI()
     var userId = ud.id;
     var firstName = ud.firstName;
     var lastName = ud.lastName;
-
-
+	
     const addCard = async event => 
     {
 	    event.preventDefault();
 
-        var obj = {userId:userId,card:card.value};
-        var js = JSON.stringify(obj);
+        var tok = storage.retrieveToken();
+       var obj = {userId:userId,card:card.value,jwtToken:tok};
+       var js = JSON.stringify(obj);
 
-        try
+        var config = 
         {
-            const response = await fetch(buildPath('api/addcard'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-
+            method: 'post',
+            url: bp.buildPath('api/addcard'),	
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+    
+        axios(config)
+            .then(function (response) 
+        {
+            var res = response.data;
+            var retTok = res.jwtToken;
+    
             if( res.error.length > 0 )
             {
                 setMessage( "API Error:" + res.error );
@@ -54,68 +53,84 @@ function CardUI()
             else
             {
                 setMessage('Card has been added');
+                storage.storeToken( {accessToken:retTok} );
             }
-        }
-        catch(e)
+        })
+        .catch(function (error) 
         {
-            setMessage(e.toString());
-        }
+            console.log(error);
+        });
 
 	};
-
 
     const searchCard = async event => 
     {
         event.preventDefault();
         		
-        var obj = {userId:userId,search:search.value};
+        var tok = storage.retrieveToken();
+        var obj = {userId:userId,search:search.value,jwtToken:tok};
         var js = JSON.stringify(obj);
 
-        try
+        var config = 
         {
-            const response = await fetch(buildPath('api/searchcards'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            var _results = res.results;
-            var resultText = '';
-            for( var i=0; i<_results.length; i++ )
+            method: 'post',
+            url: bp.buildPath('api/searchcards'),	
+            headers: 
             {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
-            }
-            setResults('Card(s) have been retrieved');
-            setCardList(resultText);
-        }
-        catch(e)
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+    
+        axios(config)
+            .then(function (response) 
         {
-            alert(e.toString());
-            setResults(e.toString());
-        }
+            var res = response.data;
+            var retTok = res.jwtToken;
+    
+            if( res.error.length > 0 )
+            {
+                setMessage( "API Error:" + res.error );
+            }
+            else
+            {
+                var _results = res.results;
+                var resultText = '';
+                for( var i=0; i<_results.length; i++ )
+                {
+                    resultText += _results[i];
+                    if( i < _results.length - 1 )
+                    {
+                        resultText += ', ';
+                    }
+                }
+                setResults('Card(s) have been retrieved');
+                setCardList(resultText);
+                storage.storeToken( {accessToken:retTok} );
+            }
+        })
+        .catch(function (error) 
+        {
+            console.log(error);
+        });
+
     };
-
-
 
     return(
         <div id="cardUIDiv">
         <br />
         <input type="text" id="searchText" placeholder="Card To Search For" 
-          ref={(c) => search = c} />
+            ref={(c) => search = c} />
         <button type="button" id="searchCardButton" class="buttons" 
-          onClick={searchCard}> Search Card</button><br />
+            onClick={searchCard}> Search Card</button><br />
         <span id="cardSearchResult">{searchResults}</span>
         <p id="cardList">{cardList}</p><br /><br />
         <input type="text" id="cardText" placeholder="Card To Add" 
-          ref={(c) => card = c} />
+            ref={(c) => card = c} />
         <button type="button" id="addCardButton" class="buttons" 
-          onClick={addCard}> Add Card </button><br />
+            onClick={addCard}> Add Card </button><br />
         <span id="cardAddResult">{message}</span>
-      </div>
-      
+        </div>
     );
 }
 

@@ -25,8 +25,6 @@ function LoggedInName()
      onClick={doLogout}> Log Out </button>
    </div>
   );
-
 };
-
 
 export default LoggedInName;
