@@ -29,7 +29,7 @@ exports.setApp = function ( app, client )
     
       try
       {
-        const db = client.db();
+      const db = client.db();  
         const result = db.collection('Cards').insertOne(newCard);
       }
       catch(e)
@@ -51,6 +51,33 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
+    app.post('/api/register', async (req, res, next) =>
+    {
+      // incoming: userId, color
+      // outgoing: error
+        
+      const { FirstName, LastName, Email, Login, Password, Phone, CompanyName, jwtToken } = req.body;
+
+     //var userId = 21;
+    
+      const newUser = {  _id:getSequenceNextValue("1"), FisrtName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
+      var error = '';
+    
+      try
+      {
+        const db = client.db();
+        const result = db.collection('Users').insertOne(newUser);
+      }
+      catch(e)
+      {
+        error = e.toString();
+      }
+
+    
+      var ret = { error: error};
+      
+      res.status(200).json(ret);
+    });
     
     app.post('/api/login', async (req, res, next) => 
     {
@@ -63,7 +90,6 @@ exports.setApp = function ( app, client )
     
       const db = client.db();
       const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
-    
       var id = -1;
       var fn = '';
       var ln = '';
@@ -142,5 +168,16 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
-    
+   
+
+	
+function getSequenceNextValue(seqName) {
+  var seqDoc = db.Users.findAndModify({
+    query: { _id: seqName },
+    update: { $inc: { seqValue: 1 } },
+    new: true
+  });
+
+  return seqDoc.seqValue;
+} 
 }
