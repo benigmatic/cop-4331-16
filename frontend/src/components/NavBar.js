@@ -72,27 +72,24 @@ export default function NavBar() {
             </h1>
         </div>  */}
 
-      <div style={{ width: '35%', height: '14%' }}>
-        <Box display="flex" justifyContent="left" m={1} p={1} >
-            <Box className={classes.manageYours} p={1} >
+     
+        <Box display="flex" justifyContent="center" m={1} p={1} >
+            <Box pt= "145px" letterSpacing="-4px" className={classes.manageYours} p={1} >
                 <h1>manage your</h1>
             </Box>
           </Box>
-      </div>
-      
-      <div style={{ width: '18%', height: '127%'}}>
-         <Box display="flex" justifyContent="center" m={1} p={1} >
-            <Box className={classes.pointsOfInterest} p={1} >
-                <h1>
-                    <br /> gear.
+     
+         <Box  display="flex" justifyContent="center" m={1} p={1} >
+            <Box p={1} letterSpacing= "-4x" className={classes.pointsOfInterest}>
+                <h1><br /> gear.
                     <br /> machinery.
-                    <br /> assets.
-                    <br /> vehicles.
-                    <br /> furniture.
+                   <br /> assets.
+                   <br /> vehicles.
+                   <br /> furniture.
                 </h1>  
             </Box> 
          </Box>
-      </div>
+      
 
     </div>
     );
