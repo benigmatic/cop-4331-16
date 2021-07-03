@@ -1,15 +1,26 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
 
-import PageTitle from '../components/PageTitle';
-import Login from '../components/Login';
+import NavBar from '../components/NavBar';
+import background from "../img/Topo.jpg";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minHeight: '100vh',
+    backgroundImage: `url(${background})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+  },
+}));
 
 const LoginPage = () =>
 {
-
+    const classes = useStyles();
     return(
-      <div>
-        <PageTitle />
-        <Login />
+      <div className={classes.root}>
+        <CssBaseline />
+        <NavBar />
       </div>
     );
 };
