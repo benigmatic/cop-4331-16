@@ -1,8 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
-
 import NavBar from '../components/NavBar';
+import Register from '../components/Register';
+import Login from '../components/Login';
 import background from "../img/Topo.jpg";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const LoginPage = () =>
 {
     const classes = useStyles();
@@ -21,8 +23,11 @@ const LoginPage = () =>
       <div className={classes.root}>
         <CssBaseline />
         <NavBar />
+        <Login />
+        <Register />
       </div>
     );
 };
 
 export default LoginPage;
+
