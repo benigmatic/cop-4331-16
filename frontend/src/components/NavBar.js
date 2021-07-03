@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Collapse } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,11 +27,14 @@ const useStyles = makeStyles((theme) => ({
         width: '80%',
         margin: '0 auto',
     },
-    leftContainer: {
-        justifyContent: 'left',
-        alignItems: 'center',
+
+    // Changed name from leftContainer to manageYours since using FlexBox
+    manageYours: {
+        // justifyContent: 'left',
+        // alignItems: 'center',
         color: 'white',
         fontFamily: "League Spartan",
+        fontSize: '2rem'
     },
     pointsOfInterest: {
         color: 'white',
@@ -52,7 +56,8 @@ export default function NavBar() {
             </Toolbar>
         </AppBar>
         
-        <div>
+{/* Changed "manage your" and PoI to use FlexBox for Alignment */}
+{/*         <div>
             <h1 className={classes.leftContainer}>
                 manage your
             </h1>
@@ -64,8 +69,29 @@ export default function NavBar() {
                 <br /> vehicles.
                 <br /> furniture.
             </h1>
-        </div>
-        
+        </div>  */}
+
+      <div style={{ width: '30%', height: '11.5%' }}>
+        <Box display="flex" justifyContent="center" m={1} p={1} >
+            <Box className={classes.manageYours} p={1} >
+                <h1>manage your</h1>
+            </Box>
+          </Box>
+      </div>
+      
+      <div style={{ width: '20%' }}>
+         <Box display="flex" justifyContent="center" m={1} p={1} >
+            <Box p={1} className={classes.pointsOfInterest}>
+                <h1><br /> gear.
+                    <br /> machinery.
+                   <br /> assets.
+                   <br /> vehicles.
+                   <br /> furniture.
+                </h1>  
+            </Box> 
+         </Box>
+      </div>
+
     </div>
     );
 };
