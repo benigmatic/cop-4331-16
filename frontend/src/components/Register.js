@@ -73,7 +73,7 @@ function Register()
 
     return(
       <div id="loginDiv">
-        <span id="inner-title">OR register</span><br />
+        <span id="inner-title">Register</span><br />
         <input type="text" id="companyName" placeholder="CompName" ref={(c) => companyName = c}  /><br />
         <input type="text" id="firstName" placeholder="Firstname" ref={(c) => firstName = c}  /><br />
         <input type="text" id="lastName" placeholder="Lastname" ref={(c) => lastName = c}  /><br />

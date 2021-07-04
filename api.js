@@ -129,7 +129,49 @@ exports.setApp = function ( app, client )
     
       res.status(200).json(ret);
     });
+    app.post('/api/validateEmail', async (req, res, next) => 
+    {
+      // incoming: email
+      // outgoing: id, email
     
+     var error = '';
+    
+      var { email } = req.body;
+      //console.log(email);
+      //console.log(req.body);
+      const db = client.db();
+      const results = await db.collection('Users').find({Email:email}).toArray();
+      var id = -1;
+      var email ='';
+
+      var ret;
+   //  console.log(results);
+      if( results.length > 0 )
+      {
+        
+        id = results[0].UserId;
+        email = results[0].Email;
+        
+
+        try
+        {
+          
+          ret = {email:email, id:id};
+          // console.log(email);
+        }
+        catch(e)
+        {
+          ret = {error:e.message};
+          console.log("Error");
+        }
+      }
+      else
+      {
+          ret = {error:"User not found"};
+      }
+    
+      res.status(200).json(ret);
+    });
     app.post('/api/searchcards', async (req, res, next) => 
     {
       // incoming: userId, search
