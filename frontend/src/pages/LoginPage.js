@@ -18,13 +18,19 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginPage = () =>
 {
+  function loginButton(){
+    window.location.href = '/login';
+  }
+  function regButton(){
+    window.location.href = '/register';
+  }
     const classes = useStyles();
     return(
       <div className={classes.root}>
         <CssBaseline />
         <NavBar />
-        <Login />
-        <Register />
+        <button id="login" onClick={loginButton} >Login</button>
+        <button id="login" onClick={regButton} >Register</button>
       </div>
     );
 };
