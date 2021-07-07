@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Collapse } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import { spacing } from '@material-ui/system';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -74,13 +76,13 @@ export default function NavBar() {
 
      
         <Box display="flex" justifyContent="center" m={1} p={1} >
-            <Box pt= "145px" letterSpacing="-4px" className={classes.manageYours} p={1} >
+            <Box ml = "-80%" pt= "146px" letterSpacing="-4px" className={classes.manageYours} p={1} >
                 <h1>manage your</h1>
             </Box>
           </Box>
      
          <Box  display="flex" justifyContent="center" m={1} p={1} >
-            <Box p={1} letterSpacing= "-4x" className={classes.pointsOfInterest}>
+            <Box p={1} ml = "-80%" pr = "120px" letterSpacing= "-4x" className={classes.pointsOfInterest}>
                 <h1><br /> gear.
                     <br /> machinery.
                    <br /> assets.
