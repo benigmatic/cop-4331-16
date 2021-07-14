@@ -2,6 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Collapse } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import { spacing } from '@material-ui/system';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     NavBarTitle: {
         flexGrow: '1',
+        fontSize: '2.4rem',
         fontFamily: "League Spartan",
         letterSpacing: '-0.4', /* Not working yet */
     },
@@ -26,11 +30,14 @@ const useStyles = makeStyles((theme) => ({
         width: '80%',
         margin: '0 auto',
     },
-    leftContainer: {
-        justifyContent: 'left',
-        alignItems: 'center',
+
+    // Changed name from leftContainer to manageYours since using FlexBox
+    manageYours: {
+        // justifyContent: 'left',
+        // alignItems: 'center',
         color: 'white',
         fontFamily: "League Spartan",
+        fontSize: '3rem'
     },
     pointsOfInterest: {
         color: 'white',
@@ -52,7 +59,8 @@ export default function NavBar() {
             </Toolbar>
         </AppBar>
         
-        <div>
+{/* Changed "manage your" and PoI to use FlexBox for Alignment */}
+{/*         <div>
             <h1 className={classes.leftContainer}>
                 manage your
             </h1>
@@ -64,8 +72,27 @@ export default function NavBar() {
                 <br /> vehicles.
                 <br /> furniture.
             </h1>
-        </div>
-        
+        </div>  */}
+
+     
+        <Box display="flex" justifyContent="center" m={1} p={1} >
+            <Box ml = "-80%" pt= "146px" letterSpacing="-4px" className={classes.manageYours} p={1} >
+                <h1>manage your</h1>
+            </Box>
+          </Box>
+     
+         <Box  display="flex" justifyContent="center" m={1} p={1} >
+            <Box p={1} ml = "-80%" pr = "120px" letterSpacing= "-4x" className={classes.pointsOfInterest}>
+                <h1><br /> gear.
+                    <br /> machinery.
+                   <br /> assets.
+                   <br /> vehicles.
+                   <br /> furniture.
+                </h1>  
+            </Box> 
+         </Box>
+      
+
     </div>
     );
 };

@@ -3,6 +3,7 @@ var token = require('./createJWT.js');
 exports.setApp = function ( app, client )
 {
 
+
     app.post('/api/addcard', async (req, res, next) =>
     {
       // incoming: userId, color
@@ -24,7 +25,7 @@ exports.setApp = function ( app, client )
         console.log(e.message);
       }
     
-      const newCard = {Card:card,UserId:userId};
+      const newCard = {Card:card,userId:userId};
       var error = '';
     
       try
@@ -55,17 +56,28 @@ exports.setApp = function ( app, client )
     {
       // incoming: userId, color
       // outgoing: error
-        
+      function getSequenceNextValue(sequenceOfName){
+        const db = client.db();     
+        var sequenceDoc = db.collection('counters').findAndModify({
+          query:{_id: sequenceOfName },
+           update: {$inc:{sequence_value:1}},
+           new:true
+         });
+       return sequenceDoc.sequence_value;
+    }
       const { FirstName, LastName, Email, Login, Password, Phone, CompanyName, jwtToken } = req.body;
 
      //var userId = 21;
     
+
       const newUser = { userId:getSequenceNextValue("1"), FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
+
       var error = '';
     
       try
       {
         const db = client.db();
+       
         const result = db.collection('Users').insertOne(newUser);
       }
       catch(e)
@@ -139,7 +151,7 @@ exports.setApp = function ( app, client )
       if( results.length > 0 )
       {
         
-        id = results[0].UserId;
+        id = results[0].userId;
         email = results[0].Email;
         
 
@@ -213,13 +225,7 @@ exports.setApp = function ( app, client )
    
 
 	
-function getSequenceNextValue(seqName) {
-  var seqDoc = db.Users.findAndModify({
-    query: { _id: seqName },
-    update: { $inc: { seqValue: 1 } },
-    new: true
-  });
 
-  return seqDoc.seqValue;
-} 
+
+  
 }
