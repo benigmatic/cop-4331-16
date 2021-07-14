@@ -4,7 +4,7 @@ var Int32 = require('mongoose-int32');
 
 // Create Schema
 const CardSchema = new Schema({
-  UserId: {
+  userId: {
     type: Number
   },
   Card: {
