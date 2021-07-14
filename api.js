@@ -69,7 +69,9 @@ exports.setApp = function ( app, client )
 
      //var userId = 21;
     
-      const newUser = {  userId:getSequenceNextValue("user_id"), FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
+
+      const newUser = { userId:getSequenceNextValue("1"), FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
+
       var error = '';
     
       try

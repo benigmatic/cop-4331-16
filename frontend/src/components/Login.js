@@ -50,7 +50,7 @@ function Login()
                 var userId = ud.payload.userId;
                 var firstName = ud.payload.firstName;
                 var lastName = ud.payload.lastName;
-                  
+                //  alert(userId);
                 var user = {firstName:firstName,lastName:lastName,id:userId}
 
                 localStorage.setItem('user_data', JSON.stringify(user));
