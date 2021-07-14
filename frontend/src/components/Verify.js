@@ -32,7 +32,7 @@ function  Verify()
         <span id="inner-title">Check you email for a code.</span><br />
         <input type="text" id="code" placeholder="code" ref={(c) => code = c}  /><br />
         
-        <input type="submit" id="loginButton" class="buttons" value = "Submit"
+        <input type="submit" id="loginButton" className="buttons" value = "Submit"
           onClick={ValidateCode} />
         <span id="loginResult">{message}</span>
         
