@@ -25,7 +25,7 @@ exports.setApp = function ( app, client )
         console.log(e.message);
       }
     
-      const newCard = {Card:card,UserId:userId};
+      const newCard = {Card:card,userId:userId};
       var error = '';
     
       try
@@ -69,7 +69,7 @@ exports.setApp = function ( app, client )
 
      //var userId = 21;
     
-      const newUser = {  userId:getSequenceNextValue("user_id"), FisrtName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
+      const newUser = {  userId:getSequenceNextValue("user_id"), FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
       var error = '';
     
       try
@@ -108,7 +108,7 @@ exports.setApp = function ( app, client )
     
       if( results.length > 0 )
       {
-        id = results[0].UserId;
+        id = results[0].userId;
         fn = results[0].FirstName;
         ln = results[0].LastName;
 
@@ -149,7 +149,7 @@ exports.setApp = function ( app, client )
       if( results.length > 0 )
       {
         
-        id = results[0].UserId;
+        id = results[0].userId;
         email = results[0].Email;
         
 
