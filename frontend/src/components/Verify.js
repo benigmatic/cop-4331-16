@@ -3,7 +3,8 @@ import axios from 'axios';
 function  Verify()
 {
   
-   
+  var storage = require('../tokenStorage.js');
+  const jwt = require("jsonwebtoken");
   
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
@@ -19,10 +20,20 @@ function  Verify()
     {
         event.preventDefault();
  
-       alert(code.value);
-
-
-       window.location.href = '/login';
+        var tok = storage.retrieveTokenPassword();
+        
+        alert(tok);
+        var storedCode = JSON.parse(tok);
+        var verifyCode = storedCode.code;
+       
+         if (verifyCode != code.value){
+          alert ("Code is not correct. Please, try again");
+          // alert (code.value+ "vs. "+ verifyCode);
+        
+         } else {
+          // alert("Codes match");
+          window.location.href = '/reset';
+          }
    
     }
     

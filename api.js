@@ -1,4 +1,13 @@
 var token = require('./createJWT.js');
+const user = require('./models/user.js');
+const sgMail = require('@sendgrid/mail');
+const crypto = require ('crypto');
+const jwt = require("jsonwebtoken");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+templates = {
+  password_reset: "d-5de23122a18f426b9d59f4196edeed51",
+ 
+};
 
 exports.setApp = function ( app, client )
 {
@@ -52,6 +61,7 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
+   
     app.post('/api/register', async (req, res, next) =>
     {
       // incoming: userId, color
@@ -66,12 +76,8 @@ exports.setApp = function ( app, client )
        return sequenceDoc.sequence_value;
     }
       const { FirstName, LastName, Email, Login, Password, Phone, CompanyName, jwtToken } = req.body;
-
-     //var userId = 21;
-    
-
-      const newUser = { userId:getSequenceNextValue("1"), FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
-
+     let id = getSequenceNextValue("user_id");
+      const newUser = {  userId: id, FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
       var error = '';
     
       try
@@ -83,6 +89,15 @@ exports.setApp = function ( app, client )
       catch(e)
       {
         error = e.toString();
+      }
+      try
+      {
+        const token = require("./createJWT.js");
+        ret = token.createToken( FirstName, lastName, id );
+      }
+      catch(e)
+      {
+        ret = {error:e.message};
       }
 
     
@@ -222,10 +237,104 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
+    app.post('/api/recover', async (req, res, next) => 
+    {
+      // Sends email with the verification code
+    // console.log(req);
+    var { email } = req.body;
+    console.log(email);
+    const db = client.db();
+    const results = await db.collection('Users').find({Email:email}).toArray();
+      var id = 0;
+      var ret;
+        //id = results[0].UserId;
+        //console.log('ID: '+id);
+        var ret;
+        const code = Math.floor(Math.random()*90000+10000);
+        console.log('Code: '+ code);
+        try
+        {
+          const token = require("./createJWT.js");
+         token.resetPasswordToken=code;
+         //console.log(token.resetPasswordToken);
+          ret = token.resetPasswordToken;
+          //console.log(token.resetPasswordToken);
+        }
+        catch(e)
+        {
+          
+          ret = {error:e.message};
+        }
+    
+      ret.resetPasswordToken=code
+
+           function sendTemplate  (to, from, templateId, dynamic_template_data){
+               const msg = {
+                 to, 
+                 from: {name:'Asset labs', email: from},
+                 templateId,
+                 dynamic_template_data
+               };
+               console.log(msg);
+               sgMail.send(msg)
+               .then((response)=> {
+                 //console.log('Email sent', {templateId, dynamic_template_data});
+                 console.log("response",response);
+               })
+               .catch((error)=>{
+                 console.log("SendGrid error: ", error)
+               })
+
+            }
+     var emailCode = {"code":code};
+     
+     sendTemplate(email, 'asset.labs.app@gmail.com', 'd-5de23122a18f426b9d59f4196edeed51', emailCode);
    
+      res.status(200).json(ret);
+   
+    });
+    app.post('/api/verify', async (req, res, next) => 
+    {
+      const { code, jwtToken } = req.body;
+      console.log(req.body);
+      console.log('Code in verify: '+code);
+     //compares the token from the input with the token saved to the user
+    });
+    app.post('/api/reset', async (req, res, next) => 
+    {
+      const { Email, Password } = req.body;
+     //console.log(Password);
+      //console.log("Adding to "+ Email);
+      var error = '';
+     //reset password for the user
+     try
+      {
+        const db = client.db();
+    
+     //  var id = -1;
+      var myquery = {Email: Email};
+      var newvalues = { $set: { Password: Password}};
+    // console.log(newvalues);
+      db.collection("Users").updateOne(myquery, newvalues, function(err, res) {
+        if (err) throw err;
+       // console.log("Password updated");
+      
+    
+      })
+    }
+
+  
+      catch(e)
+      {
+        error = e.toString();
+      }
+
+      });
+
+    }
 
 	
 
 
   
-}
+

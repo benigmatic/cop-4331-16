@@ -35,7 +35,7 @@ function Login()
         {
             var res = response.data;
 
-            console.log("HELLO");
+          //  console.log("HELLO");
             
             if (res.error) 
             {
