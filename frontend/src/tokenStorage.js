@@ -23,3 +23,17 @@ exports.retrieveToken = function ()
     }
     return ud;
 }
+
+exports.retrieveTokenPassword = function ()
+{
+    var ud;
+    try
+    {
+      ud = localStorage.getItem('pass_data');
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+    return ud;
+}

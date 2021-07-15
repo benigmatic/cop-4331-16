@@ -1,6 +1,6 @@
 import React from 'react';
 import Reset from '../components/Reset';
-const VerifyPage = () =>
+const ResetPage = () =>
 {
     function goBack(){
         window.location.href = '/';
@@ -8,10 +8,10 @@ const VerifyPage = () =>
     return(
       <div>
         <button id="back" onClick={goBack} >Go Back</button>
-        <Verify />
+        <Reset />
         
       </div>
     );
 };
 
-export default Reset;
+export default ResetPage;
