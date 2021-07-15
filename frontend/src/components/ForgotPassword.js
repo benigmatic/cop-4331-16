@@ -79,10 +79,10 @@ function ForgotPassword()
         <span id="inner-title">Use the email you created your Asset Labs account with to reset your password</span><br />
         <input type="text" id="email" placeholder="email" ref={(c) => email = c}  /><br />
         
-        <input type="submit" id="loginButton" class="buttons" value = "Send Code"
+        <input type="submit" id="loginButton" className="buttons" value = "Send Code"
           onClick={SendCode} />
         <span id="loginResult">{message}</span>
-        <input type="submit" id="loginButton" class="buttons" value = "Verify Email"
+        <input type="submit" id="loginButton" className="buttons" value = "Verify Email"
           onClick={VerifyEmail} />
      </div>
     );
