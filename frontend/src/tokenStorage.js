@@ -37,3 +37,17 @@ exports.retrieveTokenPassword = function ()
     }
     return ud;
 }
+
+exports.retrieveTokenEmail = function ()
+{
+    var ud;
+    try
+    {
+      ud = localStorage.getItem('email_data');
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+    return ud;
+}

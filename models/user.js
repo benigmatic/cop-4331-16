@@ -11,11 +11,23 @@ const UserSchema = new Schema({
   userId: {
     type: Number
   },
+  CompanyName: {
+    type: String,
+    required: true
+  },
   FirstName: {
     type: String,
     required: true
   },
   LastName: {
+    type: String,
+    required: true
+  },
+  Email: {
+    type: String,
+    required: true
+  },
+  Phone: {
     type: String,
     required: true
   },
@@ -33,6 +45,15 @@ const UserSchema = new Schema({
 
   },
   resetPasswordExpires: {
+    type:Date,
+    required :false
+  },
+  verifyEmailToken: {
+    type :String,
+    required: false
+
+  },
+  verifyEmailExpires: {
     type:Date,
     required :false
   }
@@ -62,6 +83,11 @@ UserSchema.methods.generatePasswordReset = function(){
   this.resetPasswordToken= crypto.randomBytes(20).toString('hex');
   this.resetPasswordExpires =Date.now()+3600000; //expires in an hour
   console.log("password generates");
+};
+UserSchema.methods.generateEmailCode = function(){
+  this.verifyEmailToken= crypto.randomBytes(20).toString('hex');
+  this.verifyEmailExpires =Date.now()+3600000; //expires in an hour
+  console.log("Email verification code token generates");
 };
 module.exports = user = mongoose.model("Users", UserSchema);
 

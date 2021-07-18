@@ -67,6 +67,7 @@ _createTokenPassword = function ( email, pass ,code)
 {
     try
     {
+     
       const expiration = new Date();
       
       const user = {email:email,password:pass, code:code};
@@ -88,8 +89,35 @@ _createTokenPassword = function ( email, pass ,code)
     return ret;
 }
 
+exports.createTokenVerify = function ( email,pass, code )
+{
+    return _createTokenVerify( email,pass, code );
+}
+_createTokenVerify = function ( email ,pass, code)
+{
+    try
+    {
+      console.log("IN the _createTokenVerify\n");
+      const expiration = new Date();
+      
+      const user = {email:email, password:pass, code:code};
 
+      // const accessToken =  jwt.sign( user, process.env.ACCESS_TOKEN_SECRET);
 
+     //
+      const accessToken= jwt.sign(user,process.env.ACCESS_TOKEN_SECRET, 
+         { expiresIn: '60m'} );
+                       
+      //
+
+      var ret = {accessToken:accessToken};
+    }
+    catch(e)
+    {
+      var ret = {error:e.message};
+    }
+    return ret;
+}
 exports.refreshPassword = function( token )
 {
   var ud = jwt.decode(token,{complete:true});
@@ -99,4 +127,42 @@ exports.refreshPassword = function( token )
   var code = ud.payload.code;
   
   return _createTokenPassword(email,pass, code);
+}
+exports.refreshEmail = function( token )
+{
+  var ud = jwt.decode(token,{complete:true});
+
+  var email = ud.payload.email;
+  var code = ud.payload.code;
+  
+  return _createTokenEmail(email,code);
+}
+exports.createRegisterToken = function ( comp, fn, ln, us,em,ph,pass,id)
+{
+    return _createRegisterToken( comp, fn, ln, us,em,ph,pass,id);
+}
+
+_createRegisterToken = function ( comp, fn, ln, us,em,ph,pass,id )
+{
+    try
+    {
+      const expiration = new Date();
+     
+      const user = {userId:id,CompanyName: comp, FirstName:fn,LastName:ln, Email:em,Phone:ph, Login:us, Password:pass};
+console.log("Created a token for the register info");
+      // const accessToken =  jwt.sign( user, process.env.ACCESS_TOKEN_SECRET);
+
+     //
+      const accessToken= jwt.sign(user,process.env.ACCESS_TOKEN_SECRET, 
+         { expiresIn: '60m'} );
+                       
+      //
+
+      var ret = {accessToken:accessToken};
+    }
+    catch(e)
+    {
+      var ret = {error:e.message};
+    }
+    return ret;
 }
