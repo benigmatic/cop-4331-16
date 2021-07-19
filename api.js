@@ -12,15 +12,15 @@ templates = {
 exports.setApp = function ( app, client )
 {
 
-
+    /*
+     Incoming : userId, card, jwtToken
+     Outgoing : error
+     Adds a new card to the DB
+    */
     app.post('/api/addcard', async (req, res, next) =>
     {
-      // incoming: userId, color
-      // outgoing: error
-        
-      const { userId, card, jwtToken } = req.body;
-
-      try
+     const { userId, card, jwtToken } = req.body;
+     try
       {
         if( token.isExpired(jwtToken))
         {
@@ -32,21 +32,18 @@ exports.setApp = function ( app, client )
       catch(e)
       {
         console.log(e.message);
-      }
-    
+      }    
       const newCard = {Card:card,userId:userId};
-      var error = '';
-    
+      var error = '';    
       try
       {
       const db = client.db();  
         const result = db.collection('Cards').insertOne(newCard);
       }
-      catch(e)
-      {
+       catch(e)
+         {
         error = e.toString();
-      }
-    
+         }    
       var refreshedToken = null;
       try
       {
@@ -61,11 +58,15 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
-   
+
+
+   // Incoming: FirstName, LastName, Email,Login, Password, Phone, Company Name ,  jwtToken (not required)
+   // Ps. Password was already hashed in frontend with md5 file from LAMP stack
+   // Outgoing : error
+
+   //  Adds the user to the database, creates a token with First, Last names and id
     app.post('/api/register', async (req, res, next) =>
     {
-      // incoming: userId, color
-      // outgoing: error
       function getSequenceNextValue(sequenceOfName){
         const db = client.db();     
         var sequenceDoc = db.collection('counters').findAndModify({
@@ -75,7 +76,6 @@ exports.setApp = function ( app, client )
          });
        return sequenceDoc.sequence_value;
     }
-   //  TODO: Add check if the username or email is already in use,
       const { FirstName, LastName, Email, Login, Password, Phone, CompanyName, jwtToken } = req.body;
      let id = getSequenceNextValue("user_id");
       const newUser = {  userId: id, FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
@@ -100,59 +100,17 @@ exports.setApp = function ( app, client )
       {
         ret = {error:e.message};
       }
-      /*
-      // Send a verification code to the email 
-      const emailCode = Math.floor(Math.random()*90000+10000);
-        console.log('Code: '+ emailCode);
-        try
-        {
-          const token = require("./createJWT.js");
-         token.verifyEmailToken=emailCode;
-        //  console.log(token.createTokenVefify);
-          ret = token.verifyEmailToken;
-          console.log("TOKEN: "+ token.verifyEmailToken);
-        }
-        catch(e)
-        {
-          
-          ret = {error:e.message};
-        }
-    
-      ret.verifyEmailToken=emailCode;
-      ret.resetPasswordToken=code;
-      console.log("Verification email sending");
-           function sendTemplate  (to, from, templateId, dynamic_template_data){
-               const msg = {
-                 to, 
-                 from: {name:'Asset labs', email: from},
-                 templateId,
-                 dynamic_template_data
-               };
-               console.log(msg);
-               sgMail.send(msg)
-               .then((response)=> {
-                 //console.log('Email sent', {templateId, dynamic_template_data});
-                 console.log("response",response);
-               })
-               .catch((error)=>{
-                 console.log("SendGrid error: ", error)
-               })
-
-            }
-     var code = {"code":emailCode};
-     console.log(Email+"Send here");
-     sendTemplate(Email, 'asset.labs.app@gmail.com', 'd-5de23122a18f426b9d59f4196edeed51', code);
-    */
+     
       var ret = { error: error};
       
       res.status(200).json(ret);
     });
-    
+     // incoming: login, password
+      // outgoing: id, firstName, lastName, error
+      // Checks if username with correct passwords are in database
     app.post('/api/login', async (req, res, next) => 
     {
-      // incoming: login, password
-      // outgoing: id, firstName, lastName, error
-    
+       
      var error = '';
     
       const { login, password } = req.body;
@@ -188,42 +146,33 @@ exports.setApp = function ( app, client )
     
       res.status(200).json(ret);
     });
+       // incoming: email
+      // outgoing: id, email
+      // Checks if the user with this email exists in the DB
     app.post('/api/validateEmail', async (req, res, next) => 
     {
-      // incoming: email
-      // outgoing: id, email
-    
-     var error = '';
-    
+       
+      var error = '';
       var { email } = req.body;
-      //console.log(email);
-      //console.log(req.body);
       const db = client.db();
       const results = await db.collection('Users').find({Email:email}).toArray();
       var id = -1;
       var email ='';
-
       var ret;
-   //  console.log(results);
-      if( results.length > 0 )
-      {
-        
-        id = results[0].userId;
-        email = results[0].Email;
-        
-
-        try
+       if( results.length > 0 )
         {
-          
-          ret = {email:email, id:id};
-          // console.log(email);
+                id = results[0].userId;
+                email = results[0].Email;
+          try
+            {
+              ret = {email:email, id:id};
+            }
+           catch(e)
+            {
+             ret = {error:e.message};
+             console.log("Error");
+            }
         }
-        catch(e)
-        {
-          ret = {error:e.message};
-          console.log("Error");
-        }
-      }
       else
       {
           ret = {error:"User not found"};
@@ -231,15 +180,13 @@ exports.setApp = function ( app, client )
     
       res.status(200).json(ret);
     });
-    app.post('/api/searchcards', async (req, res, next) => 
-    {
-      // incoming: userId, search
+     // incoming: userId, search (String)
       // outgoing: results[], error
-    
-      var error = '';
-    
+      //Search for cards in DB, if user is still active, refreshes the token
+    app.post('/api/searchcards', async (req, res, next) => 
+    {     
+      var error = '';    
       const { userId, search, jwtToken } = req.body;
-
       try
       {
         if( token.isExpired(jwtToken))
@@ -254,11 +201,9 @@ exports.setApp = function ( app, client )
         console.log(e.message);
       }
       
-      var _search = search.trim();
-      
+      var _search = search.trim();      
       const db = client.db();
-      const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*', $options:'r'}}).toArray();
-      
+      const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*', $options:'r'}}).toArray();      
       var _ret = [];
       for( var i=0; i<results.length; i++ )
       {
@@ -279,10 +224,12 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
+   // Ingoing : email
+   //Outgoing: reset password code (token.resetPasswordToken), error
+
+   //Sends an email with generted code which is stored in token.resetPasswordToken.
     app.post('/api/recover', async (req, res, next) => 
     {
-      // Sends email with the verification code
-    // console.log(req);
     var { email } = req.body;
     console.log(email);
     const db = client.db();
@@ -373,11 +320,12 @@ console.log("Error sending the email "+ err);
      //compares the token from the input with the token saved to the user
     });
     */
+  // Ingoing: Email, password
+  // Outgoing error
+  // Resets password in the DB
     app.post('/api/reset', async (req, res, next) => 
     {
       const { Email, Password } = req.body;
-     //console.log(Password);
-      //console.log("Adding to "+ Email);
       var error = '';
      //reset password for the user
      try
@@ -403,7 +351,9 @@ console.log("Error sending the email "+ err);
       }
 
       });
-      //sending email with the code to verify
+    //Ingoing : code, email
+    // Outgoing:  error
+    //Send an email with the code to verify email
     app.post('/api/verifyEmail', async (req, res, next) => 
     {
       const { Code, Email } = req.body;
@@ -412,10 +362,6 @@ console.log("Error sending the email "+ err);
     
       console.log('Code: '+ Code);
   
-  
-   
-  //   ret.resetPasswordToken=code;
-
   function getMessage(){
     const body = 'To verify your email, paste this code: '+Code;
     return {
@@ -461,12 +407,6 @@ console.log("Error sending the email "+ err);
       }
     }
   }
-  /*
-  (async () => {
-    console.log('Sending test email');
-    await sendEmail();
-  })();
-  */
   sendEmail();
     var ret = { error: error};
     
@@ -483,7 +423,10 @@ console.log("Error sending the email "+ err);
       });
     
   
+// ingoing : Email, username
+//outgoing: error 
 
+// Checks if the user with username/email alredy exists. return corresponding error
     app.post('/api/checkexistance', async (req, res, next) => 
     {
       const { Email, Login } = req.body;
@@ -500,14 +443,13 @@ console.log("Error sending the email "+ err);
      if( results.length > 0 )
      {
       // id = results[0].userId;
-      console.log(results.length);
+      //console.log(results.length);
        username = results[0].Login;
-      console.log("The user exists with " + username);
+      //console.log("The user exists with " + username);
 
       ret = {error:"This Username is already taken"};
       
      } else {
-  //   console.log("Username is unique");
         const results2 = await db.collection('Users').find({Email:Email}).toArray();
     
      var email = "";
@@ -518,7 +460,7 @@ console.log("Error sending the email "+ err);
      {
       // id = results[0].userId;
        email = results2[0].Email;
-      console.log("The user exists with " + email);
+     // console.log("The user exists with " + email);
       
       ret = {error:"The user with the same email already exists"};
       
