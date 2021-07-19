@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import md5 from './md5.js';
 function Login()
 {
 
@@ -9,16 +9,17 @@ function Login()
 
     var loginName;
     var loginPassword;
-
+  
     const [message,setMessage] = useState('');
 
     const doLogin = async event => 
     {
         event.preventDefault();
-
-        var obj = {login:loginName.value,password:loginPassword.value};
+        var hash = md5( loginPassword.value );
+        var obj = {login:loginName.value,password:hash};
+       
         var js = JSON.stringify(obj);
-
+        alert (js);
         var config = 
         {
             method: 'post',

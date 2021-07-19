@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import md5 from './md5.js';
 function Register()
 {
     // autoincrementation in DB
@@ -17,59 +18,98 @@ function Register()
     var passwordCheck;
     var phone;
   
-     
+  
     const [message,setMessage] = useState('');
- 
+ const doVerify = async event => {
+    var hash = md5( passwordRegister );
+    const Code = Math.floor(Math.random()*90000+10000);
+    var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:hash, Phone: phone.value, CompanyName: companyName.value, Code:Code};
+    var sendCode = JSON.stringify({Code:Code, Email:email.value});         
+    var js = JSON.stringify(obj);
+    localStorage.setItem('email_data',js);
+    var config = 
+      {
+        method: 'post',
+        url: bp.buildPath('api/verifyEmail'),	
+        headers: 
+          {
+            'Content-Type': 'application/json'
+          },
+        data: sendCode
+     };
+
+    axios(config)
+        .then(function (response) 
+    {
+        var res = response.data;
+        var retTok = res.jwtToken;
+
+        if( res.error.length > 0 )
+        {
+            setMessage( "API Error:" + res.error );
+        }
+        else
+        {
+            
+            setMessage('User was added');
+            window.location.href = '/verifyEmail';
+
+          
+        }
+    })
+    .catch (function (error){
+        console.log(error);
+    }) 
+
+ }
 
     const doRegister = async event => 
     {
         event.preventDefault();
-
+  var flag =0 
       // Password check
       if(passwordRegister.value===passwordCheck.value){
-        //setMessage("Passwords don't match");
-        
-       var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:passwordRegister.value, Phone: phone.value, CompanyName: companyName.value};
-      alert(obj);
-       var js = JSON.stringify(obj);
-       alert(js);
-        var config = 
+       
+        // TODO: Search for email and login  that are already in the database
+        var checkObj = {Email:email.value, Login:loginName.value};
+        var checkjs = JSON.stringify(checkObj);
+        var configCheck = 
         {
             method: 'post',
-            url: bp.buildPath('api/register'),	
+            url: bp.buildPath('api/checkexistance'),	
             headers: 
             {
                 'Content-Type': 'application/json'
             },
-            data: js
+            data: checkjs
         };
-    
-        axios(config)
+      //  alert("into fist axios");
+       await  axios(configCheck)
             .then(function (response) 
         {
             var res = response.data;
             var retTok = res.jwtToken;
-    
             if( res.error.length > 0 )
             {
-                setMessage( "API Error:" + res.error );
-            }
-            else
-            {
+                flag=1;
+                alert("res.error");
+                setMessage( "Error:" + res.error );
                 
-                setMessage('User was added');
-              
-            }
+            } 
         })
-        .catch(function (error) 
-        {
+         .catch (function (error)
+         {
             console.log(error);
-        });
-    } else {
-        setMessage("Passwords (" +passwordRegister.value +" "+ passwordCheck.value+")don't match");
-    }
- 
-    }
+         })
+      
+        //Generated 5-digit code 
+        if (flag === 0 ){
+         const respone =  await  doVerify();
+    } 
+        }
+        
+        }  
+
 
     return(
       <div id="loginDiv">
