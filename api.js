@@ -149,6 +149,7 @@ exports.setApp = function ( app, client )
        // incoming: email
       // outgoing: id, email
       // Checks if the user with this email exists in the DB
+    // I used it before i created api/checkexistance, i don't want to delete it yet just in case
     app.post('/api/validateEmail', async (req, res, next) => 
     {
        

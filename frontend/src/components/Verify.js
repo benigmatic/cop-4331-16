@@ -24,6 +24,7 @@ function  Verify()
         
         alert(tok);
         var storedCode = JSON.parse(tok);
+        // received the code from the local storage
         var verifyCode = storedCode.code;
        
          if (verifyCode != code.value){
