@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import md5 from './md5.js';
 function Register()
 {
     // autoincrementation in DB
@@ -17,16 +18,15 @@ function Register()
     var passwordCheck;
     var phone;
   
-     
+  
     const [message,setMessage] = useState('');
  const doVerify = async event => {
+    var hash = md5( passwordRegister );
     const Code = Math.floor(Math.random()*90000+10000);
-    var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:passwordRegister.value, Phone: phone.value, CompanyName: companyName.value, Code:Code};
+    var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:hash, Phone: phone.value, CompanyName: companyName.value, Code:Code};
     var sendCode = JSON.stringify({Code:Code, Email:email.value});         
     var js = JSON.stringify(obj);
-    alert(js);
     localStorage.setItem('email_data',js);
-    alert("into second axios");
     var config = 
       {
         method: 'post',
@@ -83,14 +83,12 @@ function Register()
             },
             data: checkjs
         };
-        alert("into fist axios");
+      //  alert("into fist axios");
        await  axios(configCheck)
             .then(function (response) 
         {
-            alert("in the axios");
             var res = response.data;
             var retTok = res.jwtToken;
-           alert("in the axios");
             if( res.error.length > 0 )
             {
                 flag=1;
@@ -106,7 +104,6 @@ function Register()
       
         //Generated 5-digit code 
         if (flag === 0 ){
-            alert("into do VErify");
          const respone =  await  doVerify();
     } 
         }
