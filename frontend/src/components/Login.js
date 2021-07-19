@@ -15,11 +15,11 @@ function Login()
     const doLogin = async event => 
     {
         event.preventDefault();
-        var hash = md5( loginPassword );
+        var hash = md5( loginPassword.value );
         var obj = {login:loginName.value,password:hash};
        
         var js = JSON.stringify(obj);
-
+        alert (js);
         var config = 
         {
             method: 'post',

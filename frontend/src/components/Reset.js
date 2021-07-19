@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import md5 from './md5.js';
 function Reset()
 {
   
@@ -27,8 +28,9 @@ function Reset()
         
         // send email with password to the /api/reset
         if(password.value===newpassword.value){
-            var obj = {Email:email,Password:password.value};
-       // alert(obj);
+            var hash = md5( newpassword.value );
+            var obj = {Email:email,Password:hash};
+        alert(obj);
        var js = JSON.stringify(obj);
          alert(js);
        //Sends js to api

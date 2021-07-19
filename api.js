@@ -309,7 +309,31 @@ exports.setApp = function ( app, client )
         }
     
       ret.resetPasswordToken=code
-
+      function getMessage(){
+        const body = 'To reset your password, paste this code: '+code;
+        return {
+          to: email,
+          from: 'asset.labs.app@gmail.com',
+          subject: 'Reset your password',
+          text: body,
+          html: `<strong>${body}</strong>`,
+        };
+      }
+    
+       async function sendEmail() {
+        try {
+          await sgMail.send(getMessage());
+          console.log('Test email sent successfully');
+        } catch (error) {
+          console.error('Error sending test email');
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body)
+          }
+        }
+      }
+      sendEmail();
+      /* SENDING with  TEMPLATE
            function sendTemplate  (to, from, templateId, dynamic_template_data){
                const msg = {
                  to, 
@@ -336,7 +360,7 @@ exports.setApp = function ( app, client )
     catch (err){
 console.log("Error sending the email "+ err);
     }
-   
+    */
       res.status(200).json(ret);
    
     });
