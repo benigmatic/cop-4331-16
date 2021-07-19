@@ -46,7 +46,7 @@ function Register()
 
         if( res.error.length > 0 )
         {
-            setMessage( "API Error:" + res.error );
+            setMessage( " Error:" + res.error );
         }
         else
         {
