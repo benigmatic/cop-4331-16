@@ -174,7 +174,7 @@ exports.setApp = function ( app, client )
       var fn = '';
       var ln = '';
 
-      var ret=" ";
+      var ret="";
     
       if( results.length > 0 )
       {
