@@ -438,7 +438,7 @@ console.log("Error sending the email "+ err);
      const results = await db.collection('Users').find({Login:Login}).toArray();
      var id = -1;
      var username = "";
-     var ret;
+     var ret = "";
    
      if( results.length > 0 )
      {
