@@ -239,7 +239,7 @@ exports.setApp = function ( app, client )
       var ret;
         //id = results[0].UserId;
         //console.log('ID: '+id);
-        var ret;
+        // var ret;
         const code = Math.floor(Math.random()*90000+10000);
         console.log('Code: '+ code);
         try
@@ -438,7 +438,6 @@ console.log("Error sending the email "+ err);
      const results = await db.collection('Users').find({Login:Login}).toArray();
      var id = -1;
      var username = "";
-
      var ret;
    
      if( results.length > 0 )
@@ -455,7 +454,7 @@ console.log("Error sending the email "+ err);
     
      var email = "";
 
-     var ret;
+    //  var ret;
     console.log(results2.length);
      if( results2.length > 0 )
      {
