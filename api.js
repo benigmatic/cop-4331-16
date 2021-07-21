@@ -3,6 +3,8 @@ const user = require('./models/user.js');
 const sgMail = require('@sendgrid/mail');
 const crypto = require ('crypto');
 const jwt = require("jsonwebtoken");
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
+const { resolve } = require('path');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 templates = {
   password_reset: "d-5de23122a18f426b9d59f4196edeed51",
@@ -19,6 +21,7 @@ exports.setApp = function ( app, client )
     */
     app.post('/api/addcard', async (req, res, next) =>
     {
+
      const { userId, card, jwtToken } = req.body;
      try
       {
@@ -58,8 +61,58 @@ exports.setApp = function ( app, client )
       
       res.status(200).json(ret);
     });
+// Incoming : userId, Name, Brand, Model, Category, Location, Replacement, Serial,  
+//Outcoming:   itemId, error
+    app.post('/api/additem', async (req, res, next) =>
+    {
+     
+      
+      var ret='';
+      var error = '';    
+     const { userId, Name, Brand, Model, Category, Location, Replacement, Serial,  jwtToken } = req.body;
+  
+     const db = client.db();     
+    var count =  await db.collection('counterItem').find({name:"count"}).toArray();
+    var index = count[0].index;
+   
+    var itemId =index +1;
 
-
+    var newvalues = { $set: {index: itemId} };
+   await db.collection('counterItem').updateOne({name:"count"}, newvalues, function(err, res){
+      if (err) console.log("Error");
+    //console.log("1 document updated");
+  
+    })
+ 
+      const newItem = {userId:userId, Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial, itemId: itemId};
+      
+      try
+      {
+      const db = client.db();  
+        const result = db.collection('Assets').insertOne(newItem);
+       
+        console.log("In api");
+      }
+       catch(e)
+         {
+           
+        error = e.toString();
+         }    
+      var refreshedToken = null;
+     // console.log("In api");
+      try
+      {
+        refreshedToken = token.refresh(jwtToken).accessToken;
+      }
+      catch(e)
+      {
+        console.log(e.message);
+      }
+ 
+      var ret = { error: error, jwtToken: refreshedToken };
+      
+      res.status(200).json(ret);
+    });
    // Incoming: FirstName, LastName, Email,Login, Password, Phone, Company Name ,  jwtToken (not required)
    // Ps. Password was already hashed in frontend with md5 file from LAMP stack
    // Outgoing : error
@@ -121,7 +174,7 @@ exports.setApp = function ( app, client )
       var fn = '';
       var ln = '';
 
-      var ret;
+      var ret="";
     
       if( results.length > 0 )
       {
