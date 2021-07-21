@@ -7,7 +7,7 @@ function CardUI()
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     const jwt = require("jsonwebtoken");
-    
+
     var card = '';
     var search = '';
 
@@ -20,8 +20,8 @@ function CardUI()
     var userId = ud.id;
     var firstName = ud.firstName;
     var lastName = ud.lastName;
-	
-    const addCard = async event => 
+
+    const addCard = async event =>
     {
 	    event.preventDefault();
 
@@ -29,23 +29,23 @@ function CardUI()
        var obj = {userId:userId,card:card.value,jwtToken:tok};
        var js = JSON.stringify(obj);
 
-        var config = 
+        var config =
         {
             method: 'post',
-            url: bp.buildPath('api/addcard'),	
-            headers: 
+            url: bp.buildPath('api/addcard'),
+            headers:
             {
                 'Content-Type': 'application/json'
             },
             data: js
         };
-    
+
         axios(config)
-            .then(function (response) 
+            .then(function (response)
         {
             var res = response.data;
             var retTok = res.jwtToken;
-    
+
             if( res.error.length > 0 )
             {
                 setMessage( "API Error:" + res.error );
@@ -56,41 +56,46 @@ function CardUI()
                 storage.storeToken( {accessToken:retTok} );
             }
         })
-        .catch(function (error) 
+        .catch(function (error)
         {
             console.log(error);
         });
 
 	};
 
-    const searchCard = async event => 
+    const searchCard = async event =>
     {
         event.preventDefault();
-        		
+
         var tok = storage.retrieveToken();
         var obj = {userId:userId,search:search.value,jwtToken:tok};
         var js = JSON.stringify(obj);
 
-        var config = 
+        var config =
         {
             method: 'post',
-            url: bp.buildPath('api/searchcards'),	
-            headers: 
+            url: bp.buildPath('api/searchassets'),
+            headers:
             {
                 'Content-Type': 'application/json'
             },
             data: js
         };
-    
+
         axios(config)
-            .then(function (response) 
+            .then(function (response)
         {
             var res = response.data;
             var retTok = res.jwtToken;
-    
+
             if( res.error.length > 0 )
             {
                 setMessage( "API Error:" + res.error );
+            }
+            else if (res.results.length == 0) {
+
+              setResults('No Matches Found');
+              storage.storeToken( {accessToken:retTok} );
             }
             else
             {
@@ -109,7 +114,7 @@ function CardUI()
                 storage.storeToken( {accessToken:retTok} );
             }
         })
-        .catch(function (error) 
+        .catch(function (error)
         {
             console.log(error);
         });
@@ -119,15 +124,15 @@ function CardUI()
     return(
         <div id="cardUIDiv">
         <br />
-        <input type="text" id="searchText" placeholder="Card To Search For" 
+        <input type="text" id="searchText" placeholder="Card To Search For"
             ref={(c) => search = c} />
-        <button type="button" id="searchCardButton" className="buttons" 
+        <button type="button" id="searchCardButton" className="buttons"
             onClick={searchCard}> Search Card</button><br />
         <span id="cardSearchResult">{searchResults}</span>
         <p id="cardList">{cardList}</p><br /><br />
-        <input type="text" id="cardText" placeholder="Card To Add" 
+        <input type="text" id="cardText" placeholder="Card To Add"
             ref={(c) => card = c} />
-        <button type="button" id="addCardButton" className="buttons" 
+        <button type="button" id="addCardButton" className="buttons"
             onClick={addCard}> Add Card </button><br />
         <span id="cardAddResult">{message}</span>
         </div>
