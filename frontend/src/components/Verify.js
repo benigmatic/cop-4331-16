@@ -28,7 +28,7 @@ function  Verify()
         var verifyCode = storedCode.code;
        
          if (verifyCode != code.value){
-          alert ("Code is not correct. Please, try again");
+          alert ("Code is not correct. Please, try again"+ verifyCode + code.value);
           // alert (code.value+ "vs. "+ verifyCode);
         
          } else {

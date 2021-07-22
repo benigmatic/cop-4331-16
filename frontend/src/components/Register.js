@@ -17,16 +17,15 @@ function Register()
     var passwordRegister;
     var passwordCheck;
     var phone;
-  
+  var Code=0;
   
     const [message,setMessage] = useState('');
  const doVerify = async event => {
     var hash = md5( passwordRegister );
-    const Code = Math.floor(Math.random()*90000+10000);
-    var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:hash, Phone: phone.value, CompanyName: companyName.value, Code:Code};
-    var sendCode = JSON.stringify({Code:Code, Email:email.value});         
-    var js = JSON.stringify(obj);
-    localStorage.setItem('email_data',js);
+//    const Code = Math.floor(Math.random()*90000+10000);
+    
+    var sendCode = JSON.stringify({ Email:email.value});         
+   
     var config = 
       {
         method: 'post',
@@ -51,6 +50,16 @@ function Register()
         else
         {
             
+            Code = res.code;
+            alert("Code: "+ Code);
+            try {
+            var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:hash, Phone: phone.value, CompanyName: companyName.value, Code:Code};
+            var js = JSON.stringify(obj);
+            localStorage.setItem('email_data',js);
+            }
+            catch (error){
+                setMessage(error);
+            }
             setMessage('User was added');
             window.location.href = '/verifyEmail';
 
@@ -60,8 +69,8 @@ function Register()
     .catch (function (error){
         console.log(error);
     }) 
-
- }
+   
+}
 
     const doRegister = async event => 
     {
