@@ -329,7 +329,7 @@ exports.setApp = function ( app, client )
    //Sends an email with generted code which is stored in token.resetPasswordToken.
     app.post('/api/recover', async (req, res, next) => 
     {
-    var ret ='';
+    var ret ="";
     var { email } = req.body;
     console.log(email);
     const db = client.db();
@@ -342,7 +342,7 @@ exports.setApp = function ( app, client )
       } else {
 
       var id = 0;
-      var ret = "";
+      //var ret = "";
         //id = results[0].UserId;
         //console.log('ID: '+id);
         // var ret;
