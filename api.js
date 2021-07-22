@@ -329,17 +329,19 @@ exports.setApp = function ( app, client )
    //Sends an email with generted code which is stored in token.resetPasswordToken.
     app.post('/api/recover', async (req, res, next) => 
     {
+    var ret ='';
     var { email } = req.body;
     console.log(email);
     const db = client.db();
     const results = await db.collection('Users').find({Email:email}).toArray();
-      var id = 0;
-      var ret;
-        //id = results[0].UserId;
-        //console.log('ID: '+id);
-        // var ret;
+    
+      if (results.length===0){
+        console.log("User with this email doesn't exist");
+       ret = {error: "User with this email doesn't exist"};
+      }else {
         const code = Math.floor(Math.random()*90000+10000);
         console.log('Code: '+ code);
+        /*
         try
         {
           const token = require("./createJWT.js");
@@ -355,6 +357,7 @@ exports.setApp = function ( app, client )
         }
     
       ret.resetPasswordToken=code
+    */
       function getMessage(){
         const body = 'To reset your password, paste this code: '+code;
         return {
@@ -365,7 +368,6 @@ exports.setApp = function ( app, client )
           html: `<strong>${body}</strong>`,
         };
       }
-    
        async function sendEmail() {
         try {
           await sgMail.send(getMessage());
@@ -407,6 +409,7 @@ exports.setApp = function ( app, client )
 console.log("Error sending the email "+ err);
     }
     */
+  }
       res.status(200).json(ret);
    
     });
