@@ -43,8 +43,8 @@ function ForgotPassword()
            //  alert(res);
             //Code stored in res
             storage.storeToken(res);
-                var pass = {code:res, email:email.value};
-               // alert('To storage: ' + JSON.stringify(pass));
+                var pass = {code:res.code, email:email.value};
+               alert('To storage: ' + JSON.stringify(pass));
                 localStorage.setItem('pass_data', JSON.stringify(pass));
    // alert("Stored");
             if( res.error )

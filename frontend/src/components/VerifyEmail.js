@@ -7,7 +7,7 @@ function  VerifyEmail()
   const jwt = require("jsonwebtoken");
   
     var bp = require('./Path.js');
-    var storage = require('../tokenStorage.js');
+    
 
     var Code;
     
@@ -34,7 +34,7 @@ function  VerifyEmail()
      
        
          if (Code.value != code){
-          alert ("Code is not correct. Please, try again");
+          alert ("Code is not correct. Please, try again: "+ Code.value +code );
           
         
          } else {
@@ -58,7 +58,7 @@ function  VerifyEmail()
               .then(function (response) 
           {
               var res = response.data;
-              var retTok = res.jwtToken;
+             // var retTok = res.jwtToken;
       
               if( res.error.length > 0 )
               {

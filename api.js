@@ -464,19 +464,19 @@ console.log("Error sending the email "+ err);
       }
 
       });
-    //Ingoing : code, email
-    // Outgoing:  error
+    //Ingoing :  email
+    // Outgoing:  error, code
     //Send an email with the code to verify email
     app.post('/api/verifyEmail', async (req, res, next) => 
     {
-      const { Code, Email } = req.body;
-   
+      const { Email } = req.body;
+      const code = Math.floor(Math.random()*90000+10000);
+      console.log('Code: '+ code);
       var error = '';
     
-      console.log('Code: '+ Code);
   
   function getMessage(){
-    const body = 'To verify your email, paste this code: '+Code;
+    const body = 'To verify your email, paste this code: '+code;
     return {
       to: Email,
       from: 'asset.labs.app@gmail.com',
@@ -521,7 +521,7 @@ console.log("Error sending the email "+ err);
     }
   }
   sendEmail();
-    var ret = { error: error};
+    var ret = { error: error, code : code};
     
     res.status(200).json(ret);
      try
