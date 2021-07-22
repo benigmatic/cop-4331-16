@@ -289,7 +289,7 @@ exports.setApp = function ( app, client )
     const db = client.db();
     const results = await db.collection('Users').find({Email:email}).toArray();
       var id = 0;
-      var ret = '';
+      var ret = "";
         //id = results[0].UserId;
         //console.log('ID: '+id);
         // var ret;
