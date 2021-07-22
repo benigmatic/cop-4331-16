@@ -334,11 +334,19 @@ exports.setApp = function ( app, client )
     console.log(email);
     const db = client.db();
     const results = await db.collection('Users').find({Email:email}).toArray();
+
     
       if (results.length===0){
         console.log("User with this email doesn't exist");
        ret = {error: "User with this email doesn't exist"};
-      }else {
+      } else {
+
+      var id = 0;
+      var ret = "";
+        //id = results[0].UserId;
+        //console.log('ID: '+id);
+        // var ret;
+
         const code = Math.floor(Math.random()*90000+10000);
         console.log('Code: '+ code);
         /*
