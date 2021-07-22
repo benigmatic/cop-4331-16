@@ -341,7 +341,7 @@ exports.setApp = function ( app, client )
     
       if (results.length===0){
         console.log("User with this email doesn't exist");
-       ret = {error: "User with this email doesn't exist"};
+       ret = {error: "User with this email doesn't exist " + email};
 
        }else {
 
