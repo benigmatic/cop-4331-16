@@ -115,8 +115,9 @@ exports.setApp = function ( app, client )
     //Incoming: itemId, jwtToken
     app.post('/api/deleteitem', async (req, res, next) =>
     {
-
-     const { itemId, jwtToken } = req.body;
+var error = "";
+     const { itemId, jwtToken} = req.body;
+   
      try
       {
         if( token.isExpired(jwtToken))
@@ -130,13 +131,16 @@ exports.setApp = function ( app, client )
       {
         console.log(e.message);
       }    
-      
+     
       try
       {
       const db = client.db();  
        var myquery = {itemId: itemId};
        db.collection("Assets").deleteOne(myquery, function(err,obj){
-         if (err) throw err;
+         if (err) {
+           error ="Item with this ID doesnt't exist"
+           throw err;
+         }
          console.log("Item deleted");
        })
       }
@@ -145,6 +149,7 @@ exports.setApp = function ( app, client )
         error = e.toString();
          }    
       var refreshedToken = null;
+    
       try
       {
         refreshedToken = token.refresh(jwtToken).accessToken;
@@ -153,7 +158,7 @@ exports.setApp = function ( app, client )
       {
         console.log(e.message);
       }
-    
+  
       var ret = { error: error, jwtToken: refreshedToken };
       
       res.status(200).json(ret);
@@ -582,5 +587,32 @@ console.log("Error sending the email "+ err);
     
     res.status(200).json(ret);
    });
+   // Ingoing : SN (serial NUmber)
+ // Outgoing {error ,correct} Return either error "This S/N already exists" or correct "Unique S/N"
+  app.post('/api/verifySN', async (req, res, next) => 
+  {
+    const {Serial } = req.body;
+    console.log(Serial);
+    var ret = "";
+    var error="";
+    var correct = "";
+   //compares the S/N with the ones in Database
    
+   const db = client.db();
+   const results = await db.collection('Assets').find({Serial:Serial}).toArray();
+   console.log(results.length);
+   if( results.length > 0 )
+   {
+   error = "This S/N already exists";
+    
+   } else {
+   
+  correct = "Unique S/N";
+ 
   }
+ 
+   ret = {error: error, correct: correct};
+  res.status(200).json(ret);
+ });
+
+}
