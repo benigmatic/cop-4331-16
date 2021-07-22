@@ -3,8 +3,9 @@ const user = require('./models/user.js');
 const sgMail = require('@sendgrid/mail');
 const crypto = require ('crypto');
 const jwt = require("jsonwebtoken");
-const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
-const { resolve } = require('path');
+const { DH_CHECK_P_NOT_PRIME } = require('constants');
+//const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
+//const { resolve } = require('path');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 templates = {
   password_reset: "d-5de23122a18f426b9d59f4196edeed51",
@@ -90,8 +91,6 @@ exports.setApp = function ( app, client )
       {
       const db = client.db();  
         const result = db.collection('Assets').insertOne(newItem);
-       
-        console.log("In api");
       }
        catch(e)
          {
@@ -109,6 +108,52 @@ exports.setApp = function ( app, client )
         console.log(e.message);
       }
  
+      var ret = { error: error, jwtToken: refreshedToken };
+      
+      res.status(200).json(ret);
+    });
+    //Incoming: itemId, jwtToken
+    app.post('/api/deleteitem', async (req, res, next) =>
+    {
+
+     const { itemId, jwtToken } = req.body;
+     try
+      {
+        if( token.isExpired(jwtToken))
+        {
+          var r = {error:'The JWT is no longer valid', jwtToken: ''};
+          res.status(200).json(r);
+          return;
+        }
+      }
+      catch(e)
+      {
+        console.log(e.message);
+      }    
+      
+      try
+      {
+      const db = client.db();  
+       var myquery = {itemId: itemId};
+       db.collection("Assets").deleteOne(myquery, function(err,obj){
+         if (err) throw err;
+         console.log("Item deleted");
+       })
+      }
+       catch(e)
+         {
+        error = e.toString();
+         }    
+      var refreshedToken = null;
+      try
+      {
+        refreshedToken = token.refresh(jwtToken).accessToken;
+      }
+      catch(e)
+      {
+        console.log(e.message);
+      }
+    
       var ret = { error: error, jwtToken: refreshedToken };
       
       res.status(200).json(ret);
