@@ -329,8 +329,10 @@ exports.setApp = function ( app, client )
    //Sends an email with generted code which is stored in token.resetPasswordToken.
     app.post('/api/recover', async (req, res, next) => 
     {
+
       var error = ''
     var ret ={};
+
     var { email } = req.body;
     console.log(email);
     const db = client.db();
@@ -340,7 +342,9 @@ exports.setApp = function ( app, client )
       if (results.length===0){
         console.log("User with this email doesn't exist");
        ret = {error: "User with this email doesn't exist"};
+
        }else {
+
         const code = Math.floor(Math.random()*90000+10000);
         console.log('Code: '+ code);
         
