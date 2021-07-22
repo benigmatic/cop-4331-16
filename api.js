@@ -329,7 +329,8 @@ exports.setApp = function ( app, client )
    //Sends an email with generted code which is stored in token.resetPasswordToken.
     app.post('/api/recover', async (req, res, next) => 
     {
-    var ret ='';
+      var error = ''
+    var ret ={};
     var { email } = req.body;
     console.log(email);
     const db = client.db();
@@ -339,17 +340,10 @@ exports.setApp = function ( app, client )
       if (results.length===0){
         console.log("User with this email doesn't exist");
        ret = {error: "User with this email doesn't exist"};
-      } else {
-
-      var id = 0;
-      var ret = "";
-        //id = results[0].UserId;
-        //console.log('ID: '+id);
-        // var ret;
-
+       }else {
         const code = Math.floor(Math.random()*90000+10000);
         console.log('Code: '+ code);
-        /*
+        
         try
         {
           const token = require("./createJWT.js");
@@ -364,8 +358,8 @@ exports.setApp = function ( app, client )
           ret = {error:e.message};
         }
     
-      ret.resetPasswordToken=code
-    */
+     // ret.resetPasswordToken=code
+    
       function getMessage(){
         const body = 'To reset your password, paste this code: '+code;
         return {
@@ -383,8 +377,10 @@ exports.setApp = function ( app, client )
         } catch (error) {
           console.error('Error sending test email');
           console.error(error);
+          ret = {error:error};
           if (error.response) {
             console.error(error.response.body)
+          error = error.response;
           }
         }
       }
@@ -417,8 +413,10 @@ exports.setApp = function ( app, client )
 console.log("Error sending the email "+ err);
     }
     */
+   ret = {error:error, code:code, email:email};
   }
-      res.status(200).json(ret);
+  console.log("Ret "+ ret);
+        res.status(200).json(ret);
    
     });
     /*
