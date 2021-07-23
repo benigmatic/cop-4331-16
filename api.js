@@ -8,7 +8,7 @@ const { DH_CHECK_P_NOT_PRIME } = require('constants');
 //const { resolve } = require('path');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 templates = {
-  password_reset: "d-5de23122a18f426b9d59f4196edeed51",
+  password_reset: "d-67f50f09913244c1b7eca21c6f60849e",
  
 };
 
@@ -209,7 +209,7 @@ var error = "";
       res.status(200).json(ret);
     });
      // incoming: login, password
-      // outgoing: id, firstName, lastName, error
+      // outgoing: token, arr
       // Checks if username with correct passwords are in database
     app.post('/api/login', async (req, res, next) => 
     {
@@ -371,7 +371,8 @@ var error = "";
         }
     
      // ret.resetPasswordToken=code
-    
+     //SENDING WITH NO TEMPLATE
+    /*
       function getMessage(){
         const body = 'To reset your password, paste this code: '+code;
         return {
@@ -397,7 +398,8 @@ var error = "";
         }
       }
       sendEmail();
-      /* SENDING with  TEMPLATE
+      */
+      // SENDING with TEMPLATE
            function sendTemplate  (to, from, templateId, dynamic_template_data){
                const msg = {
                  to, 
@@ -418,13 +420,13 @@ var error = "";
             }
      var emailCode = {"code":code};
      try {
-     sendTemplate(email, 'asset.labs.app@gmail.com', 'd-5de23122a18f426b9d59f4196edeed51', emailCode);
+     sendTemplate(email, 'asset.labs.app@gmail.com', 'd-67f50f09913244c1b7eca21c6f60849e', emailCode);
      console.log("Email was sent");
     }
     catch (err){
 console.log("Error sending the email "+ err);
     }
-    */
+    
    ret = {error:error, code:code, email:email};
   }
   console.log("Ret "+ ret);
@@ -480,41 +482,35 @@ console.log("Error sending the email "+ err);
       const code = Math.floor(Math.random()*90000+10000);
       console.log('Code: '+ code);
       var error = '';
-    
-  
-  function getMessage(){
-    const body = 'To verify your email, paste this code: '+code;
-    return {
-      to: Email,
-      from: 'asset.labs.app@gmail.com',
-      subject: 'Verify your email',
-      text: body,
-      html: `<strong>${body}</strong>`,
-    };
-  }
-  /*
-         function sendTemplate  (to, from, templateId, dynamic_template_data){
-             const msg = {
-               to, 
-               from: {name:'Asset labs', email: from},
-               templateId,
-               dynamic_template_data
-             };
-             console.log(msg);
-             sgMail.send(msg)
-             .then((response)=> {
-               //console.log('Email sent', {templateId, dynamic_template_data});
-               console.log("response",response);
-             })
-             .catch((error)=>{
-               console.log("SendGrid error: ", error)
-             })
 
-          }
-   var code = {"code":emailCode};
-   console.log(Email+"Send here");
-   sendTemplate(Email, 'asset.labs.app@gmail.com', 'd-5de23122a18f426b9d59f4196edeed51', code);
-  */
+  function sendTemplate  (to, from, templateId, dynamic_template_data){
+    const msg = {
+      to, 
+      from: {name:'Asset labs', email: from},
+      templateId,
+      dynamic_template_data
+    };
+    console.log(msg);
+    sgMail.send(msg)
+    .then((response)=> {
+      //console.log('Email sent', {templateId, dynamic_template_data});
+      console.log("response",response);
+    })
+    .catch((error)=>{
+      console.log("SendGrid error: ", error)
+    })
+
+ }
+var emailCode = {"code":code};
+var emailCode = {"code":code};
+     try {
+     sendTemplate(Email, 'asset.labs.app@gmail.com', 'd-67f50f09913244c1b7eca21c6f60849e', emailCode);
+     console.log("Email was sent");
+    }
+    catch (err){
+console.log("Error sending the email "+ err);
+    }
+/*
    async function sendEmail() {
     try {
       await sgMail.send(getMessage());
@@ -528,6 +524,7 @@ console.log("Error sending the email "+ err);
     }
   }
   sendEmail();
+  */
     var ret = { error: error, code : code};
     
     res.status(200).json(ret);
