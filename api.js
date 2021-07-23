@@ -206,6 +206,7 @@ exports.setApp = function ( app, client )
       const catResults = await db.collection('Assets').find({userId: userId, Category:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
       const locResults = await db.collection('Assets').find({userId: userId, Location:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
       const replResults = await db.collection('Assets').find({userId: userId, Replacement:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+      const serResults = await db.collection('Assets').find({userId: userId, Serial:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
 
       var _ret = [];
       var seenIds = [];
@@ -217,7 +218,7 @@ exports.setApp = function ( app, client )
 
         seenIds.push(nameResults[i]._id);
         _ret.push(nameResults[i].Name, nameResults[i].Brand, nameResults[i].Model, nameResults[i].Category,
-          nameResults[i].Location, nameResults[i].Replacement);
+          nameResults[i].Location, nameResults[i].Replacement, nameResults[i].Serial, nameResults[i].itemId);
       }
       //*********************************************************************************************************************************************************************************
 
@@ -243,7 +244,7 @@ exports.setApp = function ( app, client )
 
           seenIds.push(brandResults[i]._id);
           _ret.push(brandResults[i].Name, brandResults[i].Brand, brandResults[i].Model, brandResults[i].Category,
-            brandResults[i].Location, brandResults[i].Replacement);
+            brandResults[i].Location, brandResults[i].Replacement, brandResults[i].Serial, brandResults[i].itemId);
         }
       }
       //*********************************************************************************************************************************************************************************
@@ -270,7 +271,7 @@ exports.setApp = function ( app, client )
 
           seenIds.push(modelResults[i]._id);
           _ret.push(modelResults[i].Name, modelResults[i].Brand, modelResults[i].Model, modelResults[i].Category,
-            modelResults[i].Location, modelResults[i].Replacement);
+            modelResults[i].Location, modelResults[i].Replacement, modelResults[i].Serial, modelResults[i].itemId);
         }
       }
       //*********************************************************************************************************************************************************************************
@@ -297,7 +298,7 @@ exports.setApp = function ( app, client )
 
           seenIds.push(catResults[i]._id);
           _ret.push(catResults[i].Name, catResults[i].Brand, catResults[i].Model, catResults[i].Category,
-            catResults[i].Location, catResults[i].Replacement);
+            catResults[i].Location, catResults[i].Replacement, catResults[i].Serial, catResults[i].itemId);
         }
       }
       //*********************************************************************************************************************************************************************************
@@ -324,7 +325,7 @@ exports.setApp = function ( app, client )
 
           seenIds.push(locResults[i]._id);
           _ret.push(locResults[i].Name, locResults[i].Brand, locResults[i].Model, locResults[i].Category,
-            locResults[i].Location, locResults[i].Replacement);
+            locResults[i].Location, locResults[i].Replacement, locResults[i].Serial, locResults[i].itemId);
         }
       }
       //*********************************************************************************************************************************************************************************
@@ -351,7 +352,34 @@ exports.setApp = function ( app, client )
 
           seenIds.push(replResults[i]._id);
           _ret.push(replResults[i].Name, replResults[i].Brand, replResults[i].Model, replResults[i].Category,
-            replResults[i].Location, replResults[i].Replacement);
+            replResults[i].Location, replResults[i].Replacement, replResults[i].Serial, replResults[i].itemId);
+        }
+      }
+      //*********************************************************************************************************************************************************************************
+
+      //*********************************************************************************************************************************************************************************
+      //Serial Results return
+      seen = false;
+      for(var i = 0; i < serResults.length; i++){
+
+        for (var j = 0; j < seenIds.length; j++) {
+
+          if (serResults[i]._id.equals(seenIds[j])) {
+
+            seen = true;
+            break;
+          }
+        }
+
+        if (seen == true) {
+
+          seen = false;
+        }
+        else{
+
+          seenIds.push(serResults[i]._id);
+          _ret.push(serResults[i].Name, serResults[i].Brand, serResults[i].Model, serResults[i].Category,
+            serResults[i].Location, serResults[i].Replacement, serResults[i].Serial, serResults[i].itemId);
         }
       }
       //*********************************************************************************************************************************************************************************
