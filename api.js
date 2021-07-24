@@ -9,7 +9,7 @@ const { DH_CHECK_P_NOT_PRIME } = require('constants');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 templates = {
   password_reset: "d-67f50f09913244c1b7eca21c6f60849e",
- 
+
 };
 
 exports.setApp = function ( app, client )
@@ -36,18 +36,18 @@ exports.setApp = function ( app, client )
       catch(e)
       {
         console.log(e.message);
-      }    
+      }
       const newCard = {Card:card,userId:userId};
-      var error = '';    
+      var error = '';
       try
       {
-      const db = client.db();  
+      const db = client.db();
         const result = db.collection('Cards').insertOne(newCard);
       }
        catch(e)
          {
         error = e.toString();
-         }    
+         }
       var refreshedToken = null;
       try
       {
@@ -57,46 +57,46 @@ exports.setApp = function ( app, client )
       {
         console.log(e.message);
       }
-    
+
       var ret = { error: error, jwtToken: refreshedToken };
-      
+
       res.status(200).json(ret);
     });
-// Incoming : userId, Name, Brand, Model, Category, Location, Replacement, Serial,  
+// Incoming : userId, Name, Brand, Model, Category, Location, Replacement, Serial,
 //Outcoming:   itemId, error
     app.post('/api/additem', async (req, res, next) =>
     {
-     
-      
+
+
       var ret='';
-      var error = '';    
+      var error = '';
      const { userId, Name, Brand, Model, Category, Location, Replacement, Serial,  jwtToken } = req.body;
-  
-     const db = client.db();     
+
+     const db = client.db();
     var count =  await db.collection('counterItem').find({name:"count"}).toArray();
     var index = count[0].index;
-   
+
     var itemId =index +1;
 
     var newvalues = { $set: {index: itemId} };
    await db.collection('counterItem').updateOne({name:"count"}, newvalues, function(err, res){
       if (err) console.log("Error");
     //console.log("1 document updated");
-  
+
     })
- 
+
       const newItem = {userId:userId, Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial, itemId: itemId};
-      
+
       try
       {
-      const db = client.db();  
+      const db = client.db();
         const result = db.collection('Assets').insertOne(newItem);
       }
        catch(e)
          {
-           
+
         error = e.toString();
-         }    
+         }
       var refreshedToken = null;
      // console.log("In api");
       try
@@ -107,9 +107,9 @@ exports.setApp = function ( app, client )
       {
         console.log(e.message);
       }
- 
+
       var ret = { error: error, jwtToken: refreshedToken };
-      
+
       res.status(200).json(ret);
     });
     //Incoming: itemId, jwtToken
@@ -117,7 +117,7 @@ exports.setApp = function ( app, client )
     {
 var error = "";
      const { itemId, jwtToken} = req.body;
-   
+
      try
       {
         if( token.isExpired(jwtToken))
@@ -130,11 +130,11 @@ var error = "";
       catch(e)
       {
         console.log(e.message);
-      }    
-     
+      }
+
       try
       {
-      const db = client.db();  
+      const db = client.db();
        var myquery = {itemId: itemId};
        db.collection("Assets").deleteOne(myquery, function(err,obj){
          if (err) {
@@ -147,9 +147,9 @@ var error = "";
        catch(e)
          {
         error = e.toString();
-         }    
+         }
       var refreshedToken = null;
-    
+
       try
       {
         refreshedToken = token.refresh(jwtToken).accessToken;
@@ -158,9 +158,9 @@ var error = "";
       {
         console.log(e.message);
       }
-  
+
       var ret = { error: error, jwtToken: refreshedToken };
-      
+
       res.status(200).json(ret);
     });
    // Incoming: FirstName, LastName, Email,Login, Password, Phone, Company Name ,  jwtToken (not required)
@@ -171,7 +171,7 @@ var error = "";
     app.post('/api/register', async (req, res, next) =>
     {
       function getSequenceNextValue(sequenceOfName){
-        const db = client.db();     
+        const db = client.db();
         var sequenceDoc = db.collection('counters').findAndModify({
           query:{_id: sequenceOfName },
            update: {$inc:{sequence_value:1}},
@@ -183,11 +183,11 @@ var error = "";
      let id = getSequenceNextValue("user_id");
       const newUser = {  userId: id, FirstName:FirstName, LastName:LastName, Email:Email, Login:Login, Password:Password, Phone:Phone, CompanyName:CompanyName};
       var error = '';
-    
+
       try
       {
         const db = client.db();
-       
+
         const result = db.collection('Users').insertOne(newUser);
       }
       catch(e)
@@ -203,21 +203,21 @@ var error = "";
       {
         ret = {error:e.message};
       }
-     
+
       var ret = { error: error};
-      
+
       res.status(200).json(ret);
     });
      // incoming: login, password
       // outgoing: token, arr
       // Checks if username with correct passwords are in database
-    app.post('/api/login', async (req, res, next) => 
+    app.post('/api/login', async (req, res, next) =>
     {
-       
+
      var error = '';
      var arr= [];
       const { login, password } = req.body;
-    
+
       const db = client.db();
       const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
       var id = -1;
@@ -225,7 +225,7 @@ var error = "";
       var ln = '';
 
       var ret="";
-    
+
       if( results.length > 0 )
       {
         id = results[0].userId;
@@ -248,16 +248,16 @@ var error = "";
       {
           ret = {error:"Login/Password incorrect"};
       }
-      
+
       res.status(200).json(ret);
     });
        // incoming: email
       // outgoing: id, email
       // Checks if the user with this email exists in the DB
     // I used it before i created api/checkexistance, i don't want to delete it yet just in case
-    app.post('/api/validateEmail', async (req, res, next) => 
+    app.post('/api/validateEmail', async (req, res, next) =>
     {
-       
+
       var error = '';
       var { email } = req.body;
       const db = client.db();
@@ -283,15 +283,15 @@ var error = "";
       {
           ret = {error:"User not found"};
       }
-    
+
       res.status(200).json(ret);
     });
      // incoming: userId, search (String)
       // outgoing: results[], error
       //Search for cards in DB, if user is still active, refreshes the token
-    app.post('/api/searchcards', async (req, res, next) => 
-    {     
-      var error = '';    
+    app.post('/api/searchcards', async (req, res, next) =>
+    {
+      var error = '';
       const { userId, search, jwtToken } = req.body;
       try
       {
@@ -306,16 +306,16 @@ var error = "";
       {
         console.log(e.message);
       }
-      
-      var _search = search.trim();      
+
+      var _search = search.trim();
       const db = client.db();
-      const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*', $options:'r'}}).toArray();      
+      const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*', $options:'r'}}).toArray();
       var _ret = [];
       for( var i=0; i<results.length; i++ )
       {
         _ret.push( results[i].Card );
       }
-      
+
       var refreshedToken = null;
       try
       {
@@ -325,16 +325,16 @@ var error = "";
       {
         console.log(e.message);
       }
-    
+
       var ret = { results:_ret, error: error, jwtToken: refreshedToken };
-      
+
       res.status(200).json(ret);
     });
    // Ingoing : email
    //Outgoing: reset password code (token.resetPasswordToken), error
 
    //Sends an email with generted code which is stored in token.resetPasswordToken.
-    app.post('/api/recover', async (req, res, next) => 
+    app.post('/api/recover', async (req, res, next) =>
     {
 
       var error = ''
@@ -345,7 +345,7 @@ var error = "";
     const db = client.db();
     const results = await db.collection('Users').find({Email:email}).toArray();
 
-    
+
       if (results.length===0){
         console.log("User with this email doesn't exist");
 
@@ -355,7 +355,7 @@ var error = "";
 
         const code = Math.floor(Math.random()*90000+10000);
         console.log('Code: '+ code);
-        
+
         try
         {
           const token = require("./createJWT.js");
@@ -366,10 +366,10 @@ var error = "";
         }
         catch(e)
         {
-          
+
           ret = {error:e.message};
         }
-    
+
      // ret.resetPasswordToken=code
      //SENDING WITH NO TEMPLATE
     /*
@@ -402,7 +402,7 @@ var error = "";
       // SENDING with TEMPLATE
            function sendTemplate  (to, from, templateId, dynamic_template_data){
                const msg = {
-                 to, 
+                 to,
                  from: {name:'Asset labs', email: from},
                  templateId,
                  dynamic_template_data
@@ -426,15 +426,15 @@ var error = "";
     catch (err){
 console.log("Error sending the email "+ err);
     }
-    
+
    ret = {error:error, code:code, email:email};
   }
   console.log("Ret "+ ret);
         res.status(200).json(ret);
-   
+
     });
     /*
-    app.post('/api/verify', async (req, res, next) => 
+    app.post('/api/verify', async (req, res, next) =>
     {
       const { code, jwtToken } = req.body;
       console.log(req.body);
@@ -445,7 +445,7 @@ console.log("Error sending the email "+ err);
   // Ingoing: Email, password
   // Outgoing error
   // Resets password in the DB
-    app.post('/api/reset', async (req, res, next) => 
+    app.post('/api/reset', async (req, res, next) =>
     {
       const { Email, Password } = req.body;
       var error = '';
@@ -453,7 +453,7 @@ console.log("Error sending the email "+ err);
      try
       {
         const db = client.db();
-    
+
      //  var id = -1;
       var myquery = {Email: Email};
       var newvalues = { $set: { Password: Password}};
@@ -461,12 +461,12 @@ console.log("Error sending the email "+ err);
       db.collection("Users").updateOne(myquery, newvalues, function(err, res) {
         if (err) throw err;
        // console.log("Password updated");
-      
-    
+
+
       })
     }
 
-  
+
       catch(e)
       {
         error = e.toString();
@@ -476,7 +476,7 @@ console.log("Error sending the email "+ err);
     //Ingoing :  email
     // Outgoing:  error, code
     //Send an email with the code to verify email
-    app.post('/api/verifyEmail', async (req, res, next) => 
+    app.post('/api/verifyEmail', async (req, res, next) =>
     {
       const { Email } = req.body;
       const code = Math.floor(Math.random()*90000+10000);
@@ -485,7 +485,7 @@ console.log("Error sending the email "+ err);
 
   function sendTemplate  (to, from, templateId, dynamic_template_data){
     const msg = {
-      to, 
+      to,
       from: {name:'Asset labs', email: from},
       templateId,
       dynamic_template_data
@@ -526,36 +526,36 @@ console.log("Error sending the email "+ err);
   sendEmail();
   */
     var ret = { error: error, code : code};
-    
+
     res.status(200).json(ret);
      try
       {
-     
+
     }
-  
+
       catch(e)
       {
         error = e.toString();
       }
       });
-    
-  
+
+
 // ingoing : Email, username
-//outgoing: error 
+//outgoing: error
 
 // Checks if the user with username/email alredy exists. return corresponding error
-    app.post('/api/checkexistance', async (req, res, next) => 
+    app.post('/api/checkexistance', async (req, res, next) =>
     {
       const { Email, Login } = req.body;
      console.log("Checking "+ Email +" " +Login + "for existed user");
      //compares the token from the input with the token saved to the user
-     
+
      const db = client.db();
      const results = await db.collection('Users').find({Login:Login}).toArray();
      var id = -1;
      var username = "";
      var ret = "";
-   
+
      if( results.length > 0 )
      {
       // id = results[0].userId;
@@ -564,10 +564,10 @@ console.log("Error sending the email "+ err);
       //console.log("The user exists with " + username);
 
       ret = {error:"This Username is already taken"};
-      
+
      } else {
         const results2 = await db.collection('Users').find({Email:Email}).toArray();
-    
+
      var email = "";
 
     //  var ret;
@@ -577,18 +577,18 @@ console.log("Error sending the email "+ err);
       // id = results[0].userId;
        email = results2[0].Email;
      // console.log("The user exists with " + email);
-      
+
       ret = {error:"The user with the same email already exists"};
-      
+
      }
-   
+
     }
-    
+
     res.status(200).json(ret);
    });
    // Ingoing : SN (serial NUmber)
  // Outgoing {error ,correct} Return either error "This S/N already exists" or correct "Unique S/N"
-  app.post('/api/verifySN', async (req, res, next) => 
+  app.post('/api/verifySN', async (req, res, next) =>
   {
     const {Serial } = req.body;
     console.log(Serial);
@@ -596,22 +596,292 @@ console.log("Error sending the email "+ err);
     var error="";
     var correct = "";
    //compares the S/N with the ones in Database
-   
+
    const db = client.db();
    const results = await db.collection('Assets').find({Serial:Serial}).toArray();
    console.log(results.length);
    if( results.length > 0 )
    {
    error = "This S/N already exists";
-    
+
    } else {
-   
+
   correct = "Unique S/N";
- 
+
   }
- 
+
    ret = {error: error, correct: correct};
   res.status(200).json(ret);
  });
+ app.post('/api/searchassets', async (req, res, next) =>
+     {
+       // incoming: userId, search
+       // outgoing: results[], error
 
+       var error = '';
+
+       const { userId, search, jwtToken } = req.body;
+
+       try
+       {
+         if( token.isExpired(jwtToken))
+         {
+           var r = {error:'The JWT is no longer valid', jwtToken: ''};
+           res.status(200).json(r);
+           return;
+         }
+       }
+       catch(e)
+       {
+         console.log(e.message);
+       }
+
+       var _search = search.trim();
+
+       const db = client.db();
+       const nameResults = await db.collection('Assets').find({userId: userId, Name:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+       const brandResults = await db.collection('Assets').find({userId: userId, Brand:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+       const modelResults = await db.collection('Assets').find({userId: userId, Model:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+       const catResults = await db.collection('Assets').find({userId: userId, Category:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+       const locResults = await db.collection('Assets').find({userId: userId, Location:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+       const replResults = await db.collection('Assets').find({userId: userId, Replacement:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+       const serResults = await db.collection('Assets').find({userId: userId, Serial:{$regex: ".*" + _search + ".*", $options: 'i'}}).toArray();
+
+       var _ret = [];
+       var seenIds = [];
+       var seen = false;
+
+       //*********************************************************************************************************************************************************************************
+       //Name Results return
+       for( var i=0; i<nameResults.length; i++ ){
+
+         seenIds.push(nameResults[i]._id);
+         _ret.push(nameResults[i].Name, nameResults[i].Brand, nameResults[i].Model, nameResults[i].Category,
+           nameResults[i].Location, nameResults[i].Replacement, nameResults[i].Serial, nameResults[i].itemId);
+       }
+       //*********************************************************************************************************************************************************************************
+
+       //*********************************************************************************************************************************************************************************
+       //Brand Results return
+       seen = false;
+       for(var i = 0; i < brandResults.length; i++){
+
+         for (var j = 0; j < seenIds.length; j++) {
+
+           if (brandResults[i]._id.equals(seenIds[j])) {
+
+             seen = true;
+             break;
+           }
+         }
+
+         if (seen == true) {
+
+           seen = false;
+         }
+         else{
+
+           seenIds.push(brandResults[i]._id);
+           _ret.push(brandResults[i].Name, brandResults[i].Brand, brandResults[i].Model, brandResults[i].Category,
+             brandResults[i].Location, brandResults[i].Replacement, brandResults[i].Serial, brandResults[i].itemId);
+         }
+       }
+       //*********************************************************************************************************************************************************************************
+
+       //*********************************************************************************************************************************************************************************
+       //Model Results return
+       seen = false;
+       for(var i = 0; i < modelResults.length; i++){
+
+         for (var j = 0; j < seenIds.length; j++) {
+
+           if (modelResults[i]._id.equals(seenIds[j])) {
+
+             seen = true;
+             break;
+           }
+         }
+
+         if (seen == true) {
+
+           seen = false;
+         }
+         else{
+
+           seenIds.push(modelResults[i]._id);
+           _ret.push(modelResults[i].Name, modelResults[i].Brand, modelResults[i].Model, modelResults[i].Category,
+             modelResults[i].Location, modelResults[i].Replacement, modelResults[i].Serial, modelResults[i].itemId);
+         }
+       }
+       //*********************************************************************************************************************************************************************************
+
+       //*********************************************************************************************************************************************************************************
+       //Category Results return
+       seen = false;
+       for(var i = 0; i < catResults.length; i++){
+
+         for (var j = 0; j < seenIds.length; j++) {
+
+           if (catResults[i]._id.equals(seenIds[j])) {
+
+             seen = true;
+             break;
+           }
+         }
+
+         if (seen == true) {
+
+           seen = false;
+         }
+         else{
+
+           seenIds.push(catResults[i]._id);
+           _ret.push(catResults[i].Name, catResults[i].Brand, catResults[i].Model, catResults[i].Category,
+             catResults[i].Location, catResults[i].Replacement, catResults[i].Serial, catResults[i].itemId);
+         }
+       }
+       //*********************************************************************************************************************************************************************************
+
+       //*********************************************************************************************************************************************************************************
+       //Location Results return
+       seen = false;
+       for(var i = 0; i < locResults.length; i++){
+
+         for (var j = 0; j < seenIds.length; j++) {
+
+           if (locResults[i]._id.equals(seenIds[j])) {
+
+             seen = true;
+             break;
+           }
+         }
+
+         if (seen == true) {
+
+           seen = false;
+         }
+         else{
+
+           seenIds.push(locResults[i]._id);
+           _ret.push(locResults[i].Name, locResults[i].Brand, locResults[i].Model, locResults[i].Category,
+             locResults[i].Location, locResults[i].Replacement, locResults[i].Serial, locResults[i].itemId);
+         }
+       }
+       //*********************************************************************************************************************************************************************************
+
+       //*********************************************************************************************************************************************************************************
+       //Replacement Results return
+       seen = false;
+       for(var i = 0; i < replResults.length; i++){
+
+         for (var j = 0; j < seenIds.length; j++) {
+
+           if (replResults[i]._id.equals(seenIds[j])) {
+
+             seen = true;
+             break;
+           }
+         }
+
+         if (seen == true) {
+
+           seen = false;
+         }
+         else{
+
+           seenIds.push(replResults[i]._id);
+           _ret.push(replResults[i].Name, replResults[i].Brand, replResults[i].Model, replResults[i].Category,
+             replResults[i].Location, replResults[i].Replacement, replResults[i].Serial, replResults[i].itemId);
+         }
+       }
+       //*********************************************************************************************************************************************************************************
+
+       //*********************************************************************************************************************************************************************************
+       //Serial Results return
+       seen = false;
+       for(var i = 0; i < serResults.length; i++){
+
+         for (var j = 0; j < seenIds.length; j++) {
+
+           if (serResults[i]._id.equals(seenIds[j])) {
+
+             seen = true;
+             break;
+           }
+         }
+
+         if (seen == true) {
+
+           seen = false;
+         }
+         else{
+
+           seenIds.push(serResults[i]._id);
+           _ret.push(serResults[i].Name, serResults[i].Brand, serResults[i].Model, serResults[i].Category,
+             serResults[i].Location, serResults[i].Replacement, serResults[i].Serial, serResults[i].itemId);
+         }
+       }
+       //*********************************************************************************************************************************************************************************
+
+       var refreshedToken = null;
+       try
+       {
+         refreshedToken = token.refresh(jwtToken).accessToken;
+       }
+       catch(e)
+       {
+         console.log(e.message);
+       }
+
+       var ret = { results:_ret, error: error, jwtToken: refreshedToken };
+
+       res.status(200).json(ret);
+     });
+     app.post('/api/edititem', async (req, res, next) =>
+     {
+       var ret='';
+       var error = '';
+       const { userId, Name, Brand, Model, Category, Location, Replacement, Serial, itemId, jwtToken } = req.body;
+
+       try
+       {
+         if( token.isExpired(jwtToken))
+         {
+           var r = {error:'The JWT is no longer valid', jwtToken: ''};
+           res.status(200).json(r);
+           return;
+         }
+       }
+       catch(e)
+       {
+         console.log(e.message);
+       }
+
+       const filter = {userId: userId, itemId: itemId}
+       const newItem = {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial};
+
+       try{
+
+         const db = client.db();
+         const result = db.collection('Assets').findOneandUpdate(filter, newItem);
+       }
+       catch(e){
+
+         error = e.toString();
+       }
+       var refreshedToken = null;
+
+       try{
+
+         refreshedToken = token.refresh(jwtToken).accessToken;
+       }
+       catch(e){
+
+         console.log(e.message);
+       }
+
+       var ret = { error: error, jwtToken: refreshedToken };
+
+       res.status(200).json(ret);
+     });
 }
