@@ -505,7 +505,7 @@ console.log("Error sending the email "+ err);
 var emailCode = {"code":code};
 
      try {
-     sendTemplate(Email, 'asset.labs.app@gmail.com', ' d-fcbfafbb60504701b9786bc29344ed7c', emailCode);
+     sendTemplate(Email, 'asset.labs.app@gmail.com', 'd-fcbfafbb60504701b9786bc29344ed7c', emailCode);
      console.log("Email was sent");
     }
     catch (err){
