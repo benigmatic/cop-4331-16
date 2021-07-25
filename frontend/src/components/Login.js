@@ -35,8 +35,8 @@ function Login()
             .then(function (response) 
         {
             var res = response.data;
-
-          //  console.log("HELLO");
+            var acessToken = res.token;
+          alert(JSON.stringify(acessToken));
             
             if (res.error) 
             {
@@ -44,7 +44,8 @@ function Login()
             }
             else 
             {	
-                storage.storeToken(res);
+                storage.storeToken(acessToken);
+              //  alert("res stored: "+ res.token.id);
                 var jwt = require('jsonwebtoken');
     
                 var ud = jwt.decode(storage.retrieveToken(),{complete:true});
