@@ -231,12 +231,13 @@ var error = "";
         id = results[0].userId;
         fn = results[0].FirstName;
         ln = results[0].LastName;
+        console.log("id"+ id);
          const arr = await db.collection('Assets').find({userId:id}).toArray();
          console.log("Arr length"+ arr.length);
         try
         {
           const token = require("./createJWT.js");
-          console.log(token.createToken( fn, ln, id ))
+         // console.log(token.createToken( fn, ln, id ))
           ret = {token: token.createToken( fn, ln, id ), arr: arr};
         }
         catch(e)

@@ -12,8 +12,8 @@ _createToken = function ( fn, ln, id )
     {
       const expiration = new Date();
       const user = {userId:id,firstName:fn,lastName:ln};
-
-      // const accessToken =  jwt.sign( user, process.env.ACCESS_TOKEN_SECRET);
+      // console.log("In createToken: id: "+ id)
+         // const accessToken =  jwt.sign( user, process.env.ACCESS_TOKEN_SECRET);
 
      //
       const accessToken= jwt.sign(user,process.env.ACCESS_TOKEN_SECRET, 
