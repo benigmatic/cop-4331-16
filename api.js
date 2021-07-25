@@ -657,8 +657,7 @@ console.log("Error sending the email "+ err);
        for( var i=0; i<nameResults.length; i++ ){
 
          seenIds.push(nameResults[i]._id);
-         _ret.push(nameResults[i].Name, nameResults[i].Brand, nameResults[i].Model, nameResults[i].Category,
-           nameResults[i].Location, nameResults[i].Replacement, nameResults[i].Serial, nameResults[i].itemId);
+         _ret.push(nameResults[i]);
        }
        //*********************************************************************************************************************************************************************************
 
@@ -683,8 +682,7 @@ console.log("Error sending the email "+ err);
          else{
 
            seenIds.push(brandResults[i]._id);
-           _ret.push(brandResults[i].Name, brandResults[i].Brand, brandResults[i].Model, brandResults[i].Category,
-             brandResults[i].Location, brandResults[i].Replacement, brandResults[i].Serial, brandResults[i].itemId);
+           _ret.push(brandResults[i]);
          }
        }
        //*********************************************************************************************************************************************************************************
@@ -710,8 +708,7 @@ console.log("Error sending the email "+ err);
          else{
 
            seenIds.push(modelResults[i]._id);
-           _ret.push(modelResults[i].Name, modelResults[i].Brand, modelResults[i].Model, modelResults[i].Category,
-             modelResults[i].Location, modelResults[i].Replacement, modelResults[i].Serial, modelResults[i].itemId);
+           _ret.push(modelResults[i]);
          }
        }
        //*********************************************************************************************************************************************************************************
@@ -737,8 +734,7 @@ console.log("Error sending the email "+ err);
          else{
 
            seenIds.push(catResults[i]._id);
-           _ret.push(catResults[i].Name, catResults[i].Brand, catResults[i].Model, catResults[i].Category,
-             catResults[i].Location, catResults[i].Replacement, catResults[i].Serial, catResults[i].itemId);
+           _ret.push(catResults[i]);
          }
        }
        //*********************************************************************************************************************************************************************************
@@ -764,8 +760,7 @@ console.log("Error sending the email "+ err);
          else{
 
            seenIds.push(locResults[i]._id);
-           _ret.push(locResults[i].Name, locResults[i].Brand, locResults[i].Model, locResults[i].Category,
-             locResults[i].Location, locResults[i].Replacement, locResults[i].Serial, locResults[i].itemId);
+           _ret.push(locResults[i]);
          }
        }
        //*********************************************************************************************************************************************************************************
@@ -791,8 +786,7 @@ console.log("Error sending the email "+ err);
          else{
 
            seenIds.push(replResults[i]._id);
-           _ret.push(replResults[i].Name, replResults[i].Brand, replResults[i].Model, replResults[i].Category,
-             replResults[i].Location, replResults[i].Replacement, replResults[i].Serial, replResults[i].itemId);
+           _ret.push(replResults[i]);
          }
        }
        //*********************************************************************************************************************************************************************************
@@ -818,8 +812,7 @@ console.log("Error sending the email "+ err);
          else{
 
            seenIds.push(serResults[i]._id);
-           _ret.push(serResults[i].Name, serResults[i].Brand, serResults[i].Model, serResults[i].Category,
-             serResults[i].Location, serResults[i].Replacement, serResults[i].Serial, serResults[i].itemId);
+           _ret.push(serResults[i]);
          }
        }
        //*********************************************************************************************************************************************************************************
