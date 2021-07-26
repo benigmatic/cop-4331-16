@@ -130,7 +130,7 @@ var error = "";
        res.status(200).json(r);
        return;
      }
-       /*
+    
      try
       {
         if( token.isExpired(jwtToken))
@@ -144,7 +144,7 @@ var error = "";
       {
         console.log(e.message);
       }
-*/console.log( "ID: "+ id);
+
       try
       {
     
@@ -865,14 +865,24 @@ console.log("Error sending the email "+ err);
        {
          console.log(e.message);
        }
+       
 
        const filter = {userId: userId, itemId: itemId}
        const newItem = {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial};
-
+       
+       var myfilter = {itemId:itemId};
+      var newitem = {$set: {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial}}
        try{
 
          const db = client.db();
-         const result = db.collection('Assets').findOneandUpdate(filter, newItem);
+       //  const result = db.collection('Assets').findOneandUpdate(filter, newItem);
+         db.collection("Assets").updateOne(myfilter, newitem, function(err, res) {
+          if (err) throw err;
+         // console.log("User Updated: " );
+        
+        
+        })
+       //  console.log("Result");
        }
        catch(e){
 
