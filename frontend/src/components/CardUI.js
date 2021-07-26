@@ -1,9 +1,10 @@
+// CardUI() contains the main page for adding, searching, editing, and deleting assets.
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
 function CardUI()
 {
-
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     const jwt = require("jsonwebtoken");
@@ -16,7 +17,7 @@ function CardUI()
     var Category='';
     var Replacement='';
     var Location=''; 
-    var num = 1;
+    var Serial=''
     //document.getElementById('addSerialNumber').addEventListener("click",addInput);
 
     const [message,setMessage] = useState('');
@@ -72,27 +73,18 @@ function CardUI()
 	};
     const addItem = async event => 
     {
-       event.preventDefault();
-
-     var tok = storage.retrieveToken();
+       var tok = storage.retrieveToken();
 
        var input = document.getElementsByName('arr');
-      // alert("Length: "+ input.length);
-       var SN = [];
-       for (var i = 0; i < input.length; i++) {
-        var a = input[i];
-        SN.push(a.value);
-       var k = k + "array[" + i + "].value= "
-                           + a.value + " ";
-    }
-  //  alert("input:" +SN);
-      
-       alert("UserId: "+userId);
-       var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, Category:Category.value, Location:Location.value, Quantity:input.length, Replacement:Replacement.value, Serial: SN, jwtToken:tok }
-      var js = JSON.stringify(obj);
-     // alert("JS to API: "+js);
     
+       alert("UserId: "+userId);
 
+       var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
+                  Category:Category.value, Location:Location.value, Quantity:input.length, 
+                  Replacement:Replacement.value, Serial: Serial.value, jwtToken:tok }
+
+       var js = JSON.stringify(obj);
+        
        var config = 
        {
            method: 'post',
@@ -103,12 +95,13 @@ function CardUI()
            },
            data: js
        };
-   
+
        axios(config)
            .then(function (response) 
        {
            var res = response.data;
             // var retTok = res.jwtToken;
+            
    
            if( res.error.length > 0 )
            {
@@ -116,6 +109,7 @@ function CardUI()
            }
            else
            {
+               
                setMessage('Item has been added');
                // storage.storeToken( {accessToken:retTok} );
            }
@@ -126,14 +120,62 @@ function CardUI()
        });
 
     };
-    const addSerialNumber = async event => 
+
+    // const addSerialNumber = async event => 
+    // {
+    //  //   alert ("Adding s/n");
+    // //    var newInput = '<input type="text"  placeholder="Serial Number" name="input'+num+'"/><br> <br>';
+    // var newInput = '<input type="text"  placeholder="Serial Number" name="arr"/><br> <br>';
+    //     document.getElementById('demo').innerHTML += newInput;  
+    //     num++;
+    // };
+
+    // ===================================================================================
+    // verifyTheSN() checks the database to see if the entered SN
+    // is already in the DB. Throws error if there is. If it is a new
+    // SN, then it calls the addItem() method and adds the asset to the
+    // database. 
+    // ===================================================================================
+    const verifyTheSN = async event => 
     {
-     //   alert ("Adding s/n");
-    //    var newInput = '<input type="text"  placeholder="Serial Number" name="input'+num+'"/><br> <br>';
-    var newInput = '<input type="text"  placeholder="Serial Number" name="arr"/><br> <br>';
-        document.getElementById('demo').innerHTML += newInput;  
-        num++;
-    };
+        event.preventDefault();
+        var tok = storage.retrieveToken();
+        var obj = {userId:userId,Serial:Serial.value,jwtToken:tok};
+        var js = JSON.stringify(obj);
+        alert(Serial.value);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/verifySN'),	
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+
+        axios(config)
+            .then(function (response) 
+        {
+            var res = response.data;
+            var retTok = res.jwtToken;
+          
+    
+            if( res.error.length > 0 )
+            {
+                setMessage( "API Error:" + res.error );
+                
+            }
+            else
+            {
+                addItem();
+            }
+        })
+        .catch(function (error) 
+        {
+            console.log(error);
+        });
+    }
 
     const searchCard = async event => 
     {
@@ -201,7 +243,6 @@ function CardUI()
             ref={(c) => card = c} />
         <button type="button" id="addCardButton" className="buttons" 
             onClick={addCard}> Add Card </button><br />
-        
 
         <input type="text" id="cardText" placeholder="Name" 
             ref={(c) => Name = c} />
@@ -215,17 +256,11 @@ function CardUI()
             ref={(c) => Brand = c} />
             <input type="text" id="cardText" placeholder="Replacement" 
             ref={(c) => Replacement = c} />
-         
-            <div id="demo"> 
-            <input type="text"  placeholder="SerialNumber" name="arr" />
-            </div>
-           
-            <button type="button" id="addSerialNumber"  className="buttons" 
-            onClick={addSerialNumber}> Add S/n </button>
+            <input type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
             <br />
             <br />
         <button type="button" id="addCardButton" className="buttons" 
-            onClick={addItem}> Add Item </button><br />
+            onClick={verifyTheSN}> Add Item </button><br />
         <span id="cardAddResult">{message}</span>
         </div>
     );
