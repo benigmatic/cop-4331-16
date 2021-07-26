@@ -12,7 +12,6 @@ import Table from "./Table/Table.js";
 import Card from "./Card/Card.js";
 import CardHeader from "./Card/CardHeader.js";
 import CardIcon from "./Card/CardIcon.js";
-import Book from "./Book.js";
 import CardBody from "./Card/CardBody.js";
 import CardFooter from "./Card/CardFooter.js";
 import { makeStyles } from "@material-ui/core/styles";
@@ -39,7 +38,7 @@ import Poppers from "@material-ui/core/Popper";
 
 import stylesTwo from "../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
-function CardUI()
+function TotalAssets()
 {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
@@ -59,7 +58,7 @@ function CardUI()
     var searchNames = [];
     var allResults=[];
     var buttons = '';
-    
+    var counter = 0;
 
     var itemIds = [];
     //document.getElementById('addSerialNumber').addEventListener("click",addInput);
@@ -260,7 +259,46 @@ function CardUI()
     {
         event.preventDefault();
 
+    //     buttons = 
+    // <Box>
+    //     <Tooltip
+    //         id="tooltip-top"
+    //         title="Edit"
+    //         placement="top"
+    //         classes={{ tooltip: classes.tooltip }}
+    //     >
+    //         <IconButton
+    //             aria-label="Close"
+    //             className={classes.tableActionButton}
+                            
+    //         >     
+    //             <Box pr={1}>
+    //                 <Edit
+    //                  className={
+    //                  classes.tableActionButtonIcon + " " + classes.edit
+    //                 }/>
+    //             </Box>
+    //         </IconButton>
+            
+    //     </Tooltip>
+    //     <Tooltip
+    //         id="tooltip-top"
+    //         title="Delete"
+    //         placement="top"
+    //         classes={{ tooltip: classes.tooltip }}
         
+    //      >
+    //         <IconButton onClick={deleteAsset}>
+    //          <Box >
+    //             <Close
+    //                 className={
+    //                 classes.tableActionButtonIcon + " " + classes.close
+    //                 }
+    //             />
+    //         </Box>
+    //         </IconButton>
+    //     </Tooltip>
+    // </Box>
         		
         var tok = storage.retrieveToken();
         // Currently sending a string
@@ -308,15 +346,15 @@ function CardUI()
     }
     
 
-    const searchCard = async event => 
+    const findAssets = async event => 
     {
-        event.preventDefault();
+        //event.preventDefault();
         		
         var tok = storage.retrieveToken();
-        var obj = {userId:userId,search:search.value,jwtToken:tok};
+        var obj = {userId:userId,search:'',jwtToken:tok};
         var js = JSON.stringify(obj);
 
-        //alert(search.value);
+        alert(search.value);
         var config = 
         {
             method: 'post',
@@ -345,48 +383,75 @@ function CardUI()
                 var _results = res.results;
                 var thisResult = String(Object.values(_results[0]));
                 
-                
+                //alert(thisResult);
                 var resultText = '';
                 
                 for( var i=0; i<_results.length; i++ )
                 {
-                    
+                    counter = counter + 1;
+                    //alert("here: "+ _results);
                     resultText += Object.values(_results[i]);
                     allResults[i] = Object.values(_results[i]);
                     
                     
                     thisResult = Object.values(_results[i]);
-                   
+                   // alert(thisResult[9]);
                          var name = thisResult[2];
                          var theItemId = thisResult[9];
                        
                          searchNames[i] = name;
                          itemIds[i] = theItemId;
-                         
+                         //alert( searchNames[i]);
                     if( i < _results.length - 1 )
                     {
-                        
+                        // thisResult = Object.values(_results[i]);
+                        // var name = thisResult[2];
+                        // alert(name);
                         
                         resultText += ', ';
                     }
                 }
+                //alert(counter);
                 var theCount = ' ';
-             
+                for(var z = 0; z < searchNames.length; z++){
+                    //alert(itemIds[z]);
+
                 
                 setResults(<GridContainer><GridItem xs={12} >
           
                     <Card>
                       <CardHeader color="warning" stats icon>
-                       
+                        {/* <CardIcon color="warning">
+                          <Icon>Total Assets</Icon>
+                        </CardIcon> */}
+                        {/* <p className={classes.cardLeft}>Used Space</p>
+                        <h3 className={classes.cardTitle}>
+                          250 <small>Vehicles</small>
+                        </h3> */}
+                        {/* <CardUI/>  */}
                      
           
                       </CardHeader>
                       
                       <CardBody>
-                     
-            <ul>
-      {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} key={i} />)}
-    </ul>
+                          {/* <Table
+                          tableHeaderColor="black"
+                          tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock", "Edit/Delete"]}
+                         
+                          tableData = {[
+                            
+                            ["10:21", searchNames[z], itemIds[z], "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            // ["09:12", searchNames[z], "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            // ["13:21", "Dodge Charger", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            // ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            // ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            // ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            // ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10",buttons],
+          
+                          ]}
+                          
+                          /> */}
+                          
                         </CardBody>
                       <CardFooter stats>
                       <div className={classes.stats}>
@@ -403,7 +468,7 @@ function CardUI()
                   </GridItem></GridContainer>);
 
                     
-                  //}
+                  }
 
                   
 
@@ -418,189 +483,13 @@ function CardUI()
 
     };
 
-
+    
     return(
+        // <div>{document.getElementsByTagName('div')[0].innerHTML = counter}</div>
+        <div>hi</div>
         
-    <GridContainer>
-      <Box  mt = {-5} mb = {-2} pl={2} display= "inline-block">
-      <div >
-        <CustomInput
-          formControlProps={{
-            
-          }}
-          inputProps={{
-            placeholder: "Search ...",
-            inputProps: {
-              "aria-label": "Search",
-              ref: search
-              
-            },
-          }}
-        />
-        <Button onClick={searchCard} color="white" aria-label="edit" justIcon round>
-          <Search />
-          
-        </Button>
-      </div>
-
-      </Box>
-            
-            <GridItem xs={12} >
-          
-          <Card>
-            <CardHeader color="warning" stats icon>
-              {/* <CardIcon color="warning">
-                <Icon>Total Assets</Icon>
-              </CardIcon> */}
-              {/* <p className={classes.cardLeft}>Used Space</p>
-              <h3 className={classes.cardTitle}>
-                250 <small>Vehicles</small>
-              </h3> */}
-              {/* <CardUI/>  */}
-           
-
-            </CardHeader>
-            <CardBody><Table
-                tableHeaderColor="black"
-                tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock", "Edit/Delete"]}
-                tableData={[
-                  ["10:21", searchNames[0], "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                  ["09:12", "Toyota Camry", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["13:21", "Dodge Charger", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10","hi"],
-
-                ]}
-              /></CardBody>
-            <CardFooter stats>
-            <div className={classes.stats}>
-                <Update />
-                Just Updated
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        
-
-             <div id="cardUIDiv">
-         <br />
-         <input type="text" id="searchText" placeholder="Card To Search For" 
-             ref={(c) => search = c} />
-         <button type="button" id="searchCardButton" className="buttons" 
-             onClick={searchCard}> Search Card</button><br />
-         <span id="cardSearchResult">{searchResults}</span>
-
-         <input type="text" id="deleteItem" placeholder="Item to delete" 
-             ref={(c) => itemId = c} />
-         <button type="button" id="deleteItem" className="buttons" 
-             onClick={deleteAsset}> Delete Item</button><br />
-         
-         <p id="cardList">{cardList}</p><br /><br />
-         <input type="text" id="cardText" placeholder="Card To Add" 
-             ref={(c) => card = c} />
-         <button type="button" id="addCardButton" className="buttons" 
-             onClick={addCard}> Add Card </button><br />
-    <br />
-    <br />
-    <Box className = {classes.BoxBack}>
-         <input type="text" id="cardText" placeholder="Name" 
-             ref={(c) => Name = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Model" 
-             ref={(c) => Model = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Category" 
-             ref={(c) => Category = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Location" 
-             ref={(c) => Location = c} />
-             <br />
-              <input type="text" id="cardText" placeholder="Brand" 
-             ref={(c) => Brand = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Replacement" 
-             ref={(c) => Replacement = c} />
-             <br />
-             <input type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
-             <br />
-             <br />
-         <button type="button" id="addCardButton" className="buttons" 
-             onClick={verifyTheSN}> Add Item </button><br />
-             </Box>
-         <span id="cardAddResult">{message}</span>
-         </div>
-        </GridContainer>
     );
-    //         else
-    //         {
-    //             var _results = res.results;
-    //             var resultText = '';
-    //             var testing = [];
-                
-    //             for( var i=0; i<_results.length; i++ )
-    //             {
-    //                 testing = Object.entries(_results[i]);
-    //                 console.log(testing);
-    //                 resultText += Object.keys(_results[i]) + "   and   "+ Object.entries(_results[i]) + "        ";
-    //                 if( i < _results.length - 1 )
-    //                 {
-    //                     resultText += ', ';
-                        
-    //                 }
-    //             // for (let value of Object.entries(_results[i]))
-    //             // {
-    //             //     alert(value);
-    //             // }
-    //             }
-                
-    //             setResults('Assets have been retrieved');
-    //             setCardList(resultText);
-    //             storage.storeToken( {accessToken:retTok} );
-    //         }
-    //     })
-    //     .catch(function (error) 
-    //     {
-    //         console.log(error);
-    //     });
-
-    // };
-
-    // return(
-    //     <div id="cardUIDiv">
-    //     <br />
-    //     <input type="text" id="searchText" placeholder="Card To Search For" 
-    //         ref={(c) => search = c} />
-    //     <button type="button" id="searchCardButton" className="buttons" 
-    //         onClick={searchCard}> Search Card</button><br />
-    //     <span id="cardSearchResult">{searchResults}</span>
-    //     <p id="cardList">{cardList}</p><br /><br />
-    //     <input type="text" id="cardText" placeholder="Card To Add" 
-    //         ref={(c) => card = c} />
-    //     <button type="button" id="addCardButton" className="buttons" 
-    //         onClick={addCard}> Add Card </button><br />
-
-    //     <input type="text" id="cardText" placeholder="Name" 
-    //         ref={(c) => Name = c} />
-    //         <input type="text" id="cardText" placeholder="Model" 
-    //         ref={(c) => Model = c} />
-    //         <input type="text" id="cardText" placeholder="Category" 
-    //         ref={(c) => Category = c} />
-    //         <input type="text" id="cardText" placeholder="Location" 
-    //         ref={(c) => Location = c} />
-    //          <input type="text" id="cardText" placeholder="Brand" 
-    //         ref={(c) => Brand = c} />
-    //         <input type="text" id="cardText" placeholder="Replacement" 
-    //         ref={(c) => Replacement = c} />
-    //         <input type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
-    //         <br />
-    //         <br />
-    //     <button type="button" id="addCardButton" className="buttons" 
-    //         onClick={verifyTheSN}> Add Item </button><br />
-    //     <span id="cardAddResult">{message}</span>
-    //     </div>a
-    // );
+   
 }
 
-export default CardUI;
+export default TotalAssets;
