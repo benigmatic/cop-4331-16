@@ -117,7 +117,20 @@ exports.setApp = function ( app, client )
     {
 var error = "";
      const { itemId, jwtToken} = req.body;
-
+     const db = client.db();
+     const results = await db.collection('Assets').find({itemId:itemId}).toArray();
+     var id = -1;
+     var arr= [];
+     if( results.length > 0 )
+     {
+       id = results[0].userId;
+       
+     } else {
+       var r = {error: "Item with this Id doesn't exist in the DB", jwtToken:''};
+       res.status(200).json(r);
+       return;
+     }
+       /*
      try
       {
         if( token.isExpired(jwtToken))
@@ -131,10 +144,10 @@ var error = "";
       {
         console.log(e.message);
       }
-
+*/console.log( "ID: "+ id);
       try
       {
-      const db = client.db();
+    
        var myquery = {itemId: itemId};
        db.collection("Assets").deleteOne(myquery, function(err,obj){
          if (err) {
@@ -143,6 +156,8 @@ var error = "";
          }
          console.log("Item deleted");
        })
+       arr = await db.collection('Assets').find({userId:id}).toArray();
+      
       }
        catch(e)
          {
@@ -159,7 +174,7 @@ var error = "";
         console.log(e.message);
       }
 
-      var ret = { error: error, jwtToken: refreshedToken };
+      var ret = { error: error, jwtToken: refreshedToken, arr:arr};
 
       res.status(200).json(ret);
     });
