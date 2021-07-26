@@ -188,7 +188,7 @@ function CardUI()
         var config = 
         {
             method: 'post',
-            url: bp.buildPath('api/searchcards'),	
+            url: bp.buildPath('api/searchassets'),	
             headers: 
             {
                 'Content-Type': 'application/json'
@@ -196,6 +196,7 @@ function CardUI()
             data: js
         };
     
+        // The results will now display a list of all the users assets in a long string
         axios(config)
             .then(function (response) 
         {
@@ -212,13 +213,13 @@ function CardUI()
                 var resultText = '';
                 for( var i=0; i<_results.length; i++ )
                 {
-                    resultText += _results[i];
+                    resultText += Object.keys(_results[i]) + "   and   "+ Object.values(_results[i]) + "        ";
                     if( i < _results.length - 1 )
                     {
                         resultText += ', ';
                     }
                 }
-                setResults('Card(s) have been retrieved');
+                setResults('Assets have been retrieved');
                 setCardList(resultText);
                 storage.storeToken( {accessToken:retTok} );
             }
