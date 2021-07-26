@@ -6,6 +6,10 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { spacing } from '@material-ui/system';
 
+import Grid from "@material-ui/core/Grid";
+import GridItem from "./Grid/GridItem.js";
+import GridContainer from "./Grid/GridContainer.js";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -91,6 +95,27 @@ export default function NavBar() {
                 </h1>  
             </Box> 
          </Box>
+
+        {/* <GridContainer>
+            <GridItem >
+            <Box mt={42} mr = {0} letterSpacing="-4px"  className={classes.manageYours}>
+                <p>manage your</p>
+            </Box>
+        
+            </GridItem>
+            <GridItem >
+                <Box mr = {20} letterSpacing= "-4x" className={classes.manageYours}>
+                   <p><br /> gear.
+                      <br /> machinery.
+                      <br /> assets.
+                      <br /> vehicles.
+                      <br /> furniture.
+                   </p>  
+                </Box> 
+
+            </GridItem>
+
+        </GridContainer> */}
       
 
     </div>
