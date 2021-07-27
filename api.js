@@ -132,7 +132,7 @@ var error = "";
        res.status(200).json(r);
        return;
      }
-    
+    /*
      try
       {
         if( token.isExpired(jwtToken))
@@ -146,7 +146,7 @@ var error = "";
       {
         console.log(e.message);
       }
-
+*/
       try
       {
     
@@ -862,8 +862,7 @@ console.log("Error sending the email "+ err);
        var ret='';
        var error = '';
        const { userId, Name, Brand, Model, Category, Location, Replacement, Serial, itemId, jwtToken } = req.body;
-
-       try
+        try
        {
          if( token.isExpired(jwtToken))
          {
