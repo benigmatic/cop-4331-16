@@ -863,8 +863,8 @@ console.log("Error sending the email "+ err);
        //var ret='';
        var error = '';
        const { userId, Name, Brand, Model, Category, Location, Replacement, Serial, itemId, jwtToken } = req.body;
-
-       try
+     
+        try
        {
          if( token.isExpired(jwtToken))
          {
@@ -895,7 +895,7 @@ console.log("Error sending the email "+ err);
 
         })
 
-       arr = await db.collection('Assets').find({userId:id}).toArray();
+      
        }
        catch(e){
 
@@ -912,7 +912,7 @@ console.log("Error sending the email "+ err);
          console.log(e.message);
        }
 
-       var ret = { error: error, jwtToken: refreshedToken, arr:arr};
+       var ret = { error: error, jwtToken: refreshedToken};
 
        res.status(200).json(ret);
      });
