@@ -215,28 +215,7 @@ function TotalAssets()
     <GridContainer>
       <Box  mt = {-5} mb = {-2} pl={2} display= "inline-block">
       <div >
-        {/* <CustomInput
-          formControlProps={{
-            
-          }}
-          inputProps={{
-            placeholder: "Search ...",
-            inputProps: {
-              "aria-label": "Search",
-              ref: search
-              
-            },
-          }}
-        /> */}
-        {/* <Button onClick={searchCard} color="white" aria-label="edit" justIcon round>
-            
-          <Search />
-          
-        </Button> */}
-        {/* <button type="button" id="searchCardButton" className="buttons" 
-             onClick={searchCard}> Search Card</button><br />
-             
-         <span id="cardSearchResult">{searchResults}</span> */}
+      
       </div>
 
       </Box>
@@ -245,125 +224,17 @@ function TotalAssets()
         
 
              <div id="cardUIDiv">
-         {/* <br />
-         <input type="text" id="searchText" placeholder="Card To Search For" 
-             ref={(c) => search = c} />
-         <button type="button" id="searchCardButton" className="buttons" 
-             onClick={SearchCard}> Search Card</button><br /> */}
+       
              
-             <h1 style={{color:"black", fontSize:"2rem", fontFamily: "League Spartan"}} width="100%" id="cardSearchResult">{totalAsset} assets out</h1>
+             <h1 style={{color:"black", fontSize:"2rem", fontFamily: "League Spartan"}} width="100%" id="cardSearchResult">{totalAsset} Assets</h1>
             
          
 
-         {/* <input type="text" id="deleteItem" placeholder="Item to delete" 
-             ref={(c) => itemId = c} />
-         <button type="button" id="deleteItem" className="buttons" 
-             onClick={deleteAsset}> Delete Item</button><br />
-         
-         <p id="cardList">{cardList}</p><br /><br />
-         <input type="text" id="cardText" placeholder="Card To Add" 
-             ref={(c) => card = c} />
-         <button type="button" id="addCardButton" className="buttons" 
-             onClick={addCard}> Add Card </button><br /> */}
-    {/* <br />
-    <br />
-    <Box className = {classes.BoxBack}>
-         <input type="text" id="cardText" placeholder="Name" 
-             ref={(c) => Name = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Model" 
-             ref={(c) => Model = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Category" 
-             ref={(c) => Category = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Location" 
-             ref={(c) => Location = c} />
-             <br />
-              <input type="text" id="cardText" placeholder="Brand" 
-             ref={(c) => Brand = c} />
-             <br />
-             <input type="text" id="cardText" placeholder="Replacement" 
-             ref={(c) => Replacement = c} />
-             <br />
-             <input type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
-             <br />
-             <br />
-         <button type="button" id="addCardButton" className="buttons" 
-             onClick={verifyTheSN}> Add Item </button><br />
-             </Box>
-         <span id="cardAddResult">{message}</span> */}
+        
          </div>
         </GridContainer>
     );
-    //         else
-    //         {
-    //             var _results = res.results;
-    //             var resultText = '';
-    //             var testing = [];
-                
-    //             for( var i=0; i<_results.length; i++ )
-    //             {
-    //                 testing = Object.entries(_results[i]);
-    //                 console.log(testing);
-    //                 resultText += Object.keys(_results[i]) + "   and   "+ Object.entries(_results[i]) + "        ";
-    //                 if( i < _results.length - 1 )
-    //                 {
-    //                     resultText += ', ';
-                        
-    //                 }
-    //             // for (let value of Object.entries(_results[i]))
-    //             // {
-    //             //     alert(value);
-    //             // }
-    //             }
-                
-    //             setResults('Assets have been retrieved');
-    //             setCardList(resultText);
-    //             storage.storeToken( {accessToken:retTok} );
-    //         }
-    //     })
-    //     .catch(function (error) 
-    //     {
-    //         console.log(error);
-    //     });
-
-    // };
-
-    // return(
-    //     <div id="cardUIDiv">
-    //     <br />
-    //     <input type="text" id="searchText" placeholder="Card To Search For" 
-    //         ref={(c) => search = c} />
-    //     <button type="button" id="searchCardButton" className="buttons" 
-    //         onClick={searchCard}> Search Card</button><br />
-    //     <span id="cardSearchResult">{searchResults}</span>
-    //     <p id="cardList">{cardList}</p><br /><br />
-    //     <input type="text" id="cardText" placeholder="Card To Add" 
-    //         ref={(c) => card = c} />
-    //     <button type="button" id="addCardButton" className="buttons" 
-    //         onClick={addCard}> Add Card </button><br />
-
-    //     <input type="text" id="cardText" placeholder="Name" 
-    //         ref={(c) => Name = c} />
-    //         <input type="text" id="cardText" placeholder="Model" 
-    //         ref={(c) => Model = c} />
-    //         <input type="text" id="cardText" placeholder="Category" 
-    //         ref={(c) => Category = c} />
-    //         <input type="text" id="cardText" placeholder="Location" 
-    //         ref={(c) => Location = c} />
-    //          <input type="text" id="cardText" placeholder="Brand" 
-    //         ref={(c) => Brand = c} />
-    //         <input type="text" id="cardText" placeholder="Replacement" 
-    //         ref={(c) => Replacement = c} />
-    //         <input type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
-    //         <br />
-    //         <br />
-    //     <button type="button" id="addCardButton" className="buttons" 
-    //         onClick={verifyTheSN}> Add Item </button><br />
-    //     <span id="cardAddResult">{message}</span>
-    //     </div>a
-    // );
+   
 }
 
 export default TotalAssets;

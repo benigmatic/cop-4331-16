@@ -58,7 +58,7 @@ function AddCardPopUp()
 
        var input = document.getElementsByName('arr');
     
-       alert("UserId: "+userId);
+       //alert("UserId: "+userId);
 
        var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
                   Category:Category.value, Location:Location.value, Quantity:input.length, 
@@ -123,7 +123,7 @@ function AddCardPopUp()
         var tok = storage.retrieveToken();
         var obj = {userId:userId,Serial:Serial.value,jwtToken:tok};
         var js = JSON.stringify(obj);
-        alert(Serial.value);
+        //alert(Serial.value);
         var config = 
         {
             method: 'post',

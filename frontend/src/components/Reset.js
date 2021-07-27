@@ -30,9 +30,9 @@ function Reset()
         if(password.value===newpassword.value){
             var hash = md5( newpassword.value );
             var obj = {Email:email,Password:hash};
-        alert(obj);
+        //alert(obj);
        var js = JSON.stringify(obj);
-         alert(js);
+        // alert(js);
        //Sends js to api
      var config = 
      {
@@ -74,7 +74,7 @@ function Reset()
 
     return(
       <div id="loginDiv">
-        <span id="inner-title">Reset your password</span><br />
+        <span style={{color:"white"}} id="inner-title">Reset your password</span><br />
         <input type="text" id="email" placeholder="password" ref={(c) => password = c}  /><br />
         <input type="text" id="email" placeholder="confirm password" ref={(c) => newpassword = c}  /><br />
         

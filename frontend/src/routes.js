@@ -53,13 +53,13 @@ const dashboardRoutes = [
     component: CardUI,
     layout: "/admin",
   },
-  {
-    path: "/fancy-add-item",
-    //name: "User Profile",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/fancy-add-item",
+  //   //name: "User Profile",
+  //   icon: Person,
+  //   component: UserProfile,
+  //   layout: "/admin",
+  // },
   // {
   //   path: "/icons",
   //   name: "Invoices",

@@ -34,7 +34,7 @@ function Login()
         
        
         var js = JSON.stringify(obj);
-        alert (js);
+        //alert (js);
         var config = 
         {
             method: 'post',
@@ -52,7 +52,7 @@ function Login()
             var res = response.data;
             console.log(res.arr + "we are here");
             var acessToken = res.token;
-          alert(JSON.stringify(acessToken));
+          //alert(JSON.stringify(acessToken));
             
             if (res.error) 
             {

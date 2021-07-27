@@ -74,7 +74,7 @@ function DeleteItem(itemToDelete)
         var obj = {itemId:itemToDelete,jwtToken:tok};
         var js = JSON.stringify(obj);
 
-        alert(js);
+        //alert(js);
 
         var config = 
         {

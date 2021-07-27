@@ -52,6 +52,7 @@ global.theCategory = "";
 global.theBrand = "";
 global.theReplacement = "";
 global.theSerial = "";
+global.theCompany = "";
 
 const useStyles2 = makeStyles(styles2);
 const useStyles3 = makeStyles(styles3);
@@ -100,6 +101,7 @@ export default function CustomTable(props) {
   const dashClass = useStyles3();
   const headClass = useStyles4();
   const { tableHead, tableData, tableHeaderColor } = props;
+
   global.theName = props.title;
   global.theFlag = props.itemid;
   global.theModel = props.fellow;
@@ -108,6 +110,9 @@ export default function CustomTable(props) {
   global.theReplacement = props.repla;
   global.theSerial = props.feller;
   global.theLocation = props.loca;
+  
+
+  
   
   const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
@@ -140,6 +145,12 @@ export default function CustomTable(props) {
   {
       event.preventDefault();
 
+      const answer = window.confirm("Still delete? ");
+
+      if(answer == false)
+      {
+        return;
+      }
       
       flag = props.itemid;
       var tok = storage.retrieveToken();
@@ -151,7 +162,7 @@ export default function CustomTable(props) {
     var ud = JSON.parse(_ud);
     var userId = ud.id;
 
-      alert(flag);
+      //alert(flag);
 
       var config = 
       {
@@ -178,6 +189,7 @@ export default function CustomTable(props) {
           }
           else
           {
+            
             console.log(res.arr+ "in the delete method");
               setMessage('Item has been deleted');
               // storage.storeToken( {accessToken:retTok} );
@@ -204,9 +216,9 @@ export default function CustomTable(props) {
        var _ud = localStorage.getItem('user_data');
        var ud = JSON.parse(_ud);
        var userId = ud.id;
-       alert("UserId: "+userId);
+       //alert("UserId: "+userId);
  
-       alert("flag is: " +flag);
+       //alert("flag is: " +flag);
        
    
       
@@ -218,7 +230,7 @@ export default function CustomTable(props) {
         Replacement:Replacement.value, Serial: Serial.value, itemId:flag, jwtToken:tok }
 
       var js = JSON.stringify(obj);
-      alert(js);
+      //alert(js);
 
        var config = 
        {
@@ -236,7 +248,7 @@ export default function CustomTable(props) {
        {
            var res = response.data;
             // var retTok = res.jwtToken;
-            alert(Object.values(res));
+            //alert(Object.values(res));
    
            if( res.error.length > 0 )
            {
@@ -245,7 +257,7 @@ export default function CustomTable(props) {
            else
            {
             _theResults = res.results;
-            alert(_theResults);
+            //alert(_theResults);
                setMessage('Item has been edited');
                
                // storage.storeToken( {accessToken:retTok} );
