@@ -91,7 +91,7 @@ function Login()
         <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
         <input type="submit" id="loginButton" className="buttons" value = "Do It"
           onClick={doLogin} />
-        <span id="loginResult">{message}</span>
+        <span style={{color: "white"}} id="loginResult">{message}</span>
      </div>
       
       
