@@ -82,7 +82,7 @@ export default function Edit(props) {
     var ud = JSON.parse(_ud);
     var userId = ud.id;
 
-      alert(flag);
+      //alert(flag);
 
       var config = 
       {
@@ -144,9 +144,9 @@ export default function Edit(props) {
       var _ud = localStorage.getItem('user_data');
       var ud = JSON.parse(_ud);
       var userId = ud.id;
-      alert("UserId: "+userId);
+      //alert("UserId: "+userId);
 
-      alert("flag is: " +flag);
+      //alert("flag is: " +flag);
       
         
        var config = 
@@ -165,7 +165,7 @@ export default function Edit(props) {
        {
            var res = response.data;
             // var retTok = res.jwtToken;
-            alert(Object.values(res));
+            //alert(Object.values(res));
    
            if( res.error.length > 0 )
            {

@@ -11,9 +11,9 @@ function  Verify()
 
     var code;
     
-  
-     
     const [message,setMessage] = useState('');
+    
+  
  
 
     const ValidateCode = async event => 
@@ -22,14 +22,15 @@ function  Verify()
  
         var tok = storage.retrieveTokenPassword();
         
-        alert(tok);
+        //alert(tok);
         var storedCode = JSON.parse(tok);
         // received the code from the local storage
         var verifyCode = storedCode.code;
        
          if (verifyCode != code.value){
-          alert ("Code is not correct. Please, try again"); //+ verifyCode + code.value);
+          //alert ("Code is not correct. Please, try again"); //+ verifyCode + code.value);
           // alert (code.value+ "vs. "+ verifyCode);
+          setMessage("Code is not correct. Please, try again")
         
          } else {
           // alert("Codes match");

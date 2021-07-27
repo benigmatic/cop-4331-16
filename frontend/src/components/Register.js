@@ -57,7 +57,7 @@ function Register()
         {
             
             Code = res.code;
-            alert("Code: "+ Code);
+            //alert("Code: "+ Code);
             try {
             var obj = {FirstName:firstName.value,LastName:lastName.value,Email:email.value,Login:loginName.value, Password:hash, Phone: phone.value, CompanyName: companyName.value, Code:Code};
             var js = JSON.stringify(obj);
@@ -107,7 +107,7 @@ function Register()
             if( res.error.length > 0 )
             {
                 flag=1;
-                alert("res.error");
+                //alert("res.error");
                 setMessage( "Error:" + res.error );
                 
             } 
@@ -129,7 +129,7 @@ function Register()
     return(
       <div id="loginDiv">
         <span  id="inner-title">Register</span><br />
-        <input type="text" id="companyName" placeholder="CompName" ref={(c) => companyName = c}  /><br />
+        <input type="text" id="companyName" placeholder="CompanyName" ref={(c) => companyName = c}  /><br />
         <input type="text" id="firstName" placeholder="Firstname" ref={(c) => firstName = c}  /><br />
         <input type="text" id="lastName" placeholder="Lastname" ref={(c) => lastName = c}  /><br />
         <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c}  /><br />

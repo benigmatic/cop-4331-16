@@ -86,6 +86,8 @@ export default function Dashboard() {
   const classes = useStyles();
   const classesTwo = useStyles2();
   const classesThree = useStyles3();
+ 
+  
 
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
@@ -111,7 +113,7 @@ export default function Dashboard() {
   };
   return (
     <div >
-      <h3 className={classesThree.manageYours}><b>CompanyName's Dashboard</b></h3>
+      <h3 className={classesThree.manageYours}><b>My Dashboard</b></h3>
       
       <Box marginLeft="93%" marginTop="-25px">
       {/* <button className={classes.cardTitle} type="button" id="addCardButton" className="buttons" 
@@ -205,10 +207,10 @@ export default function Dashboard() {
               <SearchDash />
               </CardBody>
             <CardFooter stats>
-            <div className={classes.stats}>
+            {/* <div className={classes.stats}>
                 <Update />
                 Just Updated
-              </div>
+              </div> */}
             </CardFooter>
           </Card>
         </GridItem>
@@ -230,7 +232,7 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
 
-          <Box  pt={3}>
+          {/* <Box  pt={3}>
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
@@ -246,209 +248,17 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-          </Box>
+          </Box> */}
 
-          {/* <CustomTabs
-            title="Tasks:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: "Outstanding",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                ),
-              },
-              {
-                tabName: "Notes",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                ),
-              },
-              
-            ]}
-          /> */}
+          
           
         </GridItem>
-        {/* <GridItem  xs={12} sm={6} md={3} >
-          <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
-                <Icon>Items Out</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Total</p>
-              <h3 className={classes.cardTitle}>75</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <LocalOffer />
-                Tracked through matthew
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem> */}
-        
-        {/* <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="info" stats icon>
-              <CardIcon color="info">
-                <Accessibility />
-              </CardIcon>
-              <p className={classes.cardCategory}>New Items in Past Month</p>
-              <h3 className={classes.cardTitle}>+13</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Update />
-                Just Updated
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem> */}
+       
       </GridContainer>
       <GridContainer>
-        {/* <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Most Popular</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> Honda Civic
-                </span>{" "}
-                is your number one item out
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="warning">
-              <ChartistGraph
-                className="ct-chart"
-                data={emailsSubscriptionChart.data}
-                type="Bar"
-                options={emailsSubscriptionChart.options}
-                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                listener={emailsSubscriptionChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Email Verifications</h4>
-              <p className={classes.cardCategory}>Performance Per Month</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem> */}
-        {/* <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem> */}
+      
       </GridContainer>
-      {/* <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: "Outstanding",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 2]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                ),
-              },
-              {
-                tabName: "Notes",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                ),
-              },
-              
-            ]}
-          />
-        </GridItem>
-        <GridItem xs={2} sm={12} md={6}>
-          <Card>
-            <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Report States</h4>
-              <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
-              </p>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["Time", "Recently Added", "Removed", "Updated"]}
-                tableData={[
-                  ["10:21", "Acura ILX", "No", "No"],
-                  ["09:12", "Toyota Camry", "No", "No"],
-                  ["13:21", "Dodge Charger", "No", "No"],
-                  ["14:20", "Honda Civic", "No", "No"],
-                  ["14:20", "Honda Civic", "No", "No"],
-                  ["14:20", "Honda Civic", "No", "No"],
-                  ["14:20", "Honda Civic", "No", "No"],
-
-                ]}
-              />
-             
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer> */}
+ 
     </div>
   );
 }

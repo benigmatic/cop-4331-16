@@ -26,7 +26,7 @@ function ForgotPassword()
        var obj = {email:email.value};
       
        var js = JSON.stringify(obj);
-       alert(js);
+       //alert(js);
        
         var config = 
         {
@@ -67,7 +67,7 @@ function ForgotPassword()
         })
         .catch(function (error) 
         {
-            alert(error);
+            //alert(error);
             console.log(error);
         });
 
@@ -90,7 +90,7 @@ function ForgotPassword()
 >
 <Grid item xs={6}>
       <div id="loginDiv">
-        <span id="inner-title">Use the email you created your Asset Labs account with to reset your password</span><br />
+        <span style={{color: "white"}} id="inner-title">Use the email you created your Asset Labs account with to reset your password</span><br /><br />
         <input type="text" id="email" placeholder="email" ref={(c) => email = c}  /><br />
         
         <input type="submit" id="loginButton" className="buttons" value = "Send Code"

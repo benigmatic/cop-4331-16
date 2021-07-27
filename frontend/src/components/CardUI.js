@@ -35,6 +35,7 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
+import SearchDash from './SearchDash';
 
 
 import stylesTwo from "../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
@@ -156,7 +157,7 @@ function CardUI()
 
        var input = document.getElementsByName('arr');
     
-       alert("UserId: "+userId);
+       //alert("UserId: "+userId);
 
        var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
                   Category:Category.value, Location:Location.value, Quantity:input.length, 
@@ -221,7 +222,7 @@ function CardUI()
         var tok = storage.retrieveToken();
         var obj = {userId:userId,Serial:Serial.value,jwtToken:tok};
         var js = JSON.stringify(obj);
-        alert(Serial.value);
+        //alert(Serial.value);
         var config = 
         {
             method: 'post',
@@ -343,7 +344,7 @@ function CardUI()
             else
             {
                 var _results = res.results;
-                alert(Object.keys(_results[0]));
+                //alert(Object.keys(_results[0]));
                 var thisResult = String(Object.values(_results[0]));
                 
                 //alert(thisResult);
@@ -395,38 +396,10 @@ function CardUI()
                       </CardHeader>
                       
                       <CardBody>
-                          {/* <Table
-                          tableHeaderColor="black"
-                          tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock", "Edit/Delete"]}
-                         
-                          tableData = {[
-                            
-                            ["10:21", searchNames[z], itemIds[z], "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                            ["09:12", searchNames[z], "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                            ["13:21", "Dodge Charger", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10",buttons],
-          
-                          ]}
+                        
                           
-                          /> */}
-                          {/* <tbody>
-{
-  Object.values(_results[z]).map(function (element) {
-    return (
-      <tr key={element}>
-        <td>{element}</td>
-        <td>{_results[z].Name[element]}</td>
-        <td>{_results[z].Model[element]}</td>
-      </tr>
-    );
-  })
-}
-</tbody> */}
             <ul>
-                
+               
       {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} itemid={book.itemId} key={i} />)}
       
     </ul>
@@ -447,7 +420,7 @@ function CardUI()
                   </GridItem></GridContainer>);
 
                     
-                  //}
+             
 
                   
 
@@ -469,28 +442,7 @@ function CardUI()
     <GridContainer>
       <Box  mt = {-5} mb = {-2} pl={2} display= "inline-block">
       <div >
-        {/* <CustomInput
-          formControlProps={{
-            
-          }}
-          inputProps={{
-            placeholder: "Search ...",
-            inputProps: {
-              "aria-label": "Search",
-              ref: search
-              
-            },
-          }}
-        /> */}
-        {/* <Button onClick={searchCard} color="white" aria-label="edit" justIcon round>
-            
-          <Search />
-          
-        </Button> */}
-        {/* <button type="button" id="searchCardButton" className="buttons" 
-             onClick={searchCard}> Search Card</button><br />
-             
-         <span id="cardSearchResult">{searchResults}</span> */}
+       
       </div>
 
       </Box>
@@ -500,6 +452,7 @@ function CardUI()
 
              <div id="cardUIDiv">
          <br />
+         {/* <SearchDash/> */}
          <input type="text" id="searchText" placeholder="Asset to Search For" 
              ref={(c) => search = c} />
          <button type="button" id="searchCardButton" className="buttons" 
