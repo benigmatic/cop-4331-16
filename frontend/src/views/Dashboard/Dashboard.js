@@ -30,6 +30,7 @@ import CardIcon from "../../components/Card/CardIcon.js";
 import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 import CardUI from '../../components/CardUI';
+import SearchDash from '../../components/SearchDash';
 
 import TotalAssets from '../../components/TotalAssets';
 import AddCardPopUp from '../../components/AddCardPopUp';
@@ -271,7 +272,7 @@ export default function Dashboard() {
 
                 ]}
               /> */}
-              <CardUI />
+              <SearchDash />
               </CardBody>
             <CardFooter stats>
             <div className={classes.stats}>

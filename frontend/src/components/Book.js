@@ -126,32 +126,32 @@ export default function CustomTable(props) {
 
        var input = document.getElementsByName('arr');
     
-       
+       flag = props.itemid;
 
        var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
-                  Category:Category.value, Location:Location.value, Quantity:input.length, 
-                  Replacement:Replacement.value, Serial: Serial.value, jwtToken:tok }
+                  Category:Category.value, Location:Location.value, 
+                  Replacement:Replacement.value, Serial: Serial.value,itemId:flag, jwtToken:tok }
 
        var js = JSON.stringify(obj);
 
-       flag = props.itemid;
+      
       var tok = storage.retrieveToken();
       // Currently sending a string
       var obj = {itemId:flag,jwtToken:tok};
       var js = JSON.stringify(obj);
 
       var _ud = localStorage.getItem('user_data');
-    var ud = JSON.parse(_ud);
-    var userId = ud.id;
-    alert("UserId: "+userId);
+      var ud = JSON.parse(_ud);
+      var userId = ud.id;
+      alert("UserId: "+userId);
 
-      alert(flag);
+      alert("flag is: " +flag);
       
         
        var config = 
        {
            method: 'post',
-           url: bp.buildPath('api/additem'),	
+           url: bp.buildPath('api/edititem'),	
            headers: 
            {
                'Content-Type': 'application/json'
@@ -164,7 +164,7 @@ export default function CustomTable(props) {
        {
            var res = response.data;
             // var retTok = res.jwtToken;
-            
+            alert(Object.values(res));
    
            if( res.error.length > 0 )
            {

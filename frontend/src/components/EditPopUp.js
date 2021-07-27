@@ -1,15 +1,15 @@
 // CardUI() contains the main page for adding, searching, editing, and deleting assets.
 
 import React, { useState } from 'react';
-import PropTypes from "prop-types";
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import Grid from "@material-ui/core/Grid";
 import GridItem from "./Grid/GridItem.js";
 import GridContainer from "./Grid/GridContainer.js";
 import background from "../img/Topo.jpg";
+import Edit from '@material-ui/icons/Edit';
 
-function AddCardPopUp(props)
+function EditPopUp()
 {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
@@ -53,7 +53,7 @@ function AddCardPopUp(props)
     var lastName = ud.lastName;
 	
     
-    const editItem = async event => 
+    const addItem = async event => 
     {
        var tok = storage.retrieveToken();
 
@@ -92,7 +92,7 @@ function AddCardPopUp(props)
            else
            {
                
-               setMessage('Item has been edited');
+               setMessage('Item has been added');
                // storage.storeToken( {accessToken:retTok} );
            }
        })
@@ -103,6 +103,61 @@ function AddCardPopUp(props)
 
     };
 
+    // const addSerialNumber = async event => 
+    // {
+    //  //   alert ("Adding s/n");
+    // //    var newInput = '<input type="text"  placeholder="Serial Number" name="input'+num+'"/><br> <br>';
+    // var newInput = '<input type="text"  placeholder="Serial Number" name="arr"/><br> <br>';
+    //     document.getElementById('demo').innerHTML += newInput;  
+    //     num++;
+    // };
+
+    // ===================================================================================
+    // verifyTheSN() checks the database to see if the entered SN
+    // is already in the DB. Throws error if there is. If it is a new
+    // SN, then it calls the addItem() method and adds the asset to the
+    // database. 
+    // ===================================================================================
+    const verifyTheSN = async event => 
+    {
+        event.preventDefault();
+        var tok = storage.retrieveToken();
+        var obj = {userId:userId,Serial:Serial.value,jwtToken:tok};
+        var js = JSON.stringify(obj);
+        alert(Serial.value);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/verifySN'),	
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+
+        axios(config)
+            .then(function (response) 
+        {
+            var res = response.data;
+            var retTok = res.jwtToken;
+          
+    
+            if( res.error.length > 0 )
+            {
+                setMessage( "API Error:" + res.error );
+                
+            }
+            else
+            {
+                addItem();
+            }
+        })
+        .catch(function (error) 
+        {
+            console.log(error);
+        });
+    }
 
     
 
@@ -141,7 +196,7 @@ function AddCardPopUp(props)
             <br />
             <br />
         <button style={styles.coolButton} type="button" id="addCardButton" className="buttons" 
-            onClick={editItem}> Edit Item </button><br />
+            onClick={verifyTheSN}> Add Item </button><br />
         <span id="cardAddResult">{message}</span>
         </div>
         // </Grid>
@@ -149,4 +204,4 @@ function AddCardPopUp(props)
     );
 }
 
-export default AddCardPopUp;
+export default EditPopUp;

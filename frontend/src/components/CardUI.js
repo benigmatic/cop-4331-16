@@ -256,56 +256,56 @@ function CardUI()
         });
     }
 
-    const deleteAsset = async event => 
-    {
-        event.preventDefault();
+    // const deleteAsset = async event => 
+    // {
+    //     event.preventDefault();
 
         
         		
-        var tok = storage.retrieveToken();
-        // Currently sending a string
-        var obj = {itemId:itemId.value,jwtToken:tok};
-        var js = JSON.stringify(obj);
+    //     var tok = storage.retrieveToken();
+    //     // Currently sending a string
+    //     var obj = {itemId:itemId.value,jwtToken:tok};
+    //     var js = JSON.stringify(obj);
 
-        alert(js);
+    //     alert(js);
 
-        var config = 
-        {
-            method: 'post',
-            url: bp.buildPath('api/deleteitem'),	
-            headers: 
-            {
-                'Content-Type': 'application/json'
-            },
-            data: js
-        };
+    //     var config = 
+    //     {
+    //         method: 'post',
+    //         url: bp.buildPath('api/deleteitem'),	
+    //         headers: 
+    //         {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         data: js
+    //     };
 
-        axios(config)
-            .then(function (response) 
-        {
-            var res = response.data;
-             // var retTok = res.jwtToken;
+    //     axios(config)
+    //         .then(function (response) 
+    //     {
+    //         var res = response.data;
+    //          // var retTok = res.jwtToken;
              
     
-            if( res.error.length > 0 )
-            {
-                setMessage( "API Error:" + res.error );
-            }
-            else
-            {
+    //         if( res.error.length > 0 )
+    //         {
+    //             setMessage( "API Error:" + res.error );
+    //         }
+    //         else
+    //         {
                 
-                setMessage('Item has been deleted');
-                // storage.storeToken( {accessToken:retTok} );
-            }
-        })
-        .catch(function (error) 
-        {
-            console.log(error);
-        });
+    //             setMessage('Item has been deleted');
+    //             // storage.storeToken( {accessToken:retTok} );
+    //         }
+    //     })
+    //     .catch(function (error) 
+    //     {
+    //         console.log(error);
+    //     });
 
         
 
-    }
+    // }
     
 
     const searchCard = async event => 
@@ -500,10 +500,10 @@ function CardUI()
 
              <div id="cardUIDiv">
          <br />
-         <input type="text" id="searchText" placeholder="Card To Search For" 
+         <input type="text" id="searchText" placeholder="Asset to Search For" 
              ref={(c) => search = c} />
          <button type="button" id="searchCardButton" className="buttons" 
-             onClick={searchCard}> Search Card</button><br />
+             onClick={searchCard}> Search </button><br />
          <span width="100%" id="cardSearchResult">{searchResults}</span>
 
          {/* <input type="text" id="deleteItem" placeholder="Item to delete" 
@@ -516,7 +516,7 @@ function CardUI()
              ref={(c) => card = c} />
          <button type="button" id="addCardButton" className="buttons" 
              onClick={addCard}> Add Card </button><br /> */}
-    {/* <br />
+    <br />
     <br />
     <Box className = {classes.BoxBack}>
          <input type="text" id="cardText" placeholder="Name" 
@@ -543,7 +543,7 @@ function CardUI()
          <button type="button" id="addCardButton" className="buttons" 
              onClick={verifyTheSN}> Add Item </button><br />
              </Box>
-         <span id="cardAddResult">{message}</span> */}
+         <span id="cardAddResult">{message}</span>
          </div>
         </GridContainer>
     );

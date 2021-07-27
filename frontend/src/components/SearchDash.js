@@ -39,7 +39,7 @@ import Poppers from "@material-ui/core/Popper";
 
 import stylesTwo from "../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
-function TotalAssets()
+function SearchDash()
 {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
@@ -59,8 +59,6 @@ function TotalAssets()
     var searchNames = [];
     var allResults=[];
     var buttons = '';
-    var assetCount = 0;
-    
     
 
     var itemIds = [];
@@ -69,8 +67,7 @@ function TotalAssets()
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
-    const [totalAsset, setTotalAsset] = useState(' ');
- 
+
     const useStyles = makeStyles(styles);
     const useStyles2 = makeStyles(stylesTwo);
     const classes = useStyles();
@@ -185,9 +182,74 @@ function TotalAssets()
                    // for(var z = 0; z < searchNames.length; z++){
                         //alert(itemIds[z]);
     
-                    assetCount = _results.length;
-                    //alert(assetCount);
-                    setTotalAsset(assetCount);
+                    
+                    setResults(<GridContainer><GridItem xs={12} >
+              
+                        <Card>
+                          <CardHeader color="warning" stats icon>
+                            {/* <CardIcon color="warning">
+                              <Icon>Total Assets</Icon>
+                            </CardIcon> */}
+                            {/* <p className={classes.cardLeft}>Used Space</p>
+                            <h3 className={classes.cardTitle}>
+                              250 <small>Vehicles</small>
+                            </h3> */}
+                            {/* <CardUI/>  */}
+                         
+              
+                          </CardHeader>
+                          
+                          <CardBody>
+                              {/* <Table
+                              tableHeaderColor="black"
+                              tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock", "Edit/Delete"]}
+                             
+                              tableData = {[
+                                
+                                ["10:21", searchNames[z], itemIds[z], "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                                ["09:12", searchNames[z], "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                                ["13:21", "Dodge Charger", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                                ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                                ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                                ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                                ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10",buttons],
+              
+                              ]}
+                              
+                              /> */}
+                              {/* <tbody>
+    {
+      Object.values(_results[z]).map(function (element) {
+        return (
+          <tr key={element}>
+            <td>{element}</td>
+            <td>{_results[z].Name[element]}</td>
+            <td>{_results[z].Model[element]}</td>
+          </tr>
+        );
+      })
+    }
+    </tbody> */}
+                <ul>
+                    
+          {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} itemid={book.itemId} key={i} />)}
+          
+        </ul>
+                            </CardBody>
+                            
+                          <CardFooter stats>
+                          <div className={classes.stats}>
+                              <Update />
+                              Just Updated
+                            </div>
+                            <div className={classes.stats} value = "hi">
+                              
+                            </div>
+                            
+                            
+                          </CardFooter>
+                        </Card>
+                      </GridItem></GridContainer>);
     
                         
                       //}
@@ -250,10 +312,7 @@ function TotalAssets()
              ref={(c) => search = c} />
          <button type="button" id="searchCardButton" className="buttons" 
              onClick={SearchCard}> Search Card</button><br /> */}
-             
-             <h1 style={{color:"black", fontSize:"2rem", fontFamily: "League Spartan"}} width="100%" id="cardSearchResult">{totalAsset} assets out</h1>
-            
-         
+         <span width="100%" id="cardSearchResult">{searchResults}</span>
 
          {/* <input type="text" id="deleteItem" placeholder="Item to delete" 
              ref={(c) => itemId = c} />
@@ -366,4 +425,4 @@ function TotalAssets()
     // );
 }
 
-export default TotalAssets;
+export default SearchDash;
