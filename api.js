@@ -120,7 +120,7 @@ var error = "";
      const db = client.db();
      const results = await db.collection('Assets').find({itemId:itemId}).toArray();
      var id = -1;
-     const arr= [];
+     var arr= [];
      if( results.length > 0 )
      {
        id = results[0].userId;
