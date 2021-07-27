@@ -34,7 +34,7 @@ function  VerifyEmail()
      
        
          if (Code.value != code){
-          alert ("Code is not correct. Please, try again: "+ Code.value +code );
+          alert ("Code is not correct. Please, try again "); //+ Code.value +code );
           
         
          } else {

@@ -47,6 +47,11 @@ import background from "../img/Topo.jpg";
 
 global.theName = "";
 global.theFlag = "";
+global.theModel = "";
+global.theCategory = "";
+global.theBrand = "";
+global.theReplacement = "";
+global.theSerial = "";
 
 const useStyles2 = makeStyles(styles2);
 const useStyles3 = makeStyles(styles3);
@@ -97,6 +102,12 @@ export default function CustomTable(props) {
   const { tableHead, tableData, tableHeaderColor } = props;
   global.theName = props.title;
   global.theFlag = props.itemid;
+  global.theModel = props.fellow;
+  global.theCategory = props.fellowship;
+  global.theBrand = props.author;
+  global.theReplacement = props.repla;
+  global.theSerial = props.feller;
+  global.theLocation = props.loca;
   
   const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');

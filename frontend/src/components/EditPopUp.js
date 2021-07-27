@@ -145,11 +145,10 @@ function EditPopUp(props)
             <Form.Control style={styles.paperContainer} defaultValue={global.theName} onChange={(e) => setState(e.target.value)} ref={(c) => Name = c}  />
             
             <br />
-            <input style={styles.paperContainer} type="text" id="cardText" placeholder="Model" 
-            ref={(c) => Model = c} />
+            
+            <Form.Control style={styles.paperContainer} defaultValue={global.theModel} onChange={(e) => setState(e.target.value)} ref={(c) => Model = c}  />
             <br />
-            <input style={styles.paperContainer} type="text" id="cardText" placeholder="Category" 
-            ref={(c) => Category = c} />
+            <Form.Control style={styles.paperContainer} defaultValue={global.theCategory} onChange={(e) => setState(e.target.value)} ref={(c) => Category = c}  />
             <br />
             <input style={styles.paperContainer} type="text" id="cardText" placeholder="Location" 
             ref={(c) => Location = c} />
