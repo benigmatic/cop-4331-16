@@ -343,51 +343,95 @@ function CardUI()
             else
             {
                 var _results = res.results;
+                alert(Object.keys(_results[0]));
                 var thisResult = String(Object.values(_results[0]));
                 
-                
+                //alert(thisResult);
                 var resultText = '';
                 
                 for( var i=0; i<_results.length; i++ )
                 {
-                    
+                    //alert("here: "+ _results);
                     resultText += Object.values(_results[i]);
                     allResults[i] = Object.values(_results[i]);
                     
                     
                     thisResult = Object.values(_results[i]);
-                   
+                    //alert(thisResult[9]);
                          var name = thisResult[2];
                          var theItemId = thisResult[9];
                        
                          searchNames[i] = name;
                          itemIds[i] = theItemId;
-                         
+                         //alert( searchNames[i]);
                     if( i < _results.length - 1 )
                     {
-                        
+                        // thisResult = Object.values(_results[i]);
+                        // var name = thisResult[2];
+                        // alert(name);
                         
                         resultText += ', ';
                     }
                 }
                 var theCount = ' ';
-             
+               // for(var z = 0; z < searchNames.length; z++){
+                    //alert(itemIds[z]);
+
                 
                 setResults(<GridContainer><GridItem xs={12} >
           
                     <Card>
                       <CardHeader color="warning" stats icon>
-                       
+                        {/* <CardIcon color="warning">
+                          <Icon>Total Assets</Icon>
+                        </CardIcon> */}
+                        {/* <p className={classes.cardLeft}>Used Space</p>
+                        <h3 className={classes.cardTitle}>
+                          250 <small>Vehicles</small>
+                        </h3> */}
+                        {/* <CardUI/>  */}
                      
           
                       </CardHeader>
                       
                       <CardBody>
-                     
+                          {/* <Table
+                          tableHeaderColor="black"
+                          tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock", "Edit/Delete"]}
+                         
+                          tableData = {[
+                            
+                            ["10:21", searchNames[z], itemIds[z], "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            ["09:12", searchNames[z], "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            ["13:21", "Dodge Charger", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
+                            ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10",buttons],
+          
+                          ]}
+                          
+                          /> */}
+                          {/* <tbody>
+{
+  Object.values(_results[z]).map(function (element) {
+    return (
+      <tr key={element}>
+        <td>{element}</td>
+        <td>{_results[z].Name[element]}</td>
+        <td>{_results[z].Model[element]}</td>
+      </tr>
+    );
+  })
+}
+</tbody> */}
             <ul>
-      {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} key={i} />)}
+                
+      {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} itemid={book.itemId} key={i} />)}
+      
     </ul>
                         </CardBody>
+                        
                       <CardFooter stats>
                       <div className={classes.stats}>
                           <Update />
@@ -408,6 +452,7 @@ function CardUI()
                   
 
                 setCardList(resultText);
+               
                 storage.storeToken( {accessToken:retTok} );
             }
         })
@@ -424,7 +469,7 @@ function CardUI()
     <GridContainer>
       <Box  mt = {-5} mb = {-2} pl={2} display= "inline-block">
       <div >
-        <CustomInput
+        {/* <CustomInput
           formControlProps={{
             
           }}
@@ -436,52 +481,21 @@ function CardUI()
               
             },
           }}
-        />
-        <Button onClick={searchCard} color="white" aria-label="edit" justIcon round>
+        /> */}
+        {/* <Button onClick={searchCard} color="white" aria-label="edit" justIcon round>
+            
           <Search />
           
-        </Button>
+        </Button> */}
+        {/* <button type="button" id="searchCardButton" className="buttons" 
+             onClick={searchCard}> Search Card</button><br />
+             
+         <span id="cardSearchResult">{searchResults}</span> */}
       </div>
 
       </Box>
             
-            <GridItem xs={12} >
           
-          <Card>
-            <CardHeader color="warning" stats icon>
-              {/* <CardIcon color="warning">
-                <Icon>Total Assets</Icon>
-              </CardIcon> */}
-              {/* <p className={classes.cardLeft}>Used Space</p>
-              <h3 className={classes.cardTitle}>
-                250 <small>Vehicles</small>
-              </h3> */}
-              {/* <CardUI/>  */}
-           
-
-            </CardHeader>
-            <CardBody><Table
-                tableHeaderColor="black"
-                tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock", "Edit/Delete"]}
-                tableData={[
-                  ["10:21", searchNames[0], "No", "No", "Car", "12345", "Orlando", "40", "10", buttons],
-                  ["09:12", "Toyota Camry", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["13:21", "Dodge Charger", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10", "hi"],
-                  ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10","hi"],
-
-                ]}
-              /></CardBody>
-            <CardFooter stats>
-            <div className={classes.stats}>
-                <Update />
-                Just Updated
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
         
 
              <div id="cardUIDiv">
@@ -490,9 +504,9 @@ function CardUI()
              ref={(c) => search = c} />
          <button type="button" id="searchCardButton" className="buttons" 
              onClick={searchCard}> Search Card</button><br />
-         <span id="cardSearchResult">{searchResults}</span>
+         <span width="100%" id="cardSearchResult">{searchResults}</span>
 
-         <input type="text" id="deleteItem" placeholder="Item to delete" 
+         {/* <input type="text" id="deleteItem" placeholder="Item to delete" 
              ref={(c) => itemId = c} />
          <button type="button" id="deleteItem" className="buttons" 
              onClick={deleteAsset}> Delete Item</button><br />
@@ -501,8 +515,8 @@ function CardUI()
          <input type="text" id="cardText" placeholder="Card To Add" 
              ref={(c) => card = c} />
          <button type="button" id="addCardButton" className="buttons" 
-             onClick={addCard}> Add Card </button><br />
-    <br />
+             onClick={addCard}> Add Card </button><br /> */}
+    {/* <br />
     <br />
     <Box className = {classes.BoxBack}>
          <input type="text" id="cardText" placeholder="Name" 
@@ -529,7 +543,7 @@ function CardUI()
          <button type="button" id="addCardButton" className="buttons" 
              onClick={verifyTheSN}> Add Item </button><br />
              </Box>
-         <span id="cardAddResult">{message}</span>
+         <span id="cardAddResult">{message}</span> */}
          </div>
         </GridContainer>
     );

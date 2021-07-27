@@ -30,6 +30,7 @@ import CardIcon from "../../components/Card/CardIcon.js";
 import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 import CardUI from '../../components/CardUI';
+
 import TotalAssets from '../../components/TotalAssets';
 import AddCardPopUp from '../../components/AddCardPopUp';
 
@@ -255,7 +256,8 @@ export default function Dashboard() {
            
 
             </CardHeader>
-            <CardBody><Table
+            <CardBody>
+              {/* <Table
                 tableHeaderColor="black"
                 tableHead={["Filter", "Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Stock"]}
                 tableData={[
@@ -268,7 +270,9 @@ export default function Dashboard() {
                   ["14:20", "Honda Civic", "No", "No", "Car", "12345", "Orlando", "40", "10"],
 
                 ]}
-              /></CardBody>
+              /> */}
+              <CardUI />
+              </CardBody>
             <CardFooter stats>
             <div className={classes.stats}>
                 <Update />

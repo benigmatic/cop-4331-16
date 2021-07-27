@@ -50,6 +50,7 @@ function Login()
             .then(function (response) 
         {
             var res = response.data;
+            console.log(res.arr + "we are here");
             var acessToken = res.token;
           alert(JSON.stringify(acessToken));
             
