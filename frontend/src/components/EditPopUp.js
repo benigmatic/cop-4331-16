@@ -150,16 +150,17 @@ function EditPopUp(props)
             <br />
             <Form.Control style={styles.paperContainer} defaultValue={global.theCategory} onChange={(e) => setState(e.target.value)} ref={(c) => Category = c}  />
             <br />
-            <input style={styles.paperContainer} type="text" id="cardText" placeholder="Location" 
-            ref={(c) => Location = c} />
+            
+            <Form.Control style={styles.paperContainer} defaultValue={global.theLocation} onChange={(e) => setState(e.target.value)} ref={(c) => Location = c}  />
             <br />
-             <input style={styles.paperContainer} type="text" id="cardText" placeholder="Brand" 
-            ref={(c) => Brand = c} />
+             
+            <Form.Control style={styles.paperContainer} defaultValue={global.theBrand} onChange={(e) => setState(e.target.value)} ref={(c) => Brand = c}  />
             <br />
-            <input style={styles.paperContainer} type="text" id="cardText" placeholder="Replacement" 
-            ref={(c) => Replacement = c} />
+            
+            <Form.Control style={styles.paperContainer} defaultValue={global.theReplacement} onChange={(e) => setState(e.target.value)} ref={(c) => Replacement = c}  />
             <br />
-            <input style={styles.paperContainer} type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
+            
+            <Form.Control style={styles.paperContainer} defaultValue={global.theSerial} onChange={(e) => setState(e.target.value)} ref={(c) => Serial = c}  />
             <br />
             <br />
         <button onClick={editItem} style={styles.coolButton} type="button" id="addCardButton" className="buttons" 
