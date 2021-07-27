@@ -12,6 +12,7 @@ import Book from './Book.js';
 
 function EditPopUp(props)
 {
+    //alert(global.theFlag);
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     const jwt = require("jsonwebtoken");
@@ -48,6 +49,8 @@ function EditPopUp(props)
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
+    const [name, setState] = useState('');
+    
 
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
@@ -55,35 +58,40 @@ function EditPopUp(props)
     var firstName = ud.firstName;
     var lastName = ud.lastName;
 	
-    
+    function handleChange(e) {
+        console.log(e.target.value);
+      }
+
     const editItem = async event => 
     {
+      
        var tok = storage.retrieveToken();
 
        var input = document.getElementsByName('arr');
     
        flag = props.itemid;
+       
 
-       var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
-                  Category:Category.value, Location:Location.value, 
-                  Replacement:Replacement.value, Serial: Serial.value,itemId:flag, jwtToken:tok }
-
-       var js = JSON.stringify(obj);
-
+       
+       var _ud = localStorage.getItem('user_data');
+       var ud = JSON.parse(_ud);
+       var userId = ud.id;
+       alert("UserId: "+userId);
+ 
+       alert("flag is: " +flag);
+       
+   
       
+     
       var tok = storage.retrieveToken();
       // Currently sending a string
-      var obj = {itemId:flag,jwtToken:tok};
+      var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
+        Category: Category.value, Location:Location.value, 
+        Replacement:Replacement.value, Serial: Serial.value, itemId:global.theFlag, jwtToken:tok }
+
       var js = JSON.stringify(obj);
+      //alert(js);
 
-      var _ud = localStorage.getItem('user_data');
-      var ud = JSON.parse(_ud);
-      var userId = ud.id;
-      alert("UserId: "+userId);
-
-      alert("flag is: " +flag);
-      
-        
        var config = 
        {
            method: 'post',
@@ -99,8 +107,6 @@ function EditPopUp(props)
            .then(function (response) 
        {
            var res = response.data;
-           var _results = res.results;
-           alert(_results);
             // var retTok = res.jwtToken;
             alert(Object.values(res));
    
@@ -110,13 +116,9 @@ function EditPopUp(props)
            }
            else
            {
-               
+            // _theResults = res.results;
+            // alert(_theResults);
                setMessage('Item has been edited');
-               <ul>
-                
-      {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} itemid={book.itemId} key={i} />)}
-      
-    </ul>
                
                // storage.storeToken( {accessToken:retTok} );
            }
@@ -125,24 +127,19 @@ function EditPopUp(props)
        {
            console.log(error);
        });
+       
 
     };
 
+    
+
+    
     return(
-//         <Grid
-//   container
-//   spacing={0}
-//   direction="column"
-//   alignItems="right"
-//   justify="right"
-//   style={styles.paperContainer}
-  
-// >
-//        <Grid item xs={3}> 
         <div style={styles.paperContainer} id="cardPopUp">
         
-        <input style={styles.paperContainer} type="text" id="cardText" placeholder="Name" 
+        <input style={styles.paperContainer} type="text" id="cardText" value={global.theName} onChange={e => setState({ name: e.target.value })}
             ref={(c) => Name = c} />
+            
             <br />
             <input style={styles.paperContainer} type="text" id="cardText" placeholder="Model" 
             ref={(c) => Model = c} />
@@ -162,12 +159,12 @@ function EditPopUp(props)
             <input style={styles.paperContainer} type="text"  placeholder="SerialNumber" ref={(c) => Serial = c} />
             <br />
             <br />
-        <button style={styles.coolButton} type="button" id="addCardButton" className="buttons" 
-            onClick={editItem}> Edit Item </button><br />
+        <button onClick={editItem} style={styles.coolButton} type="button" id="addCardButton" className="buttons" 
+            > Edit Item </button><br />
         <span id="cardAddResult">{message}</span>
         </div>
         // </Grid>
-        // </Grid>
+       
     );
 }
 

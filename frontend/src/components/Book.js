@@ -14,8 +14,8 @@
 
 
 import React, { useState } from 'react';
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -31,23 +31,44 @@ import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
 
+import styles3 from "../assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import stylesTwo from "../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import styles2 from "../assets/jss/material-dashboard-react/components/tasksStyle.js";
 import DeleteItem from "./DeleteItem.js"
 import AddCardPopUp from './AddCardPopUp';
 import EditPopUp from './EditPopUp.js';
-
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
+import Button from "./CustomButtons/Button.js";
+import background from "../img/Topo.jpg";
 
-import stylesTwo from "../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+global.theName = "";
+global.theFlag = "";
 
 const useStyles2 = makeStyles(styles2);
+const useStyles3 = makeStyles(styles3);
+const useStyles4 = makeStyles(stylesTwo);
 
-const useStylesTwo = makeStyles(stylesTwo);
 const useStyles = makeStyles(styles);
+const stylesNew = {
+  paperContainer: {
+      backgroundImage: `url(${background})`,
+      color: 'white',
+      borderRadius: 10,
+     
+  },
+  coolButton: {
+      borderRadius: 10,
+      textAlign:'center',
+      marginRight:40,
+      marginLeft:40,
+      marginTop:10,
+      
+  }
+};
 var card = '';
     var search = '';
     var Name = '';
@@ -62,42 +83,47 @@ var card = '';
     var searchNames = [];
     var allResults=[];
     var buttons = '';
+    var _theResults = ' ';
 
 export default function CustomTable(props) {
   var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     var flag = 0;
+
   const classes = useStyles();
   const classes2 = useStyles2();
-  const classesTwo = useStylesTwo();
+  const dashClass = useStyles3();
+  const headClass = useStyles4();
   const { tableHead, tableData, tableHeaderColor } = props;
-
+  global.theName = props.title;
+  global.theFlag = props.itemid;
+  
   const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
-    const [openNotification, setOpenNotification] = React.useState(null);
-    const [openProfile, setOpenProfile] = React.useState(null);
-    const handleClickNotification = (event) => {
-      if (openNotification && openNotification.contains(event.target)) {
-        setOpenNotification(null);
-      } else {
-        setOpenNotification(event.currentTarget);
-      }
-    };
-    const handleCloseNotification = () => {
-      setOpenNotification(null);
-    };
-    const handleClickProfile = (event) => {
-      if (openProfile && openProfile.contains(event.target)) {
-        setOpenProfile(null);
-      } else {
-        setOpenProfile(event.currentTarget);
-      }
-    };
-    const handleCloseProfile = () => {
-      setOpenProfile(null);
-    };
 
+    const [openNotification, setOpenNotification] = React.useState(null);
+  const [openProfile, setOpenProfile] = React.useState(null);
+  const handleClickNotification = (event) => {
+    if (openNotification && openNotification.contains(event.target)) {
+      setOpenNotification(null);
+    } else {
+      setOpenNotification(event.currentTarget);
+    }
+  };
+  const handleCloseNotification = () => {
+    setOpenNotification(null);
+  };
+  const handleClickProfile = (event) => {
+    if (openProfile && openProfile.contains(event.target)) {
+      setOpenProfile(null);
+    } else {
+      setOpenProfile(event.currentTarget);
+    }
+  };
+  const handleCloseProfile = () => {
+    setOpenProfile(null);
+  };
 
   const deleteAsset = async event => 
   {
@@ -154,12 +180,13 @@ export default function CustomTable(props) {
 
   const editItem = async event => 
     {
-      //<EditPopUp/>
+      
        var tok = storage.retrieveToken();
 
        var input = document.getElementsByName('arr');
     
        flag = props.itemid;
+      
        
 
        
@@ -175,15 +202,13 @@ export default function CustomTable(props) {
      
       var tok = storage.retrieveToken();
       // Currently sending a string
-      var obj = {userId: userId, Name:props.title, Brand:props.author, Model:props.fellow, 
-        Category:props.fellowship, Location:props.loca, 
-        Replacement:props.repla, Serial: props.feller,itemId:flag, jwtToken:tok }
+      var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
+        Category: Category.value, Location:Location.value, 
+        Replacement:Replacement.value, Serial: Serial.value, itemId:flag, jwtToken:tok }
+
       var js = JSON.stringify(obj);
       alert(js);
 
-     
-      
-        
        var config = 
        {
            method: 'post',
@@ -208,8 +233,10 @@ export default function CustomTable(props) {
            }
            else
            {
-               
+            _theResults = res.results;
+            alert(_theResults);
                setMessage('Item has been edited');
+               
                // storage.storeToken( {accessToken:retTok} );
            }
        })
@@ -217,6 +244,7 @@ export default function CustomTable(props) {
        {
            console.log(error);
        });
+       
 
     };
 
@@ -312,23 +340,37 @@ export default function CustomTable(props) {
                 <IconButton
                   aria-label="Edit"
                   className={classes2.tableActionButton}
-                  onClick={editItem}
+                  //onClick={editItem}
                   color={window.innerWidth > 959 ? "black" : "black"}
-                  //justIcon={window.innerWidth > 959}
-                  simple={!(window.innerWidth > 959)}
-                  aria-owns={openProfile ? "profile-menu-list-grow" : null}
-                  aria-haspopup="true"
-                  //onClick={handleClickProfile}
-                  className={classesTwo.buttonLink}
+          //justIcon={window.innerWidth > 959}
+          simple={!(window.innerWidth > 959)}
+          aria-owns={openProfile ? "profile-menu-list-grow" : null}
+          aria-haspopup="true"
+          onClick={handleClickProfile}
+          className={headClass.buttonLink}
                   
                 >
                   
-          {/* Add Item
+                  
+                  
+                  <Edit
+                    className={
+                      classes2.tableActionButtonIcon + " " + classes2.edit
+                    }
+                  />
+                   
           <Hidden mdUp implementation="css">
             
             <p className={classes.linkText}>Profile</p>
           </Hidden>
-      
+                  
+                </IconButton>
+                
+              </Tooltip>
+              
+          
+         
+        
         <Poppers
           open={Boolean(openProfile)}
           anchorEl={openProfile}
@@ -350,24 +392,13 @@ export default function CustomTable(props) {
               }}
             >
               <Paper>
-                <ClickAwayListener onClickAway={handleCloseProfile}>
+                <ClickAwayListener  onClickAway={handleCloseProfile}>
                 <EditPopUp />
                 </ClickAwayListener>
               </Paper>
             </Grow>
           )}
-        </Poppers> */}
-                  
-                  {/* <EditPopUp/> */}
-                  
-                  <Edit
-                    className={
-                      classes2.tableActionButtonIcon + " " + classes2.edit
-                    }
-                  />
-                  
-                </IconButton>
-              </Tooltip>
+        </Poppers>
               <Tooltip
                 id="tooltip-top-start"
                 title="Remove"

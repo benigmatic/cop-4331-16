@@ -118,77 +118,7 @@ export default function Dashboard() {
             > Add Item </button><br /> */}
 
         <div className={classesTwo.manager}>
-        {/* <Button
-          color={window.innerWidth > 959 ? "black" : "black"}
-          //justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-owns={openProfile ? "profile-menu-list-grow" : null}
-          aria-haspopup="true"
-          onClick={handleClickProfile}
-          className={classesTwo.buttonLink}
-        >
-          Add Item
-          
-          <Hidden mdUp implementation="css">
-            
-            <p className={classesTwo.linkText}>Profile</p>
-          </Hidden>
-        </Button>
-        <Poppers
-          open={Boolean(openProfile)}
-          anchorEl={openProfile}
-          transition
-          placement="front"
-          style={{ position: 'absolute', bottom: 0, right: 0, top: 'unset', left: 'unset' }}
-         // disablePortal
-          className={
-            classNames({ [classesTwo.popperClose]: !openProfile }) +
-            " " +
-            classesTwo.popperNav
-          }
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="profile-menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseProfile}>
-                  <MenuList role="menu">
-                    <MenuItem
-                      //onClick={goProfile}
-                      className={classesTwo.dropdownItem}
-                    >
-                      Profile
-                    </MenuItem>
-                    <MenuItem
-                      //onClick={doCard}
-                      //className={classes.dropdownItem}
-                    >
-                      Settings
-                    </MenuItem>
-                    <Divider light />
-                    <MenuItem
-                      //onClick={doLogout}
-                      className={classesTwo.dropdownItem}
-                    >
-                      Logout
-                    </MenuItem>
-                  </MenuList>
-                  <Box maxWidth="70px">
-                  <ForgotPassword />
-                  </Box>
-                  
-                </ClickAwayListener>
-                
-              </Paper>
-            </Grow>
-          )}
-        </Poppers> */}
+       
         <Button
           color={window.innerWidth > 959 ? "black" : "black"}
           //justIcon={window.innerWidth > 959}
