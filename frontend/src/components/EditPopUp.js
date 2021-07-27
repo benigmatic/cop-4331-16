@@ -9,7 +9,7 @@ import GridContainer from "./Grid/GridContainer.js";
 import background from "../img/Topo.jpg";
 import Edit from '@material-ui/icons/Edit';
 
-function EditPopUp()
+function EditPopUp(props)
 {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
@@ -40,6 +40,7 @@ function EditPopUp()
     var Replacement='';
     var Location=''; 
     var Serial=''
+    var flag = 0;
     //document.getElementById('addSerialNumber').addEventListener("click",addInput);
 
     const [message,setMessage] = useState('');
@@ -53,24 +54,38 @@ function EditPopUp()
     var lastName = ud.lastName;
 	
     
-    const addItem = async event => 
+    const editItem = async event => 
     {
        var tok = storage.retrieveToken();
 
        var input = document.getElementsByName('arr');
     
-       alert("UserId: "+userId);
+       flag = props.itemid;
 
        var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
-                  Category:Category.value, Location:Location.value, Quantity:input.length, 
-                  Replacement:Replacement.value, Serial: Serial.value, jwtToken:tok }
+                  Category:Category.value, Location:Location.value, 
+                  Replacement:Replacement.value, Serial: Serial.value,itemId:flag, jwtToken:tok }
 
        var js = JSON.stringify(obj);
+
+      
+      var tok = storage.retrieveToken();
+      // Currently sending a string
+      var obj = {itemId:flag,jwtToken:tok};
+      var js = JSON.stringify(obj);
+
+      var _ud = localStorage.getItem('user_data');
+      var ud = JSON.parse(_ud);
+      var userId = ud.id;
+      alert("UserId: "+userId);
+
+      alert("flag is: " +flag);
+      
         
        var config = 
        {
            method: 'post',
-           url: bp.buildPath('api/additem'),	
+           url: bp.buildPath('api/edititem'),	
            headers: 
            {
                'Content-Type': 'application/json'
@@ -83,7 +98,7 @@ function EditPopUp()
        {
            var res = response.data;
             // var retTok = res.jwtToken;
-            
+            alert(Object.values(res));
    
            if( res.error.length > 0 )
            {
@@ -92,7 +107,7 @@ function EditPopUp()
            else
            {
                
-               setMessage('Item has been added');
+               setMessage('Item has been edited');
                // storage.storeToken( {accessToken:retTok} );
            }
        })
@@ -102,64 +117,6 @@ function EditPopUp()
        });
 
     };
-
-    // const addSerialNumber = async event => 
-    // {
-    //  //   alert ("Adding s/n");
-    // //    var newInput = '<input type="text"  placeholder="Serial Number" name="input'+num+'"/><br> <br>';
-    // var newInput = '<input type="text"  placeholder="Serial Number" name="arr"/><br> <br>';
-    //     document.getElementById('demo').innerHTML += newInput;  
-    //     num++;
-    // };
-
-    // ===================================================================================
-    // verifyTheSN() checks the database to see if the entered SN
-    // is already in the DB. Throws error if there is. If it is a new
-    // SN, then it calls the addItem() method and adds the asset to the
-    // database. 
-    // ===================================================================================
-    const verifyTheSN = async event => 
-    {
-        event.preventDefault();
-        var tok = storage.retrieveToken();
-        var obj = {userId:userId,Serial:Serial.value,jwtToken:tok};
-        var js = JSON.stringify(obj);
-        alert(Serial.value);
-        var config = 
-        {
-            method: 'post',
-            url: bp.buildPath('api/verifySN'),	
-            headers: 
-            {
-                'Content-Type': 'application/json'
-            },
-            data: js
-        };
-
-        axios(config)
-            .then(function (response) 
-        {
-            var res = response.data;
-            var retTok = res.jwtToken;
-          
-    
-            if( res.error.length > 0 )
-            {
-                setMessage( "API Error:" + res.error );
-                
-            }
-            else
-            {
-                addItem();
-            }
-        })
-        .catch(function (error) 
-        {
-            console.log(error);
-        });
-    }
-
-    
 
     return(
 //         <Grid
@@ -196,7 +153,7 @@ function EditPopUp()
             <br />
             <br />
         <button style={styles.coolButton} type="button" id="addCardButton" className="buttons" 
-            onClick={verifyTheSN}> Add Item </button><br />
+            onClick={editItem}> Add Item </button><br />
         <span id="cardAddResult">{message}</span>
         </div>
         // </Grid>

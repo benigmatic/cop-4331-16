@@ -122,30 +122,33 @@ export default function CustomTable(props) {
 
   const editItem = async event => 
     {
+      //<EditPopUp/>
        var tok = storage.retrieveToken();
 
        var input = document.getElementsByName('arr');
     
        flag = props.itemid;
+       
 
-       var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
-                  Category:Category.value, Location:Location.value, 
-                  Replacement:Replacement.value, Serial: Serial.value,itemId:flag, jwtToken:tok }
+       
+       var _ud = localStorage.getItem('user_data');
+       var ud = JSON.parse(_ud);
+       var userId = ud.id;
+       alert("UserId: "+userId);
+ 
+       alert("flag is: " +flag);
+   
 
-       var js = JSON.stringify(obj);
-
-      
+     
       var tok = storage.retrieveToken();
       // Currently sending a string
-      var obj = {itemId:flag,jwtToken:tok};
+      var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
+        Category:Category.value, Location:Location.value, 
+        Replacement:Replacement.value, Serial: Serial.value,itemId:flag, jwtToken:tok }
       var js = JSON.stringify(obj);
+      alert(js);
 
-      var _ud = localStorage.getItem('user_data');
-      var ud = JSON.parse(_ud);
-      var userId = ud.id;
-      alert("UserId: "+userId);
-
-      alert("flag is: " +flag);
+     
       
         
        var config = 
@@ -279,7 +282,7 @@ export default function CustomTable(props) {
                   onClick={editItem}
                   
                 >
-                 
+                  {/* <EditPopUp/> */}
                   
                   <Edit
                     className={
