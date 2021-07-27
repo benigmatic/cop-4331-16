@@ -863,7 +863,7 @@ console.log("Error sending the email "+ err);
        //var ret='';
        var error = '';
        const { userId, Name, Brand, Model, Category, Location, Replacement, Serial, itemId, jwtToken } = req.body;
-       /*
+     
         try
        {
          if( token.isExpired(jwtToken))
@@ -877,7 +877,7 @@ console.log("Error sending the email "+ err);
        {
          console.log(e.message);
        }
-*/
+
 
       // const filter = {userId: userId, itemId: itemId}
       // const newItem = {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial};
