@@ -1,6 +1,6 @@
 // CardUI() contains the main page for adding, searching, editing, and deleting assets.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import Grid from "@material-ui/core/Grid";
@@ -8,12 +8,14 @@ import GridItem from "./Grid/GridItem.js";
 import GridContainer from "./Grid/GridContainer.js";
 import background from "../img/Topo.jpg";
 import Edit from '@material-ui/icons/Edit';
+import Book from './Book.js';
 
 function EditPopUp(props)
 {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     const jwt = require("jsonwebtoken");
+    const { tableHead, tableData, tableHeaderColor } = props;
     const styles = {
         paperContainer: {
             backgroundImage: `url(${background})`,
@@ -97,6 +99,8 @@ function EditPopUp(props)
            .then(function (response) 
        {
            var res = response.data;
+           var _results = res.results;
+           alert(_results);
             // var retTok = res.jwtToken;
             alert(Object.values(res));
    
@@ -108,6 +112,12 @@ function EditPopUp(props)
            {
                
                setMessage('Item has been edited');
+               <ul>
+                
+      {_results.map((book, i) => <Book tableHead= {["Name", "Brand", "Model", "Category", "S/N", "Location", "Replacement", "Edit/Delete"]} title={book.Name} author={book.Brand} fellow={book.Model} fellowship={book.Category} feller={book.Serial} loca={book.Location} repla={book.Replacement} stoc={book.Stock} itemid={book.itemId} key={i} />)}
+      
+    </ul>
+               
                // storage.storeToken( {accessToken:retTok} );
            }
        })
@@ -153,7 +163,7 @@ function EditPopUp(props)
             <br />
             <br />
         <button style={styles.coolButton} type="button" id="addCardButton" className="buttons" 
-            onClick={editItem}> Add Item </button><br />
+            onClick={editItem}> Edit Item </button><br />
         <span id="cardAddResult">{message}</span>
         </div>
         // </Grid>

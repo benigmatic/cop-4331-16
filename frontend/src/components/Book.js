@@ -15,6 +15,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from "prop-types";
+import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -35,10 +36,17 @@ import DeleteItem from "./DeleteItem.js"
 import AddCardPopUp from './AddCardPopUp';
 import EditPopUp from './EditPopUp.js';
 
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Hidden from "@material-ui/core/Hidden";
+import Poppers from "@material-ui/core/Popper";
+
+import stylesTwo from "../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
 const useStyles2 = makeStyles(styles2);
 
-
+const useStylesTwo = makeStyles(stylesTwo);
 const useStyles = makeStyles(styles);
 var card = '';
     var search = '';
@@ -61,11 +69,35 @@ export default function CustomTable(props) {
     var flag = 0;
   const classes = useStyles();
   const classes2 = useStyles2();
+  const classesTwo = useStylesTwo();
   const { tableHead, tableData, tableHeaderColor } = props;
 
   const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
+    const [openNotification, setOpenNotification] = React.useState(null);
+    const [openProfile, setOpenProfile] = React.useState(null);
+    const handleClickNotification = (event) => {
+      if (openNotification && openNotification.contains(event.target)) {
+        setOpenNotification(null);
+      } else {
+        setOpenNotification(event.currentTarget);
+      }
+    };
+    const handleCloseNotification = () => {
+      setOpenNotification(null);
+    };
+    const handleClickProfile = (event) => {
+      if (openProfile && openProfile.contains(event.target)) {
+        setOpenProfile(null);
+      } else {
+        setOpenProfile(event.currentTarget);
+      }
+    };
+    const handleCloseProfile = () => {
+      setOpenProfile(null);
+    };
+
 
   const deleteAsset = async event => 
   {
@@ -137,14 +169,15 @@ export default function CustomTable(props) {
        alert("UserId: "+userId);
  
        alert("flag is: " +flag);
+       
    
-
+      
      
       var tok = storage.retrieveToken();
       // Currently sending a string
-      var obj = {userId: userId, Name:Name.value, Brand:Brand.value, Model:Model.value, 
-        Category:Category.value, Location:Location.value, 
-        Replacement:Replacement.value, Serial: Serial.value,itemId:flag, jwtToken:tok }
+      var obj = {userId: userId, Name:props.title, Brand:props.author, Model:props.fellow, 
+        Category:props.fellowship, Location:props.loca, 
+        Replacement:props.repla, Serial: props.feller,itemId:flag, jwtToken:tok }
       var js = JSON.stringify(obj);
       alert(js);
 
@@ -280,8 +313,51 @@ export default function CustomTable(props) {
                   aria-label="Edit"
                   className={classes2.tableActionButton}
                   onClick={editItem}
+                  color={window.innerWidth > 959 ? "black" : "black"}
+                  //justIcon={window.innerWidth > 959}
+                  simple={!(window.innerWidth > 959)}
+                  aria-owns={openProfile ? "profile-menu-list-grow" : null}
+                  aria-haspopup="true"
+                  //onClick={handleClickProfile}
+                  className={classesTwo.buttonLink}
                   
                 >
+                  
+          {/* Add Item
+          <Hidden mdUp implementation="css">
+            
+            <p className={classes.linkText}>Profile</p>
+          </Hidden>
+      
+        <Poppers
+          open={Boolean(openProfile)}
+          anchorEl={openProfile}
+          transition
+          //disablePortal
+          className={
+            classNames({ [classes.popperClose]: !openProfile }) +
+            " " +
+            classes.popperNav
+          }
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              id="profile-menu-list-grow"
+              style={{
+                transformOrigin:
+                  placement === "bottom" ? "center top" : "center bottom",
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleCloseProfile}>
+                <EditPopUp />
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Poppers> */}
+                  
                   {/* <EditPopUp/> */}
                   
                   <Edit
