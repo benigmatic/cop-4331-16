@@ -156,7 +156,7 @@ var error = "";
          }
          console.log("Item deleted");
        })
-       arr = db.collection('Assets').find({userId:id}).toArray();
+       arr = await db.collection('Assets').find({userId:id}).toArray();
 
       }
        catch(e)
