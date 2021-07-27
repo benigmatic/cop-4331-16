@@ -860,7 +860,7 @@ console.log("Error sending the email "+ err);
      });
      app.post('/api/edititem', async (req, res, next) =>
      {
-       var ret='';
+       //var ret='';
        var error = '';
        const { userId, Name, Brand, Model, Category, Location, Replacement, Serial, itemId, jwtToken } = req.body;
 
