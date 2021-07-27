@@ -120,7 +120,9 @@ var error = "";
      const db = client.db();
      const results = await db.collection('Assets').find({itemId:itemId}).toArray();
      var id = -1;
+     
      var arr= [];
+     console.log("arr.length:" + arr.length);
      if( results.length > 0 )
      {
        id = results[0].userId;
@@ -156,7 +158,6 @@ var error = "";
          }
          console.log("Item deleted");
        })
-       
 
       }
        catch(e)
@@ -175,8 +176,18 @@ var error = "";
       }
       arr = await db.collection('Assets').find({userId:id}).toArray();
 
+      try
+      {
+        arr = await db.collection('Assets').find({userId:id}).toArray();
+        console.log("Delete " + arr.length);
+      }
+      catch(e)
+      {
+        console.log("New find");
+      }
       var ret = { error: error, jwtToken: refreshedToken, arr:arr};
-
+       arr = [];
+       console.log("arr.length after"+ arr.length);
       res.status(200).json(ret);
     });
    // Incoming: FirstName, LastName, Email,Login, Password, Phone, Company Name ,  jwtToken (not required)
@@ -903,6 +914,55 @@ console.log("Error sending the email "+ err);
 
        var ret = { error: error, jwtToken: refreshedToken, arr:arr};
 
+       res.status(200).json(ret);
+     });
+
+     app.post('/api/search', async (req, res, next) =>
+     {
+ var error = "";
+      const {userId} = req.body;
+      const db = client.db();
+      
+      var arr= [];
+      console.log("arr.length:" + arr.length);
+       
+      try
+       {
+         if( token.isExpired(jwtToken))
+         {
+           var r = {error:'The JWT is no longer valid', jwtToken: ''};
+           res.status(200).json(r);
+           return;
+         }
+       }
+       catch(e)
+       {
+         console.log(e.message);
+       }
+ 
+       var refreshedToken = null;
+ 
+       try
+       {
+         refreshedToken = token.refresh(jwtToken).accessToken;
+       }
+       catch(e)
+       {
+         console.log(e.message);
+       }
+ 
+       try
+       {
+         arr = await db.collection('Assets').find({userId:userId}).toArray();
+        // console.log("Delete " + arr.length);
+       }
+       catch(e)
+       {
+         error = e;
+       }
+       var ret = { error: error, jwtToken: refreshedToken, arr:arr};
+        arr = [];
+      //  console.log("arr.length after"+ arr.length);
        res.status(200).json(ret);
      });
 }
