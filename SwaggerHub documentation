@@ -1,0 +1,238 @@
+openapi: 3.0.0
+info:
+  title: Asset labs
+  description: Used to mage your assets
+  version: 1.0.1-oas3
+servers:
+  - url: 'https://cop-4331-16.herokuapp.com/api'
+    description: SwaggerHub API
+
+paths:
+  /login:
+    post:
+      summary: Logs in the user
+      requestBody:
+        description: Username and password
+        required: true
+        content:
+          application/json:
+           schema:
+            $ref: ""
+           example:
+              login: "al123"
+              password: "cc03e747a6afbbcbf8be7668acfebee5"
+      responses:
+        '200':
+          description: Token arr returned
+  /checkexistance:
+    post:
+      summary: Checks if the user with email/username already exists
+      requestBody:
+        description: Username and email
+        required: true
+        content:
+          application/json:
+           schema:
+            $ref: ""
+           example:
+              Email: "152000alexandra@gmail.com"
+              Login: "al123"
+      responses:
+        '200':
+          description: User already exists
+  /additem:
+    post:
+      summary: Adds a new asset with unique Serial Nunmber to the Database
+      requestBody:
+        description:  userId, Name, Brand, Model, Category, Location, Replacement, Serial,  jwtToken
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              userId: 0
+              Name: "test"
+              Brand: "test"
+              Model: "test"
+              Category: "test"
+              Location: "test"
+              Replacement: "test"
+              Serial: 12342
+              jwtToken: "134132"
+      responses:
+        '200':
+          description: OK
+  /deleteitem:
+    post:
+      summary: Deletes the item if the item with itemId exists
+      requestBody:
+        description: itemId, jwtToken
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              itemId: 0
+              jwtToken: "qwefkml23rflwef"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /register:
+    post:
+      summary: Adds new user to the database
+      requestBody:
+        description: FirstName,LastName, Email, Login, Password, Phone, CompanyName
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example: 
+              FirstName: "Alex"
+              LastName: "Kri"
+              Email: "152000alexandra@gmail.com"
+              Password: "test123"
+              Phone: "1234567890"
+              CompanyName: "Asset labs"
+              jwtToken: "adfqefgr"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /recover:
+    post:
+      summary: Sends an email with generated code to reset your password
+      requestBody:
+        description: email
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              email: "152000alexandra@gmail.com"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /reset:
+    post:
+      summary: Resets password in the database
+      requestBody:
+        description: Email, Password
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              Email: "152000alexandra@gmail.com"
+              Password: "e0b73a1699aeee785d156388f584cf74"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /verifyEmail:
+    post:
+      summary: Sends an email with code to verify the email
+      requestBody:
+        description: Email
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              Email: "152000alexandra@gmail.com"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /verifySN:
+    post:
+      summary: Returns error that SN already exits, or "Unique S/N"
+      requestBody:
+        description: Serial
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example: 
+              Serial: "1234"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /searchassets:
+    post:
+      summary: searches assets
+      requestBody:
+        description: userId, search, jwtToken
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              userId: 0
+              search: "a"
+              jwtToken: "asdf"
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /edititem:
+    post:
+      summary: Edits that aset of the user
+      requestBody:
+        description: userId, Name, Brand, Model, Category, Location, Replacement, Seril, itemID, jwtToken
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              userId: 3
+              Name: "c"
+              Brand: "c"
+              Model: "c"
+              Category: "Catogory"
+              Location: "Location"
+              Replacement: "1000"
+              Serial: "123"
+              itemId: 118
+              jwtToken: ""
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
+  /search:
+    post:
+      summary: Return array of all objects for the user
+      requestBody:
+        description: userId, jwtToken
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ""
+            example:
+              userId: 3
+              jwtToken: ""
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: URL not found
