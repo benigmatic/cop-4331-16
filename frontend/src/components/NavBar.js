@@ -41,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
         // alignItems: 'center',
         color: 'white',
         fontFamily: "League Spartan",
-        fontSize: '3rem'
+        fontSize: '4rem'
     },
     pointsOfInterest: {
         color: 'white',
         fontFamily: "League Spartan",
-        fontSize: '3rem',
+        fontSize: '4rem',
     }
 }));
 export default function NavBar() {
@@ -78,15 +78,30 @@ export default function NavBar() {
             </h1>
         </div>  */}
 
+<Grid
+  container
+  spacing={0}
+  direction="row"
+  alignItems="center"
+  justify="center"
+  style={{ minHeight: '60vh' }}
+>
+  <Box pt = {11} pr= {2}>
+  <Grid  >
+  <h1 className={classes.manageYours} item xs={6}>manage your</h1>
+ 
+    
+
+
      
-        <Box display="flex" justifyContent="center" m={1} p={1} >
+        {/* <Box display="flex" justifyContent="center" >
             <Box ml = "-80%" pt= "146px" letterSpacing="-4px" className={classes.manageYours} p={1} >
                 <h1>manage your</h1>
             </Box>
           </Box>
      
-         <Box  display="flex" justifyContent="center" m={1} p={1} >
-            <Box p={1} ml = "-80%" pr = "120px" letterSpacing= "-4x" className={classes.pointsOfInterest}>
+         <Box  display="flex" justifyContent="center"  >
+            <Box  letterSpacing= "-4x" className={classes.pointsOfInterest}>
                 <h1><br /> gear.
                     <br /> machinery.
                    <br /> assets.
@@ -94,8 +109,18 @@ export default function NavBar() {
                    <br /> furniture.
                 </h1>  
             </Box> 
+         </Box> */}
+         </Grid> 
          </Box>
-
+         <Grid  xs={6}>
+         <h1 className={classes.manageYours}><br /> gear.
+                    <br /> machinery.
+                   <br /> assets.
+                   <br /> vehicles.
+                   <br /> furniture.
+                </h1> 
+         </Grid>
+         </Grid> 
         {/* <GridContainer>
             <GridItem >
             <Box mt={42} mr = {0} letterSpacing="-4px"  className={classes.manageYours}>

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import md5 from './md5.js';
+import { makeStyles } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
+import Grid from "@material-ui/core/Grid";
+
 function Register()
 {
     // autoincrementation in DB
@@ -18,6 +22,8 @@ function Register()
     var passwordCheck;
     var phone;
   var Code=0;
+  
+
   
     const [message,setMessage] = useState('');
  const doVerify = async event => {
@@ -122,7 +128,7 @@ function Register()
 
     return(
       <div id="loginDiv">
-        <span id="inner-title">Register</span><br />
+        <span  id="inner-title">Register</span><br />
         <input type="text" id="companyName" placeholder="CompName" ref={(c) => companyName = c}  /><br />
         <input type="text" id="firstName" placeholder="Firstname" ref={(c) => firstName = c}  /><br />
         <input type="text" id="lastName" placeholder="Lastname" ref={(c) => lastName = c}  /><br />

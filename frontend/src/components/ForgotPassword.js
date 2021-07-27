@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
+import Grid from "@material-ui/core/Grid";
 function ForgotPassword()
 {
   
@@ -77,6 +80,15 @@ function ForgotPassword()
     }
 
     return(
+        <Grid
+  container
+  spacing={0}
+  direction="column"
+  alignItems="center"
+  justify="center"
+  style={{ minHeight: '40vh' }}
+>
+<Grid item xs={6}>
       <div id="loginDiv">
         <span id="inner-title">Use the email you created your Asset Labs account with to reset your password</span><br />
         <input type="text" id="email" placeholder="email" ref={(c) => email = c}  /><br />
@@ -87,6 +99,8 @@ function ForgotPassword()
         <input type="submit" id="loginButton" className="buttons" value = "Verify Email"
           onClick={VerifyEmail} />
      </div>
+     </Grid>
+     </Grid>
     );
 };
 

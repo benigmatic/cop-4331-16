@@ -10,6 +10,9 @@ import ForgotPassword from './pages/ForgotPasswordPage';
 import Verify from './pages/VerifyPage';
 import VerifyEmail from './pages/VerifyEmailPage';
 import Reset from './pages/ResetPage';
+import Dashboard from './views/Dashboard/Dashboard';
+import Admin from './layouts/Admin';
+
 function App() {
   return (
     <Router >
@@ -17,9 +20,9 @@ function App() {
       <Route path="/" exact>
         <LoginPage />
       </Route>
-      <Route path="/cards" exact>
-        <CardPage />
-      </Route>
+      {/* <Route path="/dashboard" exact>
+        <Admin />
+      </Route> */}
       <Route path="/login" exact>
         <LoginPage2 />
       </Route>
@@ -38,6 +41,9 @@ function App() {
       <Route path="/reset" exact>
         <Reset />
       </Route>
+      <Route path="/admin" component={Admin} />
+          <Redirect from="/" to="/admin/dashboard" />
+      
       <Redirect to="/" />
     </Switch>  
   </Router>
