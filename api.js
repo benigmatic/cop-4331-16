@@ -126,13 +126,13 @@ var error = "";
      if( results.length > 0 )
      {
        id = results[0].userId;
-       
+
      } else {
        var r = {error: "Item with this Id doesn't exist in the DB", jwtToken:''};
        res.status(200).json(r);
        return;
      }
-    /*
+
      try
       {
         if( token.isExpired(jwtToken))
@@ -146,10 +146,10 @@ var error = "";
       {
         console.log(e.message);
       }
-*/
+
       try
       {
-    
+
        var myquery = {itemId: itemId};
        db.collection("Assets").deleteOne(myquery, function(err,obj){
          if (err) {
@@ -158,7 +158,7 @@ var error = "";
          }
          console.log("Item deleted");
        })
-      
+
       }
        catch(e)
          {
@@ -174,6 +174,7 @@ var error = "";
       {
         console.log(e.message);
       }
+      arr = await db.collection('Assets').find({userId:id}).toArray();
 
       try
       {
@@ -859,7 +860,7 @@ console.log("Error sending the email "+ err);
      });
      app.post('/api/edititem', async (req, res, next) =>
      {
-       var ret='';
+       //var ret='';
        var error = '';
        const { userId, Name, Brand, Model, Category, Location, Replacement, Serial, itemId, jwtToken } = req.body;
         try
@@ -875,12 +876,12 @@ console.log("Error sending the email "+ err);
        {
          console.log(e.message);
        }
-       
 
-       const filter = {userId: userId, itemId: itemId}
-       const newItem = {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial};
-       
-       var myfilter = {itemId:itemId};
+
+      // const filter = {userId: userId, itemId: itemId}
+      // const newItem = {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial};
+
+      var myfilter = {itemId:itemId};
       var newitem = {$set: {Name:Name, Brand:Brand, Model:Model, Category:Category, Location:Location, Replacement:Replacement, Serial:Serial}}
        try{
 
@@ -889,17 +890,18 @@ console.log("Error sending the email "+ err);
          db.collection("Assets").updateOne(myfilter, newitem, function(err, res) {
           if (err) throw err;
          // console.log("User Updated: " );
-        
-        
+
+
         })
-       //  console.log("Result");
+
+       arr = await db.collection('Assets').find({userId:id}).toArray();
        }
        catch(e){
 
          error = e.toString();
        }
        var refreshedToken = null;
-
+       
        try{
 
          refreshedToken = token.refresh(jwtToken).accessToken;
@@ -909,7 +911,7 @@ console.log("Error sending the email "+ err);
          console.log(e.message);
        }
 
-       var ret = { error: error, jwtToken: refreshedToken };
+       var ret = { error: error, jwtToken: refreshedToken, arr:arr};
 
        res.status(200).json(ret);
      });
