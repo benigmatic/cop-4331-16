@@ -1,6 +1,7 @@
 // CardUI() contains the main page for adding, searching, editing, and deleting assets.
 
 import React, { useState, useEffect } from 'react';
+import {Form} from "react-bootstrap"
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +10,7 @@ import GridContainer from "./Grid/GridContainer.js";
 import background from "../img/Topo.jpg";
 import Edit from '@material-ui/icons/Edit';
 import Book from './Book.js';
+
 
 function EditPopUp(props)
 {
@@ -136,9 +138,11 @@ function EditPopUp(props)
     
     return(
         <div style={styles.paperContainer} id="cardPopUp">
+           
         
-        <input style={styles.paperContainer} type="text" id="cardText" value={global.theName} onChange={e => setState({ name: e.target.value })}
-            ref={(c) => Name = c} />
+        {/* <input style={styles.paperContainer} type="text" id="cardText" value={global.theName} 
+            ref={(c) => Name = c} /> */}
+            <Form.Control style={styles.paperContainer} defaultValue={global.theName} onChange={(e) => setState(e.target.value)} ref={(c) => Name = c}  />
             
             <br />
             <input style={styles.paperContainer} type="text" id="cardText" placeholder="Model" 
