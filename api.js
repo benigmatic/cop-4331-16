@@ -156,7 +156,7 @@ var error = "";
          }
          console.log("Item deleted");
        })
-       arr = await db.collection('Assets').find({userId:id}).toArray();
+       
 
       }
        catch(e)
@@ -173,6 +173,7 @@ var error = "";
       {
         console.log(e.message);
       }
+      arr = await db.collection('Assets').find({userId:id}).toArray();
 
       var ret = { error: error, jwtToken: refreshedToken, arr:arr};
 
